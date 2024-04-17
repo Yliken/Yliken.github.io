@@ -1,0 +1,199 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>两个src案例 | Yliken</title><meta name="author" content="Yliken"><meta name="copyright" content="Yliken"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="案例一**文前废话:**某天正在刷着**社区的帖子,欣赏着漂亮的小姐姐,突然间评论区的一条评论引起了我的注意,类似于下面这样  这种评论在html标签中代码格式是&lt;a&gt;这是文字&lt;&#x2F;a&gt;这样的同时评论区XSS漏洞的高发区,想着可能会有操作点 一、发布一个标题有js语句的贴子 二、复制这个帖子的分享连接到另一个帖子的评论区评论然后刷新,发现有弹窗 三、查看网页源码,js语句已经">
+<meta property="og:type" content="article">
+<meta property="og:title" content="两个src案例">
+<meta property="og:url" content="http://example.com/2024/03/31/%E4%B8%A4%E4%B8%AAsrc%E6%A1%88%E4%BE%8B/index.html">
+<meta property="og:site_name" content="Yliken">
+<meta property="og:description" content="案例一**文前废话:**某天正在刷着**社区的帖子,欣赏着漂亮的小姐姐,突然间评论区的一条评论引起了我的注意,类似于下面这样  这种评论在html标签中代码格式是&lt;a&gt;这是文字&lt;&#x2F;a&gt;这样的同时评论区XSS漏洞的高发区,想着可能会有操作点 一、发布一个标题有js语句的贴子 二、复制这个帖子的分享连接到另一个帖子的评论区评论然后刷新,发现有弹窗 三、查看网页源码,js语句已经">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/essayhead/9.webp">
+<meta property="article:published_time" content="2024-03-30T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-03-31T14:38:22.945Z">
+<meta property="article:author" content="Yliken">
+<meta property="article:tag" content="src">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/essayhead/9.webp"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2024/03/31/%E4%B8%A4%E4%B8%AAsrc%E6%A1%88%E4%BE%8B/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Error',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: 'days',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '两个src案例',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-03-31 22:38:22'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.0.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/essayhead/as.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">19</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">3</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/zkaq"><span> zkaq</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/essayhead/9.webp')"><nav id="nav"><span id="blog-info"><a href="/" title="Yliken"><span class="site-name">Yliken</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/zkaq"><span> zkaq</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">两个src案例</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2024-03-30T16:00:00.000Z" title="Created 2024-03-31 00:00:00">2024-03-31</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2024-03-31T14:38:22.945Z" title="Updated 2024-03-31 22:38:22">2024-03-31</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">Word Count:</span><span class="word-count">498</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">Reading Time:</span><span>1mins</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="两个src案例"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1><span id="案例一">案例一</span></h1><p>**文前废话:**某天正在刷着**社区的帖子,欣赏着漂亮的小姐姐,突然间评论区的一条评论引起了我的注意,类似于下面这样</p>
+<p><img src="/../img/Typora/e9306eccf5a14f062d3a68ae8d538128_79773.png"></p>
+<p>这种评论在html标签中代码格式是<code>&lt;a&gt;这是文字&lt;/a&gt;</code>这样的<br>同时评论区XSS漏洞的高发区,想着可能会有操作点</p>
+<h2><span id="一-发布一个标题有js语句的贴子">一、发布一个标题有js语句的贴子</span></h2><p><img src="/../img/Typora/15fcd7ff8b408573cc51ceee3f5bc105_85506.png"></p>
+<h2><span id="二-复制这个帖子的分享连接到另一个帖子的评论区评论">二、复制这个帖子的分享连接到另一个帖子的评论区评论</span></h2><p><img src="/../img/Typora/1a6f51faf415eecbb96cc7e166b0fe0e_46005.png"><br>然后刷新,发现有弹窗</p>
+<h2><span id="三-查看网页源码js语句已经写入">三、查看网页源码,js语句已经写入</span></h2><p><img src="/../img/Typora/167d5b606c697372c756fc5c2cbc502a_91760.png"></p>
+<h2><span id="修复建议">修复建议</span></h2><ol>
+<li>对帖子的主题进行严格的验证或过滤</li>
+<li>将引用的数据进行编码处理</li>
+</ol>
+<h1><span id="案例二">案例二</span></h1><p><strong>废话</strong>:早就看那共享电车不爽了,10分钟收我1块!</p>
+<h2><span id="一-配置好环境对小程序进行抓包">一、配置好环境,对小程序进行抓包</span></h2><p>本来想测测支付漏洞的，测了半天没有任何结果。突然间发现旁边有一个上传头像的功能</p>
+<p>这不就来了吗</p>
+<h2><span id="二-抓包上传一个我也不认识的文件">二、抓包上传一个我也不认识的文件</span></h2><p><img src="/../img/Typora/image-20240331222229628.png" alt="image-20240331222229628"></p>
+<p>嗯！？！上传成功了！文件名也没改   </p>
+<p>问: 为什么我这有做?</p>
+<ul>
+<li>因为这样可以排查出是不是用的白名单</li>
+</ul>
+<h2><span id="三-上传一个php文件">三、上传一个php文件</span></h2><p><img src="/../img/Typora/image-20240331223147141.png" alt="image-20240331223147141"></p>
+<p>又上传成功了！</p>
+<p>访问页面</p>
+<p><img src="/../img/Typora/image-20240331222547812.png" alt="image-20240331222547812"></p>
+<p>啥也没有？</p>
+<p>不对劲，10分得有15分不对劲！</p>
+<h2><span id="四-上传一个图片马后缀改成php">四、上传一个图片马，后缀改成php</span></h2><p>​	</p>
+<p><img src="/../img/Typora/image-20240331222817915.png" alt="image-20240331222817915"></p>
+<p>好好好！解析了，但是不知道为什么不显示php代码输出的内容！</p>
+<p>于是…</p>
+<p>放弃！</p>
+<p>上课的时候发呆，突然间想到 既然我什么文件都可以上传，为什么不上传一个html文件呢？！</p>
+<p>下课之后我飞一般的跑回了宿舍。</p>
+<h2><span id="五-上传html文件">五、上传html文件</span></h2><p><img src="/../img/Typora/image-20240331223428362.png" alt="image-20240331223428362"></p>
+<p>上传成功</p>
+<p><img src="/../img/Typora/image-20240331223620128.png" alt="image-20240331223620128"></p>
+<p>访问页面</p>
+<p><img src="/../img/Typora/image-20240331223728626.png" alt="image-20240331223728626"></p>
+<h2><span id="修复建议">修复建议</span></h2><ol>
+<li><p>对文件上传类型进行严格过滤</p>
+</li>
+<li><p>上台删除用户头像目录下的.php .html后缀文件</p>
+</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="http://example.com">Yliken</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="http://example.com/2024/03/31/%E4%B8%A4%E4%B8%AAsrc%E6%A1%88%E4%BE%8B/">http://example.com/2024/03/31/%E4%B8%A4%E4%B8%AAsrc%E6%A1%88%E4%BE%8B/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/src/">src</a></div><div class="post_share"><div class="social-share" data-image="/img/essayhead/9.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>Sponsor</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/essayhead/as.jpg" target="_blank"><img class="post-qr-code-img" src="/img/essayhead/as.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/essayhead/as.jpg" target="_blank"><img class="post-qr-code-img" src="/img/essayhead/as.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2024/03/06/XXE/" title="浅学XXE"><img class="cover" src="/img/essayhead/22.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next</div><div class="next_info">浅学XXE</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/essayhead/as.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Yliken</div><div class="author-info__description">在我面前还有多少路要走，还有多少山峰要去翻越寻找自己，我又将多少次跌下悬崖，一切又从零开始，而这些是否会有意义……我会稍作等待，然后开始上路，跟随着梦想与希望，不要熄灭，我的星星，请等我……</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">19</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">3</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">案例一</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">1.1.</span> <span class="toc-text">一、发布一个标题有js语句的贴子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">1.2.</span> <span class="toc-text">二、复制这个帖子的分享连接到另一个帖子的评论区评论</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">1.3.</span> <span class="toc-text">三、查看网页源码,js语句已经写入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">1.4.</span> <span class="toc-text">修复建议</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">案例二</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">2.1.</span> <span class="toc-text">一、配置好环境,对小程序进行抓包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">2.2.</span> <span class="toc-text">二、抓包上传一个我也不认识的文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">2.3.</span> <span class="toc-text">三、上传一个php文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">2.4.</span> <span class="toc-text">四、上传一个图片马，后缀改成php</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">2.5.</span> <span class="toc-text">五、上传html文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">2.6.</span> <span class="toc-text">修复建议</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/03/31/%E4%B8%A4%E4%B8%AAsrc%E6%A1%88%E4%BE%8B/" title="两个src案例"><img src="/img/essayhead/9.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="两个src案例"/></a><div class="content"><a class="title" href="/2024/03/31/%E4%B8%A4%E4%B8%AAsrc%E6%A1%88%E4%BE%8B/" title="两个src案例">两个src案例</a><time datetime="2024-03-30T16:00:00.000Z" title="Created 2024-03-31 00:00:00">2024-03-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/03/06/XXE/" title="浅学XXE"><img src="/img/essayhead/22.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="浅学XXE"/></a><div class="content"><a class="title" href="/2024/03/06/XXE/" title="浅学XXE">浅学XXE</a><time datetime="2024-03-05T16:00:00.000Z" title="Created 2024-03-06 00:00:00">2024-03-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/03/06/%E6%9F%90%E5%A4%A7%E5%AD%A6%E7%9A%84%E5%AD%98%E5%82%A8%E5%9E%8BXSS%E5%88%86%E4%BA%AB/" title="某大学的存储型XSS"><img src="/img/essayhead/19.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="某大学的存储型XSS"/></a><div class="content"><a class="title" href="/2024/03/06/%E6%9F%90%E5%A4%A7%E5%AD%A6%E7%9A%84%E5%AD%98%E5%82%A8%E5%9E%8BXSS%E5%88%86%E4%BA%AB/" title="某大学的存储型XSS">某大学的存储型XSS</a><time datetime="2024-03-05T16:00:00.000Z" title="Created 2024-03-06 00:00:00">2024-03-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/03/06/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" title="正则表达式"><img src="/img/essayhead/1.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="正则表达式"/></a><div class="content"><a class="title" href="/2024/03/06/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" title="正则表达式">正则表达式</a><time datetime="2024-03-05T16:00:00.000Z" title="Created 2024-03-06 00:00:00">2024-03-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/03/05/SSIT%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/" title="SSIT模板注入"><img src="/img/essayhead/30.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="SSIT模板注入"/></a><div class="content"><a class="title" href="/2024/03/05/SSIT%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/" title="SSIT模板注入">SSIT模板注入</a><time datetime="2024-03-04T16:00:00.000Z" title="Created 2024-03-05 00:00:00">2024-03-05</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/essayhead/9.webp')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By Yliken</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/fireworks.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
