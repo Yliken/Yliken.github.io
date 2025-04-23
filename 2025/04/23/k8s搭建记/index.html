@@ -1,0 +1,248 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>k8s搭建记 | Yliken</title><meta name="author" content="Yliken"><meta name="copyright" content="Yliken"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="平台: VMware 系统镜像: ubuntu:18.04 server IP:    master node1 node2    192.168.222.145&#x2F;24 192.168.222.146&#x2F;24 192.168.222.147&#x2F;24   1.环境准备1.1系统更新更新系统软件包  1.2设置主机名和hosts文件在master节点上面执行  在node1节">
+<meta property="og:type" content="article">
+<meta property="og:title" content="k8s搭建记">
+<meta property="og:url" content="http://yliken.github.io/2025/04/23/k8s%E6%90%AD%E5%BB%BA%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Yliken">
+<meta property="og:description" content="平台: VMware 系统镜像: ubuntu:18.04 server IP:    master node1 node2    192.168.222.145&#x2F;24 192.168.222.146&#x2F;24 192.168.222.147&#x2F;24   1.环境准备1.1系统更新更新系统软件包  1.2设置主机名和hosts文件在master节点上面执行  在node1节">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yliken.github.io/img/essayhead/74.png">
+<meta property="article:published_time" content="2025-04-22T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-04-23T06:30:56.832Z">
+<meta property="article:author" content="Yliken">
+<meta property="article:tag" content="k8s">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yliken.github.io/img/essayhead/74.png"><link rel="shortcut icon" href="/images/essayhead/favicon.ico"><link rel="canonical" href="http://yliken.github.io/2025/04/23/k8s%E6%90%AD%E5%BB%BA%E8%AE%B0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'k8s搭建记',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-04-23 14:30:56'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 23 || hour >= 0
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/essayhead/second.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">52</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">23</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-comment-dots"></i><span> 碎碎念</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/thoughts/"><i class="fa-fw fas fa-comment-dots"></i><span> 碎碎念</span></a></li><li><a class="site-page child" href="/plantRedBean/"><i class="fa-fw fas fa-seedling"></i><span> 红豆物语</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/essayhead/74.png')"><nav id="nav"><span id="blog-info"><a href="/" title="Yliken"><img class="site-icon" src="/img/essayhead/second.jpg"/><span class="site-name">Yliken</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-comment-dots"></i><span> 碎碎念</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/thoughts/"><i class="fa-fw fas fa-comment-dots"></i><span> 碎碎念</span></a></li><li><a class="site-page child" href="/plantRedBean/"><i class="fa-fw fas fa-seedling"></i><span> 红豆物语</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">k8s搭建记</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-04-22T16:00:00.000Z" title="发表于 2025-04-23 00:00:00">2025-04-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-04-23T06:30:56.832Z" title="更新于 2025-04-23 14:30:56">2025-04-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BA%91%E5%8E%9F%E7%94%9F/">云原生</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">994</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>4分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="k8s搭建记"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p><strong>平台:</strong> VMware</p>
+<p><strong>系统镜像:</strong> ubuntu:18.04 server</p>
+<p><strong>IP:</strong></p>
+<table>
+<thead>
+<tr>
+<th>master</th>
+<th>node1</th>
+<th>node2</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>192.168.222.145&#x2F;24</td>
+<td>192.168.222.146&#x2F;24</td>
+<td>192.168.222.147&#x2F;24</td>
+</tr>
+</tbody></table>
+<h2 id="1-环境准备"><a href="#1-环境准备" class="headerlink" title="1.环境准备"></a>1.环境准备</h2><h3 id="1-1系统更新"><a href="#1-1系统更新" class="headerlink" title="1.1系统更新"></a>1.1系统更新</h3><p>更新系统软件包</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504231248295.png" alt="image-20250423124803203"></p>
+<h3 id="1-2设置主机名和hosts文件"><a href="#1-2设置主机名和hosts文件" class="headerlink" title="1.2设置主机名和hosts文件"></a>1.2设置主机名和hosts文件</h3><p>在master节点上面执行</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504231252278.png" alt="image-20250423125243248"></p>
+<p>在node1节点上面执行 </p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504231253343.png" alt="image-20250423125303312"></p>
+<p>在node2节点上面执行</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504231253769.png" alt="image-20250423125318732"></p>
+<p>在所有节点上面编辑<code>/etc/hosts</code>文件，添加以下内容</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">tee</span> -a /etc/hosts &lt;&lt; <span class="string">EOF</span></span><br><span class="line"><span class="string">192.168.222.145 master</span></span><br><span class="line"><span class="string">192.168.222.146 node1</span></span><br><span class="line"><span class="string">192.168.222.147 node2</span></span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>✅这里为什么配置hosts文件在后续配置的时候 使用域名进行配置。 而不是 直接使用ip地址进行配置呢？</p>
+<p>原因可能是这样的：</p>
+<p>ip地址是可变的，如果用ip地址进行后续的配置的话。那么当某台机器的ip地址变了之后 要更改许多配置文件。 如果使用上面的配置方法那么当ip地址变化了之后 只需要修改<code>/etc/hosts</code>这一个配置文件就行了。</p>
+</blockquote>
+<h3 id="1-3禁用交换分区"><a href="#1-3禁用交换分区" class="headerlink" title="1.3禁用交换分区"></a>1.3禁用交换分区</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#永久禁用</span></span><br><span class="line"><span class="built_in">sudo</span> sed -i <span class="string">&#x27;/swap/s/^/#/&#x27;</span> /etc/fstab</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504231308893.png" alt="image-20250423130817837"></p>
+<blockquote>
+<p>✅ 禁用swap分区的原因:</p>
+<p>k8s的调度器会根据 节点的可用内存来分配pod</p>
+<ul>
+<li>如果swap开启，linux系统会把部分内存内容换到硬盘上，实际物理内存使用情况就不准了。这样kubelet可能会错误估算资源，导致OOM(内存溢出问题)</li>
+</ul>
+<p>swap 是用硬盘来模拟内存的，速度远远比内存慢</p>
+</blockquote>
+<h3 id="1-4配置内核参数"><a href="#1-4配置内核参数" class="headerlink" title="1.4配置内核参数"></a>1.4配置内核参数</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建k8s.conf文件</span></span><br><span class="line"><span class="built_in">cat</span> &lt;&lt;<span class="string">EOF | sudo tee /etc/sysctl.d/k8s.conf</span></span><br><span class="line"><span class="string">net.bridge.bridge-nf-call-ip6tables = 1</span></span><br><span class="line"><span class="string">net.bridge.bridge-nf-call-iptables = 1</span></span><br><span class="line"><span class="string">net.ipv4.ip_forward = 1</span></span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504231321457.png" alt="image-20250423132150376"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 应用配置</span></span><br><span class="line"><span class="built_in">sudo</span> sysctl --system</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504231322576.png" alt="image-20250423132250509"></p>
+<h3 id="1-5-安装必要的工具包"><a href="#1-5-安装必要的工具包" class="headerlink" title="1.5 安装必要的工具包"></a>1.5 安装必要的工具包</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt install -y apt-transport-https ca-certificates curl software-properties-common gnupg2</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504231324063.png" alt="image-20250423132417986"></p>
+<h3 id="1-6配置防火墙"><a href="#1-6配置防火墙" class="headerlink" title="1.6配置防火墙"></a>1.6配置防火墙</h3><p>如果ufw防火墙没有开启可以跳过。 (<strong>不适用于生产环境</strong>)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 检查防火墙状态</span></span><br><span class="line">ufw status</span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置master结点的防火墙规则</span></span><br><span class="line"><span class="built_in">sudo</span> ufw allow 6443/tcp  <span class="comment"># k8s API server </span></span><br><span class="line"><span class="built_in">sudo</span> ufw allow 2379/tcp  <span class="comment"># etcd server client API </span></span><br><span class="line"><span class="built_in">sudo</span> ufw allow 2380/tcp  <span class="comment"># etcd server client API</span></span><br><span class="line"><span class="built_in">sudo</span> ufw allow 10250/tcp <span class="comment"># kubelet API</span></span><br><span class="line"><span class="built_in">sudo</span> ufw allow 10251/tcp <span class="comment"># kube-scheduler</span></span><br><span class="line"><span class="built_in">sudo</span> ufw allow 10252/tcp <span class="comment"># kube-controller-manager</span></span><br></pre></td></tr></table></figure>
+
+<p>master节点</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504231334476.png" alt="image-20250423133437426"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># work 结点需要开放的端口</span></span><br><span class="line"><span class="built_in">sudo</span> ufw allow 10250/tcp <span class="comment"># kubelet API</span></span><br><span class="line"><span class="built_in">sudo</span> ufw allow 30000:32767/tcp <span class="comment">#nodePort services</span></span><br></pre></td></tr></table></figure>
+
+<p>node1 节点</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504231338282.png" alt="image-20250423133829228"></p>
+<p>node2节点</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504231339265.png" alt="image-20250423133915224"></p>
+<h3 id="1-7安装容器-Docker"><a href="#1-7安装容器-Docker" class="headerlink" title="1.7安装容器(Docker)"></a>1.7安装容器(Docker)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 添加阿里云 Docker 源</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;deb [arch=amd64] https://mirrors.aliyun.com/docker-ce/linux/ubuntu <span class="subst">$(lsb_release -cs)</span> stable&quot;</span> | <span class="built_in">sudo</span> <span class="built_in">tee</span> /etc/apt/sources.list.d/docker.list</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加 GPG 密钥</span></span><br><span class="line">curl -fsSL https://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | <span class="built_in">sudo</span> apt-key add -</span><br><span class="line"></span><br><span class="line"><span class="comment"># 更新APT包索引</span></span><br><span class="line"><span class="built_in">sudo</span> apt update</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看可用的 Docker 版本（可选）</span></span><br><span class="line"><span class="comment"># apt-cache madison docker-ce</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装 Docker CE</span></span><br><span class="line"><span class="built_in">sudo</span> apt install -y docker-ce=5:20.10.12~3-0~ubuntu-bionic docker-ce-cli=5:20.10.12~3-0~ubuntu-bionic containerd.io</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动Docker并设置开机自启</span></span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> docker</span><br><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br><span class="line"></span><br><span class="line"><span class="comment"># 验证Docker安装</span></span><br><span class="line">docker version</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504231404865.png" alt="image-20250423140422781"></p>
+<blockquote>
+<p>✅为什么要安装Docker?</p>
+<p>k8s 是一个容器编排平台，容器是它的基础。Docker就是一种容器。</p>
+<blockquote>
+<p>Docker可以理解为是k8s的”容器引擎”,用来负责运行容器</p>
+</blockquote>
+</blockquote>
+<h3 id="1-8配置Docker守护进程"><a href="#1-8配置Docker守护进程" class="headerlink" title="1.8配置Docker守护进程"></a>1.8配置Docker守护进程</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> &lt;&lt;<span class="string">EOF | sudo tee /etc/docker/daemon.json</span></span><br><span class="line"><span class="string">&#123;</span></span><br><span class="line"><span class="string">  &quot;exec-opts&quot;: [&quot;native.cgroupdriver=systemd&quot;],</span></span><br><span class="line"><span class="string">  &quot;log-driver&quot;: &quot;json-file&quot;,</span></span><br><span class="line"><span class="string">  &quot;log-opts&quot;: &#123;</span></span><br><span class="line"><span class="string">    &quot;max-size&quot;: &quot;100m&quot;</span></span><br><span class="line"><span class="string">  &#125;,</span></span><br><span class="line"><span class="string">  &quot;storage-driver&quot;: &quot;overlay2&quot;,</span></span><br><span class="line"><span class="string">  &quot;registry-mirrors&quot;: [</span></span><br><span class="line"><span class="string">    &quot;https://docker.1panel.dev&quot;,</span></span><br><span class="line"><span class="string">    &quot;https://docker.fxxk.dedyn.io&quot;,</span></span><br><span class="line"><span class="string">    &quot;https://docker.xn--6oq72ry9d5zx.cn&quot;,</span></span><br><span class="line"><span class="string">    &quot;https://docker.m.daocloud.io&quot;,</span></span><br><span class="line"><span class="string">    &quot;https://a.ussh.net&quot;,</span></span><br><span class="line"><span class="string">    &quot;https://docker.zhai.cm&quot;</span></span><br><span class="line"><span class="string">  ]</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">EOF</span>	</span><br><span class="line"><span class="comment"># 重启Docker</span></span><br><span class="line"><span class="built_in">sudo</span> systemctl daemon-reload</span><br><span class="line"><span class="built_in">sudo</span> systemctl restart docker</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504231412553.png" alt="image-20250423141213480"></p>
+<blockquote>
+<p>✅为什么要配置Docker使用systemd作为cgroup驱动?</p>
+<ol>
+<li>k8s 默认使用<code>systemd</code>管理从group</li>
+<li>Docker 默认驱动是<code>cgroupfs</code>，但和k8s用的<code>systemd</code>不一致时会报错</li>
+<li><code>systemd</code>管理的cgroup更易于调试和维护</li>
+</ol>
+</blockquote>
+<h3 id="1-9安装kubeadm、kubelet和kubectl"><a href="#1-9安装kubeadm、kubelet和kubectl" class="headerlink" title="1.9安装kubeadm、kubelet和kubectl"></a>1.9安装kubeadm、kubelet和kubectl</h3><p>添加kubernetes APT仓库</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 添加Kubernetes的GPG密钥</span></span><br><span class="line">curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | <span class="built_in">sudo</span> apt-key add -</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加Kubernetes APT仓库</span></span><br><span class="line"><span class="built_in">cat</span> &lt;&lt;<span class="string">EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list</span></span><br><span class="line"><span class="string">deb https://apt.kubernetes.io/ kubernetes-$(lsb_release -cs) main</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 更新APT包索引</span></span><br><span class="line"><span class="built_in">sudo</span> apt update</span><br></pre></td></tr></table></figure>
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://yliken.github.io">Yliken</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://yliken.github.io/2025/04/23/k8s%E6%90%AD%E5%BB%BA%E8%AE%B0/">http://yliken.github.io/2025/04/23/k8s%E6%90%AD%E5%BB%BA%E8%AE%B0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://yliken.github.io" target="_blank">Yliken</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/k8s/">k8s</a></div><div class="post_share"><div class="social-share" data-image="/img/essayhead/74.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/essayhead/as.jpg" target="_blank"><img class="post-qr-code-img" src="/img/essayhead/as.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/essayhead/as.jpg" target="_blank"><img class="post-qr-code-img" src="/img/essayhead/as.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2025/04/20/%E7%8E%84%E6%9C%BA%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94%E9%9D%B6%E5%9C%BA/" title="玄机"><img class="cover" src="/img/essayhead/13.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">玄机</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/essayhead/second.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Yliken</div><div class="author-info__description">红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧。</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">52</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">23</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Yliken"><i class="fab fa-github"></i><span>Github</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Yliken" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:largetlafonu71@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">人一定要学会自渡；烦躁的时候不要说话，也不要做任何决定，安静的待会，成年人的烦恼好像和谁说都不合适，要学会自我消化，想开，看开，放开，睡前原谅一切，醒来便是重生，这个世界上从来没有感同身受，你可以消沉，也可以抱怨，甚至可以崩溃，但你一定要懂得自愈，这个世界上没有多少人心疼你，自渡是一种能力，渡人是一种格局，活着就该逢山开路，遇水架桥……</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87"><span class="toc-number">1.</span> <span class="toc-text">1.环境准备</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1%E7%B3%BB%E7%BB%9F%E6%9B%B4%E6%96%B0"><span class="toc-number">1.1.</span> <span class="toc-text">1.1系统更新</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2%E8%AE%BE%E7%BD%AE%E4%B8%BB%E6%9C%BA%E5%90%8D%E5%92%8Chosts%E6%96%87%E4%BB%B6"><span class="toc-number">1.2.</span> <span class="toc-text">1.2设置主机名和hosts文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3%E7%A6%81%E7%94%A8%E4%BA%A4%E6%8D%A2%E5%88%86%E5%8C%BA"><span class="toc-number">1.3.</span> <span class="toc-text">1.3禁用交换分区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4%E9%85%8D%E7%BD%AE%E5%86%85%E6%A0%B8%E5%8F%82%E6%95%B0"><span class="toc-number">1.4.</span> <span class="toc-text">1.4配置内核参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-5-%E5%AE%89%E8%A3%85%E5%BF%85%E8%A6%81%E7%9A%84%E5%B7%A5%E5%85%B7%E5%8C%85"><span class="toc-number">1.5.</span> <span class="toc-text">1.5 安装必要的工具包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-6%E9%85%8D%E7%BD%AE%E9%98%B2%E7%81%AB%E5%A2%99"><span class="toc-number">1.6.</span> <span class="toc-text">1.6配置防火墙</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-7%E5%AE%89%E8%A3%85%E5%AE%B9%E5%99%A8-Docker"><span class="toc-number">1.7.</span> <span class="toc-text">1.7安装容器(Docker)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-8%E9%85%8D%E7%BD%AEDocker%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B"><span class="toc-number">1.8.</span> <span class="toc-text">1.8配置Docker守护进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-9%E5%AE%89%E8%A3%85kubeadm%E3%80%81kubelet%E5%92%8Ckubectl"><span class="toc-number">1.9.</span> <span class="toc-text">1.9安装kubeadm、kubelet和kubectl</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/04/23/k8s%E6%90%AD%E5%BB%BA%E8%AE%B0/" title="k8s搭建记"><img src="/img/essayhead/74.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="k8s搭建记"/></a><div class="content"><a class="title" href="/2025/04/23/k8s%E6%90%AD%E5%BB%BA%E8%AE%B0/" title="k8s搭建记">k8s搭建记</a><time datetime="2025-04-22T16:00:00.000Z" title="发表于 2025-04-23 00:00:00">2025-04-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/20/%E7%8E%84%E6%9C%BA%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94%E9%9D%B6%E5%9C%BA/" title="玄机"><img src="/img/essayhead/13.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="玄机"/></a><div class="content"><a class="title" href="/2025/04/20/%E7%8E%84%E6%9C%BA%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94%E9%9D%B6%E5%9C%BA/" title="玄机">玄机</a><time datetime="2025-04-19T16:00:00.000Z" title="发表于 2025-04-20 00:00:00">2025-04-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/05/learn_to_write_a_C2_by_Go/" title="learn_to_write_a_C2_by_Go"><img src="/img/essayhead/34.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="learn_to_write_a_C2_by_Go"/></a><div class="content"><a class="title" href="/2025/04/05/learn_to_write_a_C2_by_Go/" title="learn_to_write_a_C2_by_Go">learn_to_write_a_C2_by_Go</a><time datetime="2025-04-04T16:00:00.000Z" title="发表于 2025-04-05 00:00:00">2025-04-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/04/hackmyvm-Principle/" title="hackmyvm-Principle"><img src="/img/essayhead/49.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="hackmyvm-Principle"/></a><div class="content"><a class="title" href="/2025/04/04/hackmyvm-Principle/" title="hackmyvm-Principle">hackmyvm-Principle</a><time datetime="2025-04-03T16:00:00.000Z" title="发表于 2025-04-04 00:00:00">2025-04-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/29/pwnedlabs/" title="pwnedlabs"><img src="/img/essayhead/49.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="pwnedlabs"/></a><div class="content"><a class="title" href="/2025/03/29/pwnedlabs/" title="pwnedlabs">pwnedlabs</a><time datetime="2025-03-28T16:00:00.000Z" title="发表于 2025-03-29 00:00:00">2025-03-29</time></div></div></div></div></div></div></main><footer id="footer" style="background: transparent"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2025 By Yliken</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/fireworks.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
