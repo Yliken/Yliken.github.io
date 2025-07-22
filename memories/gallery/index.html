@@ -7,7 +7,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/img/essayhead/second.jpg">
 <meta property="article:published_time" content="2025-05-07T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-07-21T02:22:00.206Z">
+<meta property="article:modified_time" content="2025-07-22T04:01:31.268Z">
 <meta property="article:author" content="Yliken">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/img/essayhead/second.jpg"><link rel="shortcut icon" href="/images/essayhead/favicon.ico"><link rel="canonical" href="http://example.com/memories/gallery/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
@@ -172,72 +172,4 @@
     </figcaption>
   </figure>
 </div>
-</div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="artalk-wrap"></div></div></div></div></div></main><footer id="footer" style="background: transparent;"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2025 By Yliken</div><div class="footer_custom_text">层楼终究误少年 自由早晚乱余生</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(() => {
-  let artalkItem = null
-  const option = null
-  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
-
-  const destroyArtalk = () => {
-    if (artalkItem) {
-      artalkItem.destroy()
-      artalkItem = null
-    }
-  }
-
-  const artalkChangeMode = theme => artalkItem && artalkItem.setDarkMode(theme === 'dark')
-
-  const initArtalk = (el = document, pageKey = location.pathname) => {
-    artalkItem = Artalk.init({
-      el: el.querySelector('#artalk-wrap'),
-      server: 'https://www.yliken.top/',
-      site: 'Yliken 的博客',
-      darkMode: document.documentElement.getAttribute('data-theme') === 'dark',
-      ...option,
-      pageKey: isShuoshuo ? pageKey : (option && option.pageKey) || pageKey
-    })
-
-    if (GLOBAL_CONFIG.lightbox === 'null') return
-    artalkItem.on('list-loaded', () => {
-      artalkItem.ctx.get('list').getCommentNodes().forEach(comment => {
-        const $content = comment.getRender().$content
-        btf.loadLightbox($content.querySelectorAll('img:not([atk-emoticon])'))
-      })
-    })
-
-    if (isShuoshuo) {
-      window.shuoshuoComment.destroyArtalk = () => {
-        destroyArtalk()
-        if (el.children.length) {
-          el.innerHTML = ''
-          el.classList.add('no-comment')
-        }
-      }
-    }
-
-    btf.addGlobalFn('pjaxSendOnce', destroyArtalk, 'destroyArtalk')
-    btf.addGlobalFn('themeChange', artalkChangeMode, 'artalk')
-  }
-
-  const loadArtalk = async (el, pageKey) => {
-    if (typeof Artalk === 'object') initArtalk(el, pageKey)
-    else {
-      await btf.getCSS('https://cdn.jsdelivr.net/npm/artalk/dist/Artalk.min.css')
-      await btf.getScript('https://cdn.jsdelivr.net/npm/artalk/dist/Artalk.min.js')
-      initArtalk(el, pageKey)
-    }
-  }
-
-  if (isShuoshuo) {
-    'Artalk' === 'Artalk'
-      ? window.shuoshuoComment = { loadComment: loadArtalk }
-      : window.loadOtherComment = loadArtalk
-    return
-  }
-
-  if ('Artalk' === 'Artalk' || !false) {
-    if (false) btf.loadComment(document.getElementById('artalk-wrap'), loadArtalk)
-    else setTimeout(loadArtalk, 100)
-  } else {
-    window.loadOtherComment = loadArtalk
-  }
-})()</script></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
+</div></div></main><footer id="footer" style="background: transparent;"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2025 By Yliken</div><div class="footer_custom_text">层楼终究误少年 自由早晚乱余生</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
