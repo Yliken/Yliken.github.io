@@ -1,0 +1,300 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>mazesec-Temp | Yliken</title><meta name="author" content="Yliken"><meta name="copyright" content="Yliken"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="心一跳爱就开始煎熬 每一份每一秒 火在烧烧成灰有多好 叫思念不要吵 我相信我已经快要 快要把你忘掉 跟寂寞再和好  一、信息收集主机发现 12345678910┌──(root㉿kali)-[&#x2F;usr&#x2F;bin]└─# arp-scan -I eth1 192.168.56.0&#x2F;24">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mazesec-Temp">
+<meta property="og:url" content="http://example.com/2025/07/30/%E9%9D%B6%E6%9C%BA/mazesec/mazesec-Temp/index.html">
+<meta property="og:site_name" content="Yliken">
+<meta property="og:description" content="心一跳爱就开始煎熬 每一份每一秒 火在烧烧成灰有多好 叫思念不要吵 我相信我已经快要 快要把你忘掉 跟寂寞再和好  一、信息收集主机发现 12345678910┌──(root㉿kali)-[&#x2F;usr&#x2F;bin]└─# arp-scan -I eth1 192.168.56.0&#x2F;24">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/essayhead/48.png">
+<meta property="article:published_time" content="2025-07-29T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-07-30T09:31:58.731Z">
+<meta property="article:author" content="Yliken">
+<meta property="article:tag" content="Maze">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/essayhead/48.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "mazesec-Temp",
+  "url": "http://example.com/2025/07/30/%E9%9D%B6%E6%9C%BA/mazesec/mazesec-Temp/",
+  "image": "http://example.com/img/essayhead/48.png",
+  "datePublished": "2025-07-29T16:00:00.000Z",
+  "dateModified": "2025-07-30T09:31:58.731Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Yliken",
+      "url": "http://example.com/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/images/essayhead/favicon.ico"><link rel="canonical" href="http://example.com/2025/07/30/%E9%9D%B6%E6%9C%BA/mazesec/mazesec-Temp/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const hour = new Date().getHours()
+          const isNight = hour <= 24 || hour >= 0
+          if (theme === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else theme === 'light' ? activateLightMode() : activateDarkMode()
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'mazesec-Temp',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-image: url(/img/wenzhang.png);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/essayhead/second.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">56</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-file-alt"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-scroll"></i><span> 阅读札记</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/reading/Whispers-of-Midie/"><i class="fa-fw fas fa-feather-alt"></i><span> 蝶梦笔语</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-comment-dots"></i><span> 碎碎念</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/memories/gallery/"><i class="fa-fw fas fa-images"></i><span> 图集</span></a></li><li><a class="site-page child" href="/memories/thoughts/"><i class="fa-fw fas fa-comment-dots"></i><span> 碎碎念</span></a></li><li><a class="site-page child" href="/memories/plantRedBean/"><i class="fa-fw fas fa-seedling"></i><span> 红豆物语</span></a></li><li><a class="site-page child" href="/memories/unposted-wishes/"><i class="fa-fw fas fa-scroll"></i><span> 未寄之愿</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/essayhead/48.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/essayhead/second.jpg" alt="Logo"><span class="site-name">Yliken</span></a><a class="nav-page-title" href="/"><span class="site-name">mazesec-Temp</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-file-alt"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-scroll"></i><span> 阅读札记</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/reading/Whispers-of-Midie/"><i class="fa-fw fas fa-feather-alt"></i><span> 蝶梦笔语</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-comment-dots"></i><span> 碎碎念</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/memories/gallery/"><i class="fa-fw fas fa-images"></i><span> 图集</span></a></li><li><a class="site-page child" href="/memories/thoughts/"><i class="fa-fw fas fa-comment-dots"></i><span> 碎碎念</span></a></li><li><a class="site-page child" href="/memories/plantRedBean/"><i class="fa-fw fas fa-seedling"></i><span> 红豆物语</span></a></li><li><a class="site-page child" href="/memories/unposted-wishes/"><i class="fa-fw fas fa-scroll"></i><span> 未寄之愿</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">mazesec-Temp</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-07-29T16:00:00.000Z" title="发表于 2025-07-30 00:00:00">2025-07-30</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-07-30T09:31:58.731Z" title="更新于 2025-07-30 17:31:58">2025-07-30</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Linux%E9%9D%B6%E6%9C%BA/">Linux靶机</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">847</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>3分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><blockquote>
+<p>心一跳爱就开始煎熬</p>
+<p>每一份每一秒</p>
+<p>火在烧烧成灰有多好</p>
+<p>叫思念不要吵</p>
+<p>我相信我已经快要</p>
+<p>快要把你忘掉</p>
+<p>跟寂寞再和好</p>
+</blockquote>
+<h2 id="一、信息收集"><a href="#一、信息收集" class="headerlink" title="一、信息收集"></a>一、信息收集</h2><p><strong>主机发现</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">┌──(root㉿kali)-[/usr/bin]</span><br><span class="line">└─# arp-scan -I eth1 192.168.56.0/24                                                               </span><br><span class="line">Interface: eth1, type: EN10MB, MAC: 00:0c:29:34:da:f5, IPv4: 192.168.56.103</span><br><span class="line">Starting arp-scan 1.10.0 with 256 hosts (https://github.com/royhills/arp-scan)</span><br><span class="line">192.168.56.1    0a:00:27:00:00:04       (Unknown: locally administered)</span><br><span class="line">192.168.56.100  08:00:27:6e:db:e2       PCS Systemtechnik GmbH</span><br><span class="line">192.168.56.149  08:00:27:80:50:ab       PCS Systemtechnik GmbH</span><br><span class="line"></span><br><span class="line">3 packets received by filter, 0 packets dropped by kernel</span><br><span class="line">Ending arp-scan 1.10.0: 256 hosts scanned in 2.365 seconds (108.25 hosts/sec). 3 responded</span><br></pre></td></tr></table></figure>
+
+<p><strong>端口扫描</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">┌──(root㉿kali)-[/usr/bin]</span><br><span class="line">└─# nmap -sC -sV -p 22,80,3000 192.168.56.149</span><br><span class="line">Starting Nmap 7.95 ( https://nmap.org ) at 2025-07-30 04:52 EDT</span><br><span class="line">Nmap scan report <span class="keyword">for</span> 192.168.56.149</span><br><span class="line">Host is up (0.0011s latency).</span><br><span class="line"></span><br><span class="line">PORT     STATE SERVICE VERSION</span><br><span class="line">22/tcp   open  ssh     OpenSSH 8.4p1 Debian 5+deb11u3 (protocol 2.0)</span><br><span class="line">| ssh-hostkey: </span><br><span class="line">|   3072 f6:a3:b6:78:c4:62:af:44:bb:1a:a0:0c:08:6b:98:f7 (RSA)</span><br><span class="line">|   256 bb:e8:a2:31:d4:05:a9:c9:31:ff:62:f6:32:84:21:9d (ECDSA)</span><br><span class="line">|_  256 3b:ae:34:64:4f:a5:75:b9:4a:b9:81:f9:89:76:99:eb (ED25519)</span><br><span class="line">80/tcp   open  http    Apache httpd 2.4.62 ((Debian))</span><br><span class="line">|_http-title: Safe Welcome Center</span><br><span class="line">|_http-server-header: Apache/2.4.62 (Debian)</span><br><span class="line">3000/tcp open  http    Node.js (Express middleware)</span><br><span class="line">|_http-title: Welcome Center</span><br><span class="line">MAC Address: 08:00:27:80:50:AB (PCS Systemtechnik/Oracle VirtualBox virtual NIC)</span><br><span class="line">Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</span><br><span class="line"></span><br><span class="line">Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .</span><br><span class="line">Nmap <span class="keyword">done</span>: 1 IP address (1 host up) scanned <span class="keyword">in</span> 14.96 seconds</span><br></pre></td></tr></table></figure>
+
+<p><strong>80端口</strong></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507301706983.png" alt="image-20250730170651906"></p>
+<p><strong>3000端口</strong></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507301707046.png" alt="image-20250730170708966"></p>
+<p>两个端口的服务咋一看一模一样</p>
+<p>细看标题中有个Safe的区别(第一眼没看到Safe 我以为两个网站一样呢)</p>
+<p>然后就随手一个<code>&lt;script&gt;alert(1)&lt;/script&gt;</code>上去了</p>
+<p>80端口不能插入</p>
+<p>3000端口可以被插入</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507301709341.png" alt="image-20250730170950297"></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507301709482.png" alt="image-20250730170944394"></p>
+<p>最开始我想着如何如打这个xss</p>
+<p>不过进一步信息收集 没找到能进一步利用xss的点</p>
+<p>然后就转向了 模板注入</p>
+<p>在3000端口输入<code>&lt;%= test %&gt;</code>的时候</p>
+<p>报错了</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507301712713.png" alt="image-20250730171240655"></p>
+<p>然后找了一些payload来实现rce找了一个<code>&lt;&lt;%= this.constructor.constructor(&quot;return process&quot;)().mainModule.require(&#39;child_process&#39;).execSync(&#39;ls -al /&#39;).toString() %&gt;</code></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507301714890.png" alt="image-20250730171406772"></p>
+<p>然后就拿到了<code>welcome</code>用户的权限</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507301715058.png" alt="image-20250730171515000"></p>
+<h2 id="二、提权"><a href="#二、提权" class="headerlink" title="二、提权"></a>二、提权</h2><p>写了一个公钥ssh连上去了</p>
+<p><code>sudo -l </code></p>
+<p>查看可以执行<code>sudo /usr/sbin/reboot</code></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507301716202.png" alt="image-20250730171602094"></p>
+<p>其实我最开始看到这里的时候</p>
+<p>我是想着是可能会有一些服务文件 可以进行写&#x2F;修改的</p>
+<p>然后重启机器 导致这些服务文件自动加载中，从而导致提权</p>
+<p>然后我就按照这样的想法去做了</p>
+<p>结果当时是没做出来。</p>
+<p>然后继续信息收集 </p>
+<p>发现了 对 <code>/etc/group</code>文件有写的权限</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507301722534.png" alt="image-20250730172232493"></p>
+<p>由于最前端时间有个靶机就是利用<code>disk</code>用户组的用户去读<code>/root</code>下面的文件的</p>
+<p>所以就加了<code>disk</code>用户组</p>
+<p>但是加了<code>disk</code>用户组之后</p>
+<p>我忘记用什么命令可以对磁盘进行调试了</p>
+<p>后来找到了是用<code>debugfs</code>命令</p>
+<p>但是没有这个命令 </p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507301726403.png" alt="image-20250730172626329"></p>
+<blockquote>
+<p>打完之后才知道有这个工具, 只是没在welcome用户的PATH中</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507301727260.png" alt="image-20250730172744223"></p>
+</blockquote>
+<p>然后我就又加了 <code>sudo 、 shadow</code>组</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507301728763.png" alt="image-20250730172844718"></p>
+<p>之后从<code>/etc/shadow</code>查看用户的密码</p>
+<p>然后用john对密码进行爆破</p>
+<p>得到了<code>welcome</code>的密码<code>sainsburys</code></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507301729274.png" alt="image-20250730172937218"></p>
+<p>然后也是利用<code>sudo -i</code>成功提到了root</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507301730073.png" alt="image-20250730173016025"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">Yliken</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2025/07/30/%E9%9D%B6%E6%9C%BA/mazesec/mazesec-Temp/">http://example.com/2025/07/30/%E9%9D%B6%E6%9C%BA/mazesec/mazesec-Temp/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://example.com" target="_blank">Yliken</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Maze/">Maze</a></div><div class="post-share"><div class="social-share" data-image="/img/essayhead/48.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/essayhead/as.jpg" target="_blank"><img class="post-qr-code-img" src="/img/essayhead/as.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/essayhead/as.jpg" target="_blank"><img class="post-qr-code-img" src="/img/essayhead/as.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2025/07/28/CVE/cve-2024-39930/" title="CVE-2024-39930复现"><img class="cover" src="/img/essayhead/51.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">CVE-2024-39930复现</div></div><div class="info-2"><div class="info-item-1"> 初见她 漫步溪桥下 她轻摘一朵桃花 满园纯色美如霞 酿得芳菲入新茶 我提笔 月下临摹他 遥遥相思轻放下 宣纸一霎成诗画 眼泪无声 渲染画中的风雅  漏洞描述Gogs（Go Git Service）是GOGS团队的一个基于Go语言的自助Git托管服务，它支持创建、迁移公开&#x2F;私有仓库，添加、删除仓库协作者等。 Gogs 0.13.0 版本存在安全漏洞，该漏洞源于内置 SSH 服务器允许在 internal&#x2F;ssh&#x2F;ssh.go 中注入参数，从而导致远程代码执行。 漏洞分析Gogs的ssh.go中的处理ssh请求代码的部分源码 123456789101112131415161718192021222324for req := range in &#123;    payload := cleanCommand(string(req.Payload))    switch req.Type &#123;    case &quot;env&quot;:        var env struct &#123;            Name ...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/05/06/%E9%9D%B6%E6%9C%BA/mazesec/mazesec-awker/" title="mazesec-awker"><img class="cover" src="/img/essayhead/66.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-06</div><div class="info-item-2">mazesec-awker</div></div><div class="info-2"><div class="info-item-1">一、信息收集主机发现 123456789101112┌──(root㉿kali)-[/home/kali]└─# arp-scan -I eth1 192.168.56.0/24Interface: eth1, type: EN10MB, MAC: 00:0c:29:34:da:f5, IPv4: 192.168.56.103WARNING: Cannot open MAC/Vendor file ieee-oui.txt: Permission deniedWARNING: Cannot open MAC/Vendor file mac-vendor.txt: Permission deniedStarting arp-scan 1.10.0 with 256 hosts (https://github.com/royhills/arp-scan)192.168.56.1    0a:00:27:00:00:03       (Unknown: locally administered)192.168.56.100  08:00:27:47:17:7f      ...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="artalk-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/essayhead/second.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Yliken</div><div class="author-info-description">红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">56</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Yliken"><i class="fab fa-github"></i><span>Github</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Yliken" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:largetlafonu71@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">他说你任何为人称道的美丽  不及他第一次遇到你</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-number">1.</span> <span class="toc-text">一、信息收集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%8F%90%E6%9D%83"><span class="toc-number">2.</span> <span class="toc-text">二、提权</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/07/30/%E9%9D%B6%E6%9C%BA/mazesec/mazesec-Temp/" title="mazesec-Temp"><img src="/img/essayhead/48.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="mazesec-Temp"/></a><div class="content"><a class="title" href="/2025/07/30/%E9%9D%B6%E6%9C%BA/mazesec/mazesec-Temp/" title="mazesec-Temp">mazesec-Temp</a><time datetime="2025-07-29T16:00:00.000Z" title="发表于 2025-07-30 00:00:00">2025-07-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/07/28/CVE/cve-2024-39930/" title="CVE-2024-39930复现"><img src="/img/essayhead/51.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CVE-2024-39930复现"/></a><div class="content"><a class="title" href="/2025/07/28/CVE/cve-2024-39930/" title="CVE-2024-39930复现">CVE-2024-39930复现</a><time datetime="2025-07-27T16:00:00.000Z" title="发表于 2025-07-28 00:00:00">2025-07-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/07/16/%E4%BA%91/k8s%E6%90%AD%E5%BB%BA/" title="k8s搭建记"><img src="/img/essayhead/40.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="k8s搭建记"/></a><div class="content"><a class="title" href="/2025/07/16/%E4%BA%91/k8s%E6%90%AD%E5%BB%BA/" title="k8s搭建记">k8s搭建记</a><time datetime="2025-07-15T16:00:00.000Z" title="发表于 2025-07-16 00:00:00">2025-07-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/07/15/%E9%9D%B6%E6%9C%BA/mazesec/mazesec-5ud0/" title="mazesec-5ud0"><img src="/img/essayhead/89.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="mazesec-5ud0"/></a><div class="content"><a class="title" href="/2025/07/15/%E9%9D%B6%E6%9C%BA/mazesec/mazesec-5ud0/" title="mazesec-5ud0">mazesec-5ud0</a><time datetime="2025-07-14T16:00:00.000Z" title="发表于 2025-07-15 00:00:00">2025-07-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/07/14/Golang/Go%20Windows%20API/" title="Go小记 GoWindows API 探索"><img src="/img/essayhead/88.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Go小记 GoWindows API 探索"/></a><div class="content"><a class="title" href="/2025/07/14/Golang/Go%20Windows%20API/" title="Go小记 GoWindows API 探索">Go小记 GoWindows API 探索</a><time datetime="2025-07-13T16:00:00.000Z" title="发表于 2025-07-14 00:00:00">2025-07-14</time></div></div></div></div></div></div></main><footer id="footer" style="background: transparent;"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2025 By Yliken</div><div class="footer_custom_text">层楼终究误少年 自由早晚乱余生</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(() => {
+  let artalkItem = null
+  const option = null
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+
+  const destroyArtalk = () => {
+    if (artalkItem) {
+      artalkItem.destroy()
+      artalkItem = null
+    }
+  }
+
+  const artalkChangeMode = theme => artalkItem && artalkItem.setDarkMode(theme === 'dark')
+
+  const initArtalk = (el = document, pageKey = location.pathname) => {
+    artalkItem = Artalk.init({
+      el: el.querySelector('#artalk-wrap'),
+      server: 'https://www.yliken.top/',
+      site: 'Yliken 的博客',
+      darkMode: document.documentElement.getAttribute('data-theme') === 'dark',
+      ...option,
+      pageKey: isShuoshuo ? pageKey : (option && option.pageKey) || pageKey
+    })
+
+    if (GLOBAL_CONFIG.lightbox === 'null') return
+    artalkItem.on('list-loaded', () => {
+      artalkItem.ctx.get('list').getCommentNodes().forEach(comment => {
+        const $content = comment.getRender().$content
+        btf.loadLightbox($content.querySelectorAll('img:not([atk-emoticon])'))
+      })
+    })
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyArtalk = () => {
+        destroyArtalk()
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    btf.addGlobalFn('pjaxSendOnce', destroyArtalk, 'destroyArtalk')
+    btf.addGlobalFn('themeChange', artalkChangeMode, 'artalk')
+  }
+
+  const loadArtalk = async (el, pageKey) => {
+    if (typeof Artalk === 'object') initArtalk(el, pageKey)
+    else {
+      await btf.getCSS('https://cdn.jsdelivr.net/npm/artalk/dist/Artalk.min.css')
+      await btf.getScript('https://cdn.jsdelivr.net/npm/artalk/dist/Artalk.min.js')
+      initArtalk(el, pageKey)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Artalk' === 'Artalk'
+      ? window.shuoshuoComment = { loadComment: loadArtalk }
+      : window.loadOtherComment = loadArtalk
+    return
+  }
+
+  if ('Artalk' === 'Artalk' || !false) {
+    if (false) btf.loadComment(document.getElementById('artalk-wrap'), loadArtalk)
+    else setTimeout(loadArtalk, 100)
+  } else {
+    window.loadOtherComment = loadArtalk
+  }
+})()</script></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
