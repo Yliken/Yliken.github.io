@@ -1,0 +1,116 @@
+/* 年度总结容器 */
+.yr-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 10px;
+}
+
+/* 顶部名言 */
+.yr-quote {
+  text-align: center;
+  margin: 2.5rem 0;
+}
+
+.yr-quote-main {
+  font-size: 1.2rem;
+  color: var(--text-highlight-color);
+  font-weight: 500;
+  line-height: 1.8;
+}
+
+/* 网格列表 */
+.yr-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 25px;
+  margin-top: 20px;
+}
+
+/* 卡片样式 */
+.yr-card {
+  position: relative;
+  display: block;
+  height: 260px;
+  border-radius: 15px;
+  overflow: hidden;
+  text-decoration: none !important;
+  color: #fff !important;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  transition: all 0.4s ease;
+}
+
+.yr-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+}
+
+.yr-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s ease;
+}
+
+.yr-card:hover .yr-card-img {
+  transform: scale(1.1);
+}
+
+/* 卡片遮罩和文字内容 */
+.yr-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.1) 100%);
+  z-index: 1;
+}
+
+.yr-card-content {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  z-index: 2;
+}
+
+.yr-card-tag {
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(5px);
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  margin-bottom: 8px;
+  display: inline-block;
+}
+
+.yr-card-title {
+  font-size: 1.4rem;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.yr-card-desc {
+  font-size: 0.85rem;
+  opacity: 0.8;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* 页脚装饰 */
+.yr-footer {
+  text-align: center;
+  margin-top: 60px;
+  padding-bottom: 40px;
+}
+
+.yr-divider {
+  margin: 0 auto 30px;
+  width: 40px;
+  border: 1.5px solid var(--text-highlight-color);
+  opacity: 0.3;
+}
+
+.yr-footer-text {
+  color: #999;
+  font-size: 0.9rem;
+  line-height: 1.8;
+}
