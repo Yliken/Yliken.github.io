@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<section class="hero">
+  
+    <p class="hero__kicker">极简、古风、纸底的个人博客主题 · 技术 + 生活</p>
+  
+  <div class="hero__heading">
+    
+    <h1 class="hero__title">红豆藏于南枝深处</h1>
+  </div>
+  
+    <p class="hero__lead">在技术里较真，也在生活里留白。</p>
+  
+  
+    <p class="hero__colophon" aria-hidden="true">记于 2026年9月</p>
+  
+  
+    <p class="hero__motto">记录即存在。</p>
+  
+  
+</section>
+
+
+  <section class="site-stats" aria-label="站点统计">
+    <div class="site-stats__item">
+      <span class="site-stats__num">66</span>
+      <span class="site-stats__label">文章</span>
+    </div>
+    <div class="site-stats__item">
+      <span class="site-stats__num">8</span>
+      <span class="site-stats__label">分类</span>
+    </div>
+    <div class="site-stats__item">
+      <span class="site-stats__num">33</span>
+      <span class="site-stats__label">标签</span>
+    </div>
+  </section>
+
+
+
+
+<section class="post-list post-list--grid" aria-label="最新文章">
+  
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.014</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2024-03-06">2024·03·06</time>
+        
+        <h2 class="book__title">
+          <a href="/2024/03/06/src/%E6%9F%90%E5%A4%A7%E5%AD%A6%E7%9A%84%E5%AD%98%E5%82%A8%E5%9E%8BXSS%E5%88%86%E4%BA%AB/">某大学的存储型XSS</a>
+        </h2>
+        <p class="book__excerpt">一、信息收集从来就没有弱口令成功登陆过网站,就想着找找看有没有暴露初始密码的学校网站谷歌语法搜索site:*.sdu.edu.cn intext:默认密码找到一个暴露默认密码的学校网站
+
+进入该学校的教材征订系统,需要用学号登录
+
+然后在百度贴吧等社交平台收集学生学号信息,这里找到了一个15年...</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/edusrc/">#edusrc</a>
+              </span>
+            
+            
+              <span class="book__readtime">1 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2024/03/06/src/%E6%9F%90%E5%A4%A7%E5%AD%A6%E7%9A%84%E5%AD%98%E5%82%A8%E5%9E%8BXSS%E5%88%86%E4%BA%AB/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.015</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2024-03-06">2024·03·06</time>
+        
+        <h2 class="book__title">
+          <a href="/2024/03/06/%E5%9F%BA%E7%A1%80/XXE/">浅学XXE</a>
+        </h2>
+        <p class="book__excerpt">什么是XXE?XXE就是XML外部实体注入。当允许引用外部实体时，通过构造恶意内容，就可能导致任意文件读取、系统命令执行、内网端口探测、攻击内网网站等危害。
+什么是XML?XML用于标记电子文件使其具有结构性的标记语言，可以用来标记数据、定义数据类型，是一种允许用户对自己的标记语言进行定义的源...</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/xxe/">#xxe</a>
+              </span>
+            
+            
+              <span class="book__readtime">5 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2024/03/06/%E5%9F%BA%E7%A1%80/XXE/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.016</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2024-03-06">2024·03·06</time>
+        
+        <h2 class="book__title">
+          <a href="/2024/03/06/%E5%9F%BA%E7%A1%80/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式</a>
+        </h2>
+        <p class="book__excerpt">正则表达式什么正则表达式?正则表达式又称规则表达式，在代码中常简写为regex、regexp或RE，正则表达式通常被用来检索、替换那些符合某个模式的文本。
+正则表达式的用途
+判断字符串是否符合某一规则（比如判断是否符合手机号、邮箱规则等等）
+从一个字符串中找出符合规则的所有子字符串（比如取HT...</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/zkaq/">#zkaq</a>
+              </span>
+            
+            
+              <span class="book__readtime">3 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2024/03/06/%E5%9F%BA%E7%A1%80/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.012</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2024-03-05">2024·03·05</time>
+        
+        <h2 class="book__title">
+          <a href="/2024/03/05/%E5%9F%BA%E7%A1%80/SSIT%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/">SSTI模板注入</a>
+        </h2>
+        <p class="book__excerpt">ssti模板注入攻击SSIT模板注入攻击中文名称服务端模板注入漏洞，也直接称为模板注入。当用户输入数据以不安全的方式嵌入到模板中时，就会发生模板注入。
+什么是模板引擎?模板引擎（这里特指用于Web开发的模板引擎）是为了使用户界面与业务数据（内容）分离而产生的，它可以生成特定格式的文档，用于网站...</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/zkaq/">#zkaq</a>
+              </span>
+            
+            
+              <span class="book__readtime">24 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2024/03/05/%E5%9F%BA%E7%A1%80/SSIT%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.013</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2024-03-05">2024·03·05</time>
+        
+        <h2 class="book__title">
+          <a href="/2024/03/05/%E5%9F%BA%E7%A1%80/unserialize%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">php反序列化</a>
+        </h2>
+        <p class="book__excerpt">序列化直接将对象数据转化成字符串或者二进制内容。然后进行存储
+反序列化将序列化之后的数据，重新转变为对象
+
+对象在程序中运行时，他是内存中的一项数据。当程序运行结束之后，对象就会被回收，回收完，对象就没有了。
+通过序列化将对象的状态，转变成一个具体的数据，保存到你的硬盘上
+序列化过程，只保存了...</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">#php反序列化</a>
+              </span>
+            
+            
+              <span class="book__readtime">22 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2024/03/05/%E5%9F%BA%E7%A1%80/unserialize%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.011</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2024-03-04">2024·03·04</time>
+        
+        <h2 class="book__title">
+          <a href="/2024/03/04/%E5%9F%BA%E7%A1%80/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/">zkaq-代码执行</a>
+        </h2>
+        <p class="book__excerpt">命令执行漏洞用户传入的参数，会被当成系统指令来执行，指令内容用户可控
+命令执行的危险函数123456system()   =&gt; 直接执行系统指令，并且会打印出我们的结果exec()	   =&gt; 会执行指令，但是显示结果不会直接输出，结果只保留最后一行shell_exec()	=&g...</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/zkaq/">#zkaq</a>
+              </span>
+            
+            
+              <span class="book__readtime">4 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2024/03/04/%E5%9F%BA%E7%A1%80/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.010</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2024-01-25">2024·01·25</time>
+        
+        <h2 class="book__title">
+          <a href="/2024/01/25/%E5%9F%BA%E7%A1%80/java%E7%9A%84%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/">java的学习日记</a>
+        </h2>
+        <p class="book__excerpt">输出语句123System.out.println( &quot;abc&quot; );//先打印abc，再进行换行System. out.print( &quot;abc&quot; );//只打印abc，不换行System.out.println();//不打印任何数据，只做换行处理。
+...</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/Java/">#Java</a>
+              </span>
+            
+            
+              <span class="book__readtime">159 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2024/01/25/%E5%9F%BA%E7%A1%80/java%E7%9A%84%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.008</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2024-01-23">2024·01·23</time>
+        
+        <h2 class="book__title">
+          <a href="/2024/01/23/%E5%B0%8F%E7%9F%A5%E8%AF%86/">小知识</a>
+        </h2>
+        <p class="book__excerpt">持续更新..linux系统中的一些文件1234/etc/passwd 存放用户名/etc/hosts 存放网卡信息，可以看ip/proc/net/arp 显示arp缓存表(寻找内网其他主机)/porc/net/fib_trie 显示当先网段的路由信息
+
+linux中的一些日志文件1234567...</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/%E5%B0%8F%E7%9F%A5%E8%AF%86/">#小知识</a>
+              </span>
+            
+            
+              <span class="book__readtime">1 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2024/01/23/%E5%B0%8F%E7%9F%A5%E8%AF%86/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.009</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2024-01-23">2024·01·23</time>
+        
+        <h2 class="book__title">
+          <a href="/2024/01/23/%E5%9F%BA%E7%A1%80/%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86%E5%88%B0%E5%88%A9%E7%94%A8/">SSRF、</a>
+        </h2>
+        <p class="book__excerpt">SSRF一、什么是SSRF？SSRF(service side request forgery)服务器请求伪造，是一种由攻击者形成
+服务端发起的安全漏洞，本质上是属于信息泄露漏洞
+二、SSRF的攻击方式攻击者借助主机A来发起SSRF攻击，通过主机A像主机B发起请求，从而获取主机B的一些信息。
+...</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/zkaq/">#zkaq</a>
+              </span>
+            
+            
+              <span class="book__readtime">4 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2024/01/23/%E5%9F%BA%E7%A1%80/%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86%E5%88%B0%E5%88%A9%E7%94%A8/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.007</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2024-01-21">2024·01·21</time>
+        
+        <h2 class="book__title">
+          <a href="/2024/01/21/%E5%9F%BA%E7%A1%80/zkaqXSS/">zkaq—xss</a>
+        </h2>
+        <p class="book__excerpt">一、什么是XSSxss漏洞允许攻击者将恶意脚本注入到网页中，当其他用户访问包含这些脚本的页面时，这些脚本将在用户的浏览器中执行
+二、XSS注入本质XSS注入攻击的本质，是把用户输入的数据当做js代码执行。
+三、XSS注入的关键条件
+用户能控制输入
+原本的程序要执行的代码，拼接了用户输入的数据
+...</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/zkaq/">#zkaq</a>
+              </span>
+            
+            
+              <span class="book__readtime">4 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2024/01/21/%E5%9F%BA%E7%A1%80/zkaqXSS/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+  
+</section>
+
+
+  <nav class="pagination" aria-label="分页导航">
+    
+      <a class="pagination__link pagination__link--prev" href="/page/5/"><span aria-hidden="true">←</span> 上页</a>
+    
+    <span class="pagination__info">6 / 7</span>
+    
+      <a class="pagination__link pagination__link--next" href="/page/7/">下页 <span aria-hidden="true">→</span></a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

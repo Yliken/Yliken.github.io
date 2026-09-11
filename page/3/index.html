@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<section class="hero">
+  
+    <p class="hero__kicker">极简、古风、纸底的个人博客主题 · 技术 + 生活</p>
+  
+  <div class="hero__heading">
+    
+    <h1 class="hero__title">红豆藏于南枝深处</h1>
+  </div>
+  
+    <p class="hero__lead">在技术里较真，也在生活里留白。</p>
+  
+  
+    <p class="hero__colophon" aria-hidden="true">记于 2026年9月</p>
+  
+  
+    <p class="hero__motto">写下来的，才算数。</p>
+  
+  
+</section>
+
+
+  <section class="site-stats" aria-label="站点统计">
+    <div class="site-stats__item">
+      <span class="site-stats__num">66</span>
+      <span class="site-stats__label">文章</span>
+    </div>
+    <div class="site-stats__item">
+      <span class="site-stats__num">8</span>
+      <span class="site-stats__label">分类</span>
+    </div>
+    <div class="site-stats__item">
+      <span class="site-stats__num">33</span>
+      <span class="site-stats__label">标签</span>
+    </div>
+  </section>
+
+
+
+
+<section class="post-list post-list--grid" aria-label="最新文章">
+  
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.046</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2025-03-18">2025·03·18</time>
+        
+        <h2 class="book__title">
+          <a href="/2025/03/18/%E9%9D%B6%E6%9C%BA/hackmyvm/hackmyvm-Espo/">hackmyvm-Espo</a>
+        </h2>
+        <p class="book__excerpt">靶机地址
+信息收集主机发现
+123456789101112┌──(root㉿kali)-[/home/kali]└─# arp-scan -I eth1 192.168.56.0/24                                                       ...</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/hackmyvm/">#hackmyvm</a>
+              </span>
+            
+            
+              <span class="book__readtime">8 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2025/03/18/%E9%9D%B6%E6%9C%BA/hackmyvm/hackmyvm-Espo/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.045</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2025-03-15">2025·03·15</time>
+        
+        <h2 class="book__title">
+          <a href="/2025/03/15/%E9%9D%B6%E6%9C%BA/hackmyvm/hackmyvm-HackingToys/">hackmyvm-HackingToys</a>
+        </h2>
+        <p class="book__excerpt">信息收集主机发现
+123456789101112┌──(root㉿kali)-[/home/kali]└─# arp-scan -I eth1 192.168.56.0/24Interface: eth1, type: EN10MB, MAC: 00:0c:29:34:da:f5, IPv4:...</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/hackmyvm/">#hackmyvm</a>
+              </span>
+            
+            
+              <span class="book__readtime">12 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2025/03/15/%E9%9D%B6%E6%9C%BA/hackmyvm/hackmyvm-HackingToys/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.044</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2025-03-07">2025·03·07</time>
+        
+        <h2 class="book__title">
+          <a href="/2025/03/07/%E4%BA%91/%E4%BA%91%E5%8E%9F%E7%94%9F/CICD/">CICD</a>
+        </h2>
+        <p class="book__excerpt">CI&#x2F;CDCI: 即 持续集成 ，是代码开发人员在将代码提交到代码存储库中。自动进行频繁的自动构建和测试阶段，频繁的将开发者的代码合并到主干，减少代码的质量问题:smile:
+在多人协作的项目中，各开发人员负责各自的开发模块。每当完成一项需求后，开发人员需将代码提交至代码仓库。若每次...</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/CICD/">#CICD</a>
+              </span>
+            
+            
+              <span class="book__readtime">13 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2025/03/07/%E4%BA%91/%E4%BA%91%E5%8E%9F%E7%94%9F/CICD/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.043</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2025-03-06">2025·03·06</time>
+        
+        <h2 class="book__title">
+          <a href="/2025/03/06/%E4%BA%91/%E4%BA%91%E5%AE%89%E5%85%A8AKSK%E9%9A%8F%E7%AC%94/">云安全AKSK随笔</a>
+        </h2>
+        <p class="book__excerpt">AliYyun给出的AKSK的作用
+
+在阿里云，用户可以使用AccessKey（简称AK）构造一个API请求（或者使用云服务SDK）来操作资源。AccessKey包括AccessKey ID和AccessKey Secret。其中AccessKey ID用于标识用户，AccessKey Sec...</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/Aliyun/">#Aliyun</a>
+              </span>
+            
+            
+              <span class="book__readtime">4 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2025/03/06/%E4%BA%91/%E4%BA%91%E5%AE%89%E5%85%A8AKSK%E9%9A%8F%E7%AC%94/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.042</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2025-03-03">2025·03·03</time>
+        
+        <h2 class="book__title">
+          <a href="/2025/03/03/%E9%9D%B6%E6%9C%BA/hackmyvm/hackmyvm-Smol/">hackmyvm-Smol</a>
+        </h2>
+        <p class="book__excerpt">信息收集123456789101112┌──(root㉿kali)-[/home/kali]└─# arp-scan -I eth1 192.168.56.0/24Interface: eth1, type: EN10MB, MAC: 00:0c:29:34:da:f5, IPv4: 192....</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/hackmyvm/">#hackmyvm</a>
+              </span>
+            
+            
+              <span class="book__readtime">47 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2025/03/03/%E9%9D%B6%E6%9C%BA/hackmyvm/hackmyvm-Smol/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.041</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2025-02-27">2025·02·27</time>
+        
+        <h2 class="book__title">
+          <a href="/2025/02/27/%E9%9D%B6%E6%9C%BA/hackmyvm/hackmyvm-hero/">hackmyvm-hero</a>
+        </h2>
+        <p class="book__excerpt">信息收集12345678910┌──(root㉿kali)-[/home/kali/Desktop/hackmyvm]└─# arp-scan -I eth1 192.168.56.0/24Interface: eth1, type: EN10MB, MAC: 00:0c:29:34:da:f...</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/hackmyvm/">#hackmyvm</a>
+              </span>
+            
+            
+              <span class="book__readtime">14 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2025/02/27/%E9%9D%B6%E6%9C%BA/hackmyvm/hackmyvm-hero/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.040</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2025-02-24">2025·02·24</time>
+        
+        <h2 class="book__title">
+          <a href="/2025/02/24/%E9%9D%B6%E6%9C%BA/hackmyvm/hackmyvm-buster/">hackmyvm-buster</a>
+        </h2>
+        <p class="book__excerpt">题目地址
+信息收集主机发现
+123456789101112┌──(root㉿kali)-[/home/kali]└─# arp-scan -I eth1 192.168.56.0/24Interface: eth1, type: EN10MB, MAC: 00:0c:29:34:da:f5, ...</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/hackmyvm/">#hackmyvm</a>
+              </span>
+            
+            
+              <span class="book__readtime">23 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2025/02/24/%E9%9D%B6%E6%9C%BA/hackmyvm/hackmyvm-buster/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.039</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2024-12-15">2024·12·15</time>
+        
+        <h2 class="book__title">
+          <a href="/2024/12/15/CTF/2024.12.15CISCN&%E9%95%BF%E5%9F%8E%E6%9D%AF%E9%93%81%E4%BA%BA%E4%B8%89%E9%A1%B9%E8%B5%9B/">	</a>
+        </h2>
+        <p class="book__excerpt">WEBSafe_Proxy刚开始比赛看到题目名字里面有Proxy 就先来做这个了(在最近的比赛中见到的proxy题比较多)
+题目进入之后给了源码
+
+源码
+1234567891011121314151617181920212223242526272829303132333435363738394...</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/CTF/">#CTF</a>
+              </span>
+            
+            
+              <span class="book__readtime">15 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2024/12/15/CTF/2024.12.15CISCN&%E9%95%BF%E5%9F%8E%E6%9D%AF%E9%93%81%E4%BA%BA%E4%B8%89%E9%A1%B9%E8%B5%9B/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.038</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2024-11-28">2024·11·28</time>
+        
+        <h2 class="book__title">
+          <a href="/2024/11/28/Golang/Golang%20gorm/">Go小记 Gorm模型</a>
+        </h2>
+        <p class="book__excerpt">官方中文文档
+0、安装12go get -u gorm.io/gormgo get -u gorm.io/driver/sqlite
+
+1.连接到数据库GORM 官方支持的数据库类型有：MySQL, PostgreSQL, SQLite, SQL Server 和 TiDB
+连接到mysql数...</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/Golang/">#Golang</a>
+              </span>
+            
+            
+              <span class="book__readtime">9 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2024/11/28/Golang/Golang%20gorm/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.037</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2024-11-17">2024·11·17</time>
+        
+        <h2 class="book__title">
+          <a href="/2024/11/17/Golang/golangSSH/">Go小记 使用Go实现SSH客户端</a>
+        </h2>
+        <p class="book__excerpt">一、前言SSH（Secure Shell）是一种用于在不安全网络上安全访问远程计算机的网络协议。它通过加密的方式提供远程登录会话和其他网络服务，保证通信的安全性和数据的完整性。
+本文使用golang.org/x/crypto/ssh包来实现SSH客户端
+可以通过go get -u golang...</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/Golang/">#Golang</a>
+              </span>
+            
+            
+              <span class="book__readtime">6 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2024/11/17/Golang/golangSSH/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+  
+</section>
+
+
+  <nav class="pagination" aria-label="分页导航">
+    
+      <a class="pagination__link pagination__link--prev" href="/page/2/"><span aria-hidden="true">←</span> 上页</a>
+    
+    <span class="pagination__info">3 / 7</span>
+    
+      <a class="pagination__link pagination__link--next" href="/page/4/">下页 <span aria-hidden="true">→</span></a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

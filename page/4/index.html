@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<section class="hero">
+  
+    <p class="hero__kicker">极简、古风、纸底的个人博客主题 · 技术 + 生活</p>
+  
+  <div class="hero__heading">
+    
+    <h1 class="hero__title">红豆藏于南枝深处</h1>
+  </div>
+  
+    <p class="hero__lead">在技术里较真，也在生活里留白。</p>
+  
+  
+    <p class="hero__colophon" aria-hidden="true">记于 2026年9月</p>
+  
+  
+    <p class="hero__motto">记录即存在。</p>
+  
+  
+</section>
+
+
+  <section class="site-stats" aria-label="站点统计">
+    <div class="site-stats__item">
+      <span class="site-stats__num">66</span>
+      <span class="site-stats__label">文章</span>
+    </div>
+    <div class="site-stats__item">
+      <span class="site-stats__num">8</span>
+      <span class="site-stats__label">分类</span>
+    </div>
+    <div class="site-stats__item">
+      <span class="site-stats__num">33</span>
+      <span class="site-stats__label">标签</span>
+    </div>
+  </section>
+
+
+
+
+<section class="post-list post-list--grid" aria-label="最新文章">
+  
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.036</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2024-11-06">2024·11·06</time>
+        
+        <h2 class="book__title">
+          <a href="/2024/11/06/SOCKS5/">SOCKS5协议</a>
+        </h2>
+        <p class="book__excerpt">SOCKS5协议连接过程SOCKS5服务器默认监听的端口是1080端口
+
+连接到服务器:SOCKS5客户端会通过TCP三次握手与SOCKS5服务器建立连接
+协商过程:首先SOCKS5客户端会发送一个请求到服务器。告诉服务器自己支持什么方法。并带有一个方法列表(例如：A,B,C)。然后SOCKS...</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/%E5%8D%8F%E8%AE%AE/">#协议</a>
+              </span>
+            
+            
+              <span class="book__readtime">4 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2024/11/06/SOCKS5/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.035</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2024-11-01">2024·11·01</time>
+        
+        <h2 class="book__title">
+          <a href="/2024/11/01/CTF/ImaginaryCTF%202024/">ImaginaryCTF 2024</a>
+        </h2>
+        <p class="book__excerpt">Webjournal题目给出了index.php的源码
+123456789101112131415161718192021222324&lt;?phpecho &quot;&lt;p&gt;Welcome to my journal app!&lt;/p&gt;&quot;;echo &quo...</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/CTF/">#CTF</a>
+              </span>
+            
+            
+              <span class="book__readtime">9 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2024/11/01/CTF/ImaginaryCTF%202024/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.034</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2024-10-28">2024·10·28</time>
+        
+        <h2 class="book__title">
+          <a href="/2024/10/28/Golang/GolangHTTP/">Golang net/http包客户端的使用</a>
+        </h2>
+        <p class="book__excerpt">Go发起HTTP请求基本方法请求1. GET请求使用http.Get快速发起一个GET请求
+123456789func get() &#123;	resp, err := http.Get(&quot;http://httpbin.org/get&quot;)	if err != nil &#...</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/net-http/">#net/http</a>
+              </span>
+            
+            
+              <span class="book__readtime">19 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2024/10/28/Golang/GolangHTTP/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.033</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2024-10-27">2024·10·27</time>
+        
+        <h2 class="book__title">
+          <a href="/2024/10/27/%E9%9D%B6%E6%9C%BA/hackmyvm/Hacker_Kid-v1.0.1/">Hacker_Kid-v1.0.1</a>
+        </h2>
+        <p class="book__excerpt">靶机下载链接：Hacker kid: 1.0.1
+一、信息收集1、主机发现使用arp-scan扫描内网主机
+
+2.端口扫描使用nmap -T4 -sV -p 0-65535 192.168.22.137进行端口扫描
+
+二、打靶靶机在 80 9999端口开放了web服务。。在53端口开放了DNS...</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/vulnhub%E9%9D%B6%E6%9C%BA/">#vulnhub靶机</a>
+              </span>
+            
+            
+              <span class="book__readtime">2 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2024/10/27/%E9%9D%B6%E6%9C%BA/hackmyvm/Hacker_Kid-v1.0.1/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.032</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2024-10-25">2024·10·25</time>
+        
+        <h2 class="book__title">
+          <a href="/2024/10/25/CTF/DownUnderCTF/">DownUnderCTF赛题复现</a>
+        </h2>
+        <p class="book__excerpt">题目连接
+WEBco2挺简单的原型链污染
+route.py文件中设置flag的值
+
+在/get_flag路由汇总如果flag == &quot;true&quot;则返回flag
+
+在/save_feedback路由汇总调用了merge函数
+
+123456789101112def merge(...</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/CTF/">#CTF</a>
+              </span>
+            
+            
+              <span class="book__readtime">8 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2024/10/25/CTF/DownUnderCTF/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.031</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2024-10-10">2024·10·10</time>
+        
+        <h2 class="book__title">
+          <a href="/2024/10/10/%E9%9D%B6%E6%9C%BA/lazySysAdmin/">lazySysAdmin</a>
+        </h2>
+        <p class="book__excerpt">一、信息收集1、主机发现使用arp-scan来寻找存活的主机
+
+192.168.22.135是目标地址
+2、端口扫描使用nmap对目标端口进行扫描nmap -p 0-65535 -sV -T4 192.168.22.135
+
+进入web页面，发现web根目录下只是一个静态页面
+
+3.目录扫描
+...</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/vulnhub%E9%9D%B6%E6%9C%BA/">#vulnhub靶机</a>
+              </span>
+            
+            
+              <span class="book__readtime">2 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2024/10/10/%E9%9D%B6%E6%9C%BA/lazySysAdmin/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.030</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2024-09-27">2024·09·27</time>
+        
+        <h2 class="book__title">
+          <a href="/2024/09/27/%E9%9D%B6%E6%9C%BA/driftingblues2/">driftingblues2</a>
+        </h2>
+        <p class="book__excerpt">一、靶机安装VMware打开靶机
+
+定义好虚拟机的路径，进行安装
+
+安装后网卡改为nat
+然后还需要按照看完这篇 教你玩转渗透测试靶机Vulnhub——DriftingBlues-2进行网卡配置
+二、信息收集1.主机发现
+其他的ip地址都是我其他虚拟机的ip除了192.168.22.132
+2...</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/vulnhub%E9%9D%B6%E6%9C%BA/">#vulnhub靶机</a>
+              </span>
+            
+            
+              <span class="book__readtime">2 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2024/09/27/%E9%9D%B6%E6%9C%BA/driftingblues2/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.029</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2024-08-05">2024·08·05</time>
+        
+        <h2 class="book__title">
+          <a href="/2024/08/05/%E9%9D%B6%E6%9C%BA/DC-4/">DC-4</a>
+        </h2>
+        <p class="book__excerpt">一、靶机安装靶机下载地址DC: 4
+下载后将解压zip包得到ova文件，然后用VMware打开ova文件
+
+然后给靶机分配好名字和存储位置后导入
+
+二、主机发现使用arp-scan进行主机发现
+
+三、端口扫描使用nmap -p 0-65535 -T4 -sV 192.168.72.158进行端...</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/vulnhub%E9%9D%B6%E6%9C%BA/">#vulnhub靶机</a>
+              </span>
+            
+            
+              <span class="book__readtime">3 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2024/08/05/%E9%9D%B6%E6%9C%BA/DC-4/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.028</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2024-08-02">2024·08·02</time>
+        
+        <h2 class="book__title">
+          <a href="/2024/08/02/%E9%9D%B6%E6%9C%BA/DC-3/">DC-3</a>
+        </h2>
+        <p class="book__excerpt">一、靶机安装靶机下载地址DC: 3.2
+下载压缩包后得到DC-3.ova文件，将其用VMware打开。
+
+设置好虚拟机名称和存储路径之后，导入虚拟机
+
+导入失败点击重试即可
+
+将网络设置改为nat模式
+
+这里报错的话需要我们将磁盘设置改一下
+
+将IDE设备重0:1改为0:0
+
+二、信息收集1....</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/vulnhub%E9%9D%B6%E6%9C%BA/">#vulnhub靶机</a>
+              </span>
+            
+            
+              <span class="book__readtime">7 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2024/08/02/%E9%9D%B6%E6%9C%BA/DC-3/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.027</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2024-07-31">2024·07·31</time>
+        
+        <h2 class="book__title">
+          <a href="/2024/07/31/%E9%9D%B6%E6%9C%BA/DC-1/">DC-1</a>
+        </h2>
+        <p class="book__excerpt">一、靶机下载靶机下载地址DC: 1
+下载后将压缩包中的ova文件解压出来，然后用VMware打开
+
+填上虚拟机名称和报错路径
+
+这边点重试即可
+
+二、主机发现1.使用arp-scan
+2.使用msf进行主机发现使用auxiliary/scanner/discovery/arp_sweep   ...</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/vulnhub%E9%9D%B6%E6%9C%BA/">#vulnhub靶机</a>
+              </span>
+            
+            
+              <span class="book__readtime">2 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2024/07/31/%E9%9D%B6%E6%9C%BA/DC-1/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+  
+</section>
+
+
+  <nav class="pagination" aria-label="分页导航">
+    
+      <a class="pagination__link pagination__link--prev" href="/page/3/"><span aria-hidden="true">←</span> 上页</a>
+    
+    <span class="pagination__info">4 / 7</span>
+    
+      <a class="pagination__link pagination__link--next" href="/page/5/">下页 <span aria-hidden="true">→</span></a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

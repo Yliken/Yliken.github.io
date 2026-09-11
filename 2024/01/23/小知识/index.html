@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>小知识 · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2024-01-23">2024年1月23日</time>
+        
+        
+          <span class="post__readtime">1 分钟</span>
+        
+        
+          <span class="post__tags" aria-label="标签">
+            <a class="tag" href="/tags/%E5%B0%8F%E7%9F%A5%E8%AF%86/">#小知识</a>
+          </span>
+        
+      </p>
+    
+    <h1 class="post__title">小知识</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <h1 id="持续更新"><a href="#持续更新" class="headerlink" title="持续更新.."></a>持续更新..</h1><h1 id="linux系统中的一些文件"><a href="#linux系统中的一些文件" class="headerlink" title="linux系统中的一些文件"></a>linux系统中的一些文件</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/etc/passwd 存放用户名</span><br><span class="line">/etc/hosts 存放网卡信息，可以看ip</span><br><span class="line">/proc/net/arp 显示arp缓存表(寻找内网其他主机)</span><br><span class="line">/porc/net/fib_trie 显示当先网段的路由信息</span><br></pre></td></tr></table></figure>
+
+<h1 id="linux中的一些日志文件"><a href="#linux中的一些日志文件" class="headerlink" title="linux中的一些日志文件"></a>linux中的一些日志文件</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 常见的linux系统下环境变量的路径：</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>&#x2F;proc&#x2F;1&#x2F;environ</p>
+<p>&#x2F;etc&#x2F;profile</p>
+<p>&#x2F;etc&#x2F;profile.d&#x2F;*.sh</p>
+<p>~&#x2F;.bash_profile</p>
+<p>~&#x2F;.bashrc</p>
+<p>&#x2F;etc&#x2F;bashrc</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 不同的两个数md5值相同</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>a&#x3D;s1885207154a，b&#x3D;s1836677006a</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># apache2日志文件路径</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>Apache日志位置 &#x2F;usr&#x2F;local&#x2F;apache2&#x2F;logs&#x2F;</p>
+<pre><code>
+
+</code></pre>
+
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2024/01/25/%E5%9F%BA%E7%A1%80/java%E7%9A%84%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">java的学习日记</span>
+      </a>
+    
+    
+      <a class="post-nav__link post-nav__link--next" href="/2024/01/23/%E5%9F%BA%E7%A1%80/%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86%E5%88%B0%E5%88%A9%E7%94%A8/">
+        <span class="post-nav__dir">下一篇 →</span>
+        <span class="post-nav__title">SSRF、</span>
+      </a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

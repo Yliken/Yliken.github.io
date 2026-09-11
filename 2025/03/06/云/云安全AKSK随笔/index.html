@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>云安全AKSK随笔 · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2025-03-06">2025年3月6日</time>
+        
+        
+          <span class="post__readtime">4 分钟</span>
+        
+        
+          <span class="post__tags" aria-label="标签">
+            <a class="tag" href="/tags/Aliyun/">#Aliyun</a>
+          </span>
+        
+      </p>
+    
+    <h1 class="post__title">云安全AKSK随笔</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <p><strong>AliYyun给出的AKSK的作用</strong></p>
+<blockquote>
+<p>在阿里云，用户可以使用<strong>AccessKey</strong>（简称AK）构造一个API请求（或者使用云服务SDK）来操作资源。<strong>AccessKey</strong>包括<strong>AccessKey ID</strong>和<strong>AccessKey Secret</strong>。其中<strong>AccessKey ID</strong>用于标识用户，<strong>AccessKey Secret</strong>是用来验证用户身份合法性的密钥。<strong>AccessKey Secret</strong>必须保密。</p>
+</blockquote>
+<h2 id="AK-SK泄露的攻击面"><a href="#AK-SK泄露的攻击面" class="headerlink" title="AK&#x2F;SK泄露的攻击面"></a>AK&#x2F;SK泄露的攻击面</h2><p><strong>1.AK&#x2F;SK接管存储桶</strong></p>
+<p>当泄露的AK&#x2F;SK有对存储桶有操作权限的时候，可以在aliyun Cli配置AK&#x2F;SK来接管存储桶</p>
+<p>使用<code>aliyun oss ls</code>来列出桶</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202503061616405.png" alt="image-20250306161639322"></p>
+<p>使用<code>aliyun oss ls &lt;桶的名称&gt;</code>列出桶里面的内容</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202503061618239.png" alt="image-20250306161828186"></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202503061622080.png" alt="image-20250306162246016"></p>
+<p><strong>2.AK&#x2F;SK执行云服务器命令</strong></p>
+<p>当泄露的<code>AK/SK</code>对ECS有操作权限的时候</p>
+<p>可以使用<code>aliyun ecs DescribeInstances</code>列出ECS资源</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202503061643813.png" alt="image-20250306164358770"></p>
+<p>使用<code> aliyun ecs RunCommand --CommandContent &quot;&lt;命令内容&gt;&quot; --Type RunShellScript --InstanceId.1 &lt;示例id&gt;</code></p>
+<p>可以在ECS上面执行命令</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202503061656015.png" alt="image-20250306165608968"></p>
+<p>返回了&#96;&#96;</p>
+<p>使用<code>aliyun ecs DescribeInvocationResults --CommandId &lt;CommandId&gt;</code><br>可以看经过base64编码后的输出</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202503061657795.png" alt="image-20250306165751738"></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202503061658027.png" alt="image-20250306165803961"></p>
+<h2 id="用户临时凭证STS-泄露"><a href="#用户临时凭证STS-泄露" class="headerlink" title="用户临时凭证STS 泄露"></a>用户临时凭证STS 泄露</h2><blockquote>
+<p>STS（Security Token Service）临时访问凭证是一种短期有效的身份认证机制，用于在限定的时间内授予用户对阿里云资源的访问权限。与永久访问密钥（AccessKey ID 和 AccessKey Secret）不同，STS 临时访问凭证具有时效性，过期后自动失效，从而有效降低了因密钥泄露导致的安全风险</p>
+</blockquote>
+<p>STS可以由具有调用<code>AssumeRole</code>接口的Ram用户获取扮演指定的RAM角色，从而获取STS临时访问凭证。</p>
+<p><strong>通过STS访问OSS资源demo</strong></p>
+<ol>
+<li><p>创建Ram用户 <code>身份管理</code> -&gt;<code>创建用户</code> </p>
+<ul>
+<li>给Ram用户授予访问<code>AssumeRole</code>的权限</li>
+<li><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202503061801445.png"></li>
+</ul>
+</li>
+<li><p>访问控制左侧 <code>权限管理</code> -&gt;<code>权限策略</code>-&gt;<code>创建权限策略</code>-&gt;<code>脚本编辑</code>  创建赋予上传权限的策略</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202503061810706.png" alt="image-20250306181059634"></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;Version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;Statement&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;Action&quot;</span><span class="punctuation">:</span> <span class="string">&quot;oss:PutObject&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;Resource&quot;</span><span class="punctuation">:</span> <span class="string">&quot;acs:oss:*:*:******/*&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;Effect&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Allow&quot;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建角色 然后赋予角色刚刚的自定义权限策略</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202503061813490.png" alt="image-20250306181313307"></p>
+</li>
+</ol>
+<p>在阿里给出的API接口 使用刚刚创建的ram扮演刚刚创建的ram角色来调用</p>
+<p>填入ram角色的<code>RoleArn</code>与<code>RoleSessionName</code></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202503061819122.png" alt="image-20250306181915811"></p>
+<p>在<code>aliyun</code>中使用<code>aliyun configure --mode StsToken</code>配置STS</p>
+<p>然后可以使用cp将文件上传到oss中</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202503061836303.png" alt="image-20250306183651143"></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202503061837891.png" alt="image-20250306183728641"></p>
+<p><strong>通过STS访问ECS资源demo</strong></p>
+<p>创建一个角色</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202503061846811.png" alt="image-20250306184648621"></p>
+<p>添加管理ecs的权限</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202503061847454.png" alt="image-20250306184755280"></p>
+<p>将Ram用户与Ecs管理</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202503061849028.png" alt="image-20250306184916959"></p>
+<p>如果ECS服务器上面存在SSRF漏洞或者你已经RCE了</p>
+<p>可以试着在ECS上面访问一下阿里的元数据地址<code>http://100.100.100.200/latest/meta-data/</code></p>
+<p>如果配置了Ram则会有一个<code>ram</code></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202503061851278.png" alt="image-20250306185143195"></p>
+<p>然后访问ram下面的资源获得STS</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202503061852530.png" alt="image-20250306185225467"></p>
+<p>通过配置<code>aliyun cli</code>工具即可对控制ECS</p>
+
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2025/03/07/%E4%BA%91/%E4%BA%91%E5%8E%9F%E7%94%9F/CICD/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">CICD</span>
+      </a>
+    
+    
+      <a class="post-nav__link post-nav__link--next" href="/2025/03/03/%E9%9D%B6%E6%9C%BA/hackmyvm/hackmyvm-Smol/">
+        <span class="post-nav__dir">下一篇 →</span>
+        <span class="post-nav__title">hackmyvm-Smol</span>
+      </a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

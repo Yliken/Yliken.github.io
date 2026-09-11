@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>k8s搭建记 · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2025-07-16">2025年7月16日</time>
+        
+        
+          <span class="post__readtime">17 分钟</span>
+        
+        
+          <span class="post__tags" aria-label="标签">
+            <a class="tag" href="/tags/k8s/">#k8s</a>
+          </span>
+        
+      </p>
+    
+    <h1 class="post__title">k8s搭建记</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <blockquote>
+<p>有没有那么一首歌会让你轻轻跟着和</p>
+<p>牵动我们共同过去记忆它不会沉默</p>
+<p>有没有那么一首歌会让你心里记着我</p>
+<p>就算日子匆匆过去我们曾走过</p>
+</blockquote>
+<h1 id="安装环境"><a href="#安装环境" class="headerlink" title="安装环境"></a>安装环境</h1><h2 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h2><p><strong>CentOS 10</strong></p>
+<table>
+<thead>
+<tr>
+<th>master</th>
+<th>node1</th>
+<th>node2</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>192.168.222.155&#x2F;24</td>
+<td>192.168.222.156&#x2F;24</td>
+<td>192.168.222.157&#x2F;24</td>
+</tr>
+</tbody></table>
+<h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><p>这里我用MobaXterm连接三台虚拟机 </p>
+<p>MobaXterm的Multi-execution mode 可以同时操纵三台机器</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507161017978.png" alt="image-20250716101404364"></p>
+<h3 id="关闭防火墙与selinux"><a href="#关闭防火墙与selinux" class="headerlink" title="关闭防火墙与selinux"></a>关闭防火墙与selinux</h3><h4 id="关闭防火墙"><a href="#关闭防火墙" class="headerlink" title="关闭防火墙"></a>关闭防火墙</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop firewalld &amp;&amp; systemctl disabale firewalld &amp;&amp; iptables -F</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507161018623.png" alt="image-20250716101826513"></p>
+<h3 id="关闭selinux"><a href="#关闭selinux" class="headerlink" title="关闭selinux"></a>关闭selinux</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -i <span class="string">&#x27;s/enforcing/disabled/&#x27;</span> /etc/selinux/config &amp;&amp; setenforce 0</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507161023239.png" alt="image-20250716102358161"></p>
+<h3 id="关闭swap分区"><a href="#关闭swap分区" class="headerlink" title="关闭swap分区"></a>关闭swap分区</h3><p><strong>临时关闭</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">swapoff -a</span><br></pre></td></tr></table></figure>
+
+<p><strong>永久关闭swap</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -ri <span class="string">&#x27;s/.*swap.*/#&amp;/&#x27;</span> /etc/fstab</span><br></pre></td></tr></table></figure>
+
+<p>永久关闭是需要 重启才能生效的</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507161027085.png" alt="image-20250716102705949"></p>
+<h3 id="修改hosts文件"><a href="#修改hosts文件" class="headerlink" title="修改hosts文件"></a>修改hosts文件</h3><p><strong>设置主机名</strong></p>
+<p>这里mater、node1、node2节点主机名我就分别设置为mater、node1、node2了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#master 节点</span></span><br><span class="line">hostnamectl set-hostname master</span><br><span class="line"><span class="comment">#node1 节点</span></span><br><span class="line">hostnamectl set-hostname node1</span><br><span class="line"><span class="comment">#node2 节点</span></span><br><span class="line">hostnamectl set-hostname node2</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507161034707.png" alt="image-20250716103438596"></p>
+<p><strong>修改hosts文件</strong></p>
+<p>加入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">192.168.222.155 master</span><br><span class="line">192.168.222.156 node1</span><br><span class="line">192.168.222.157 node2</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507161036297.png" alt="image-20250716103614162"></p>
+<h3 id="修改内核参数"><a href="#修改内核参数" class="headerlink" title="修改内核参数"></a>修改内核参数</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> &gt; /etc/sysctl.d/k8s.conf &lt;&lt; <span class="string">EOF</span></span><br><span class="line"><span class="string">net.bridge.bridge-nf-call-ip6tables = 1</span></span><br><span class="line"><span class="string">net.bridge.bridge-nf-call-iptables = 1</span></span><br><span class="line"><span class="string">net.ipv4.ip_forward = 1</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"></span><br><span class="line">sysctl --system</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507161037238.png" alt="image-20250716103751129"></p>
+<h3 id="加载ip-vs内核模块"><a href="#加载ip-vs内核模块" class="headerlink" title="加载ip_vs内核模块"></a>加载ip_vs内核模块</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">modprobe ip_vs</span><br><span class="line">modprobe ip_vs_rr</span><br><span class="line">modprobe ip_vs_wrr</span><br><span class="line">modprobe ip_vs_sh</span><br><span class="line">modprobe nf_conntrack</span><br><span class="line">modprobe br_netfilter</span><br><span class="line"><span class="built_in">echo</span> 1 &gt; /proc/sys/net/bridge/bridge-nf-call-iptables</span><br><span class="line"><span class="built_in">echo</span> 1 &gt; /proc/sys/net/ipv4/ip_forward</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507161042896.png" alt="image-20250716104220757"></p>
+<p>设置开机自启动</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> &gt; /etc/modules-load.d/ip_vs.conf &lt;&lt; <span class="string">EOF </span></span><br><span class="line"><span class="string">ip_vs</span></span><br><span class="line"><span class="string">ip_vs_rr</span></span><br><span class="line"><span class="string">ip_vs_wrr</span></span><br><span class="line"><span class="string">ip_vs_sh</span></span><br><span class="line"><span class="string">nf_conntrack</span></span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507161043652.png" alt="image-20250716104331529"></p>
+<h1 id="安装docker"><a href="#安装docker" class="headerlink" title="安装docker"></a>安装docker</h1><p><strong>配置yum源</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#下载 wget </span></span><br><span class="line">yum install wget -y</span><br><span class="line"><span class="comment">#从阿里云镜像站下载docker官方的yum源配置文件</span></span><br><span class="line">wget https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo -O /etc/yum.repos.d/docker-ce.repo</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507161102630.png" alt="image-20250716110231515"></p>
+<p><strong>安装docker</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install docker-ce docker-ce-cli -y</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>编辑&#x2F;etc&#x2F;docker&#x2F;daemon.json</strong></p>
+<p><strong><a target="_blank" rel="noopener" href="https://github.com/dongyubin/DockerHub">DockerHub 国内加速镜像列表</a></strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> /etc/docker/ </span><br><span class="line"><span class="built_in">cat</span> &gt; /etc/docker/daemon.json &lt;&lt; <span class="string">EOF</span></span><br><span class="line"><span class="string">&#123;</span></span><br><span class="line"><span class="string">&quot;registry-mirrors&quot;: [&quot;https://docker.mybacc.com&quot;,&quot;https://docker.1ms.run&quot;],</span></span><br><span class="line"><span class="string">&quot;exec-opts&quot;: [&quot;native.cgroupdriver=systemd&quot;],</span></span><br><span class="line"><span class="string">&quot;log-driver&quot;: &quot;json-file&quot;,</span></span><br><span class="line"><span class="string">&quot;log-opts&quot;: &#123;</span></span><br><span class="line"><span class="string">&quot;max-size&quot;: &quot;100m&quot;</span></span><br><span class="line"><span class="string">&#125;,</span></span><br><span class="line"><span class="string">&quot;storage-driver&quot;: &quot;overlay2&quot;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>启动docker服务</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload &amp;&amp; systemctl <span class="built_in">enable</span> docker &amp;&amp; systemctl start docker</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507161113062.png"></p>
+<h1 id="安装Kubernetes"><a href="#安装Kubernetes" class="headerlink" title="安装Kubernetes"></a>安装Kubernetes</h1><h2 id="配置yum源"><a href="#配置yum源" class="headerlink" title="配置yum源"></a>配置yum源</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> &gt; /etc/yum.repos.d/kubernetes.repo &lt;&lt; <span class="string">EOF</span></span><br><span class="line"><span class="string">[kubernetes]</span></span><br><span class="line"><span class="string">name=Kubernetes</span></span><br><span class="line"><span class="string">baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/</span></span><br><span class="line"><span class="string">enabled=1</span></span><br><span class="line"><span class="string">gpgcheck=1</span></span><br><span class="line"><span class="string">repo_gpgcheck=0</span></span><br><span class="line"><span class="string">gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg </span></span><br><span class="line"><span class="string">       https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg</span></span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507161126628.png" alt="image-20250716112609498"></p>
+<h2 id="安装kubeadm、kubelet、kubectl"><a href="#安装kubeadm、kubelet、kubectl" class="headerlink" title="安装kubeadm、kubelet、kubectl"></a>安装kubeadm、kubelet、kubectl</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#列出所有版本</span></span><br><span class="line">yum list kubelet --showduplicates</span><br><span class="line"></span><br><span class="line"><span class="comment">#指定版本安装</span></span><br><span class="line">yum install -y kubelet-1.28.2 kubeadm-1.28.2 kubectl-1.28.2 --nogpgcheck</span><br><span class="line"></span><br><span class="line"><span class="comment">#设置开机自启</span></span><br><span class="line">systemctl <span class="built_in">enable</span> kubelet</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507161128779.png" alt="image-20250716112858648"></p>
+<h1 id="配置CRI"><a href="#配置CRI" class="headerlink" title="配置CRI"></a>配置CRI</h1><h2 id="配置containerd"><a href="#配置containerd" class="headerlink" title="配置containerd"></a>配置containerd</h2><p>导出containerd默认配置到<code>/etc/containerd/config.toml</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">containerd config default &gt; /etc/containerd/config.toml 该方式已弃用</span><br></pre></td></tr></table></figure>
+
+<p><code>sandbox_image</code> 是 Kubernetes 用来作为 Pod “沙箱”的 pause 容器镜像。里指定了一个国内阿里云镜像地址</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[plugins.&quot;io.containerd.grpc.v1.cri&quot;]</span></span><br><span class="line"><span class="attr">sandbox_image</span> = <span class="string">&quot;registry.aliyuncs.com/google_containers/pause:3.9&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507161138218.png" alt="image-20250716113834079"></p>
+<p>让 containerd 使用 systemd 管理 cgroup，和现代 Linux 系统及 Kubernetes 要求保持一致，避免资源管理问题。</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[plugins.&quot;io.containerd.grpc.v1.cri&quot;.containerd.runtimes.runc.options]</span></span><br><span class="line"><span class="attr">SystemdCgroup</span> = <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507161140685.png" alt="image-20250716114047551"></p>
+<h2 id="配置镜像加速器"><a href="#配置镜像加速器" class="headerlink" title="配置镜像加速器"></a>配置镜像加速器</h2><h3 id="创建目录-etc-containerd-certs-d-docker-io"><a href="#创建目录-etc-containerd-certs-d-docker-io" class="headerlink" title="创建目录 &#x2F;etc&#x2F;containerd&#x2F;certs.d&#x2F;docker.io&#x2F;"></a>创建目录 &#x2F;etc&#x2F;containerd&#x2F;certs.d&#x2F;docker.io&#x2F;</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p /etc/containerd/certs.d/docker.io</span><br></pre></td></tr></table></figure>
+
+<h3 id="创建配置文件-etc-containerd-certs-d-docker-io-hosts-toml"><a href="#创建配置文件-etc-containerd-certs-d-docker-io-hosts-toml" class="headerlink" title="创建配置文件&#x2F;etc&#x2F;containerd&#x2F;certs.d&#x2F;docker.io&#x2F;hosts.toml"></a>创建配置文件&#x2F;etc&#x2F;containerd&#x2F;certs.d&#x2F;docker.io&#x2F;hosts.toml</h3><figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server</span> = <span class="string">&quot;https://docker.io&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="section">[host.&quot;https://docker.1ms.run&quot;]</span></span><br><span class="line">  <span class="attr">capabilities</span> = [<span class="string">&quot;pull&quot;</span>, <span class="string">&quot;resolve&quot;</span>]</span><br><span class="line">  <span class="attr">skip_verify</span> = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="section">[host.&quot;https://docker.mybacc.com&quot;]</span></span><br><span class="line">  <span class="attr">capabilities</span> = [<span class="string">&quot;pull&quot;</span>, <span class="string">&quot;resolve&quot;</span>]</span><br><span class="line">  <span class="attr">skip_verify</span> = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="section">[host.&quot;https://dytt.online&quot;]</span></span><br><span class="line">  <span class="attr">capabilities</span> = [<span class="string">&quot;pull&quot;</span>, <span class="string">&quot;resolve&quot;</span>]</span><br><span class="line">  <span class="attr">skip_verify</span> = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="section">[host.&quot;https://lispy.org&quot;]</span></span><br><span class="line">  <span class="attr">capabilities</span> = [<span class="string">&quot;pull&quot;</span>, <span class="string">&quot;resolve&quot;</span>]</span><br><span class="line">  <span class="attr">skip_verify</span> = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="section">[host.&quot;https://docker.xiaogenban1993.com&quot;]</span></span><br><span class="line">  <span class="attr">capabilities</span> = [<span class="string">&quot;pull&quot;</span>, <span class="string">&quot;resolve&quot;</span>]</span><br><span class="line">  <span class="attr">skip_verify</span> = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="section">[host.&quot;https://docker.yomansunter.com&quot;]</span></span><br><span class="line">  <span class="attr">capabilities</span> = [<span class="string">&quot;pull&quot;</span>, <span class="string">&quot;resolve&quot;</span>]</span><br><span class="line">  <span class="attr">skip_verify</span> = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="section">[host.&quot;https://aicarbon.xyz&quot;]</span></span><br><span class="line">  <span class="attr">capabilities</span> = [<span class="string">&quot;pull&quot;</span>, <span class="string">&quot;resolve&quot;</span>]</span><br><span class="line">  <span class="attr">skip_verify</span> = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="section">[host.&quot;https://666860.xyz&quot;]</span></span><br><span class="line">  <span class="attr">capabilities</span> = [<span class="string">&quot;pull&quot;</span>, <span class="string">&quot;resolve&quot;</span>]</span><br><span class="line">  <span class="attr">skip_verify</span> = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="section">[host.&quot;https://docker.zhai.cm&quot;]</span></span><br><span class="line">  <span class="attr">capabilities</span> = [<span class="string">&quot;pull&quot;</span>, <span class="string">&quot;resolve&quot;</span>]</span><br><span class="line">  <span class="attr">skip_verify</span> = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="section">[host.&quot;https://a.ussh.net&quot;]</span></span><br><span class="line">  <span class="attr">capabilities</span> = [<span class="string">&quot;pull&quot;</span>, <span class="string">&quot;resolve&quot;</span>]</span><br><span class="line">  <span class="attr">skip_verify</span> = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="section">[host.&quot;https://hub.littlediary.cn&quot;]</span></span><br><span class="line">  <span class="attr">capabilities</span> = [<span class="string">&quot;pull&quot;</span>, <span class="string">&quot;resolve&quot;</span>]</span><br><span class="line">  <span class="attr">skip_verify</span> = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="section">[host.&quot;https://hub.rat.dev&quot;]</span></span><br><span class="line">  <span class="attr">capabilities</span> = [<span class="string">&quot;pull&quot;</span>, <span class="string">&quot;resolve&quot;</span>]</span><br><span class="line">  <span class="attr">skip_verify</span> = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="section">[host.&quot;https://docker.m.daocloud.io&quot;]</span></span><br><span class="line">  <span class="attr">capabilities</span> = [<span class="string">&quot;pull&quot;</span>, <span class="string">&quot;resolve&quot;</span>]</span><br><span class="line">  <span class="attr">skip_verify</span> = <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p><strong>重启 containerd</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reexec &amp;&amp; systemctl restart containerd &amp;&amp; systemctl <span class="built_in">enable</span> containerd</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507161146231.png" alt="image-20250716114607079"></p>
+<h2 id="验证-CRI-是否启用"><a href="#验证-CRI-是否启用" class="headerlink" title="验证 CRI 是否启用"></a>验证 CRI 是否启用</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ctr plugins list | grep cri</span><br></pre></td></tr></table></figure>
+
+<p>输出应包含</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">io.containerd.grpc.v1.cri         -          ok</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507161202610.png" alt="image-20250716120239454"></p>
+<h2 id="确保-containerd-启动成功并监听-CRI-socket"><a href="#确保-containerd-启动成功并监听-CRI-socket" class="headerlink" title="确保 containerd 启动成功并监听 CRI socket"></a>确保 containerd 启动成功并监听 CRI socket</h2><p>确认是否有以下文件存在</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ls</span> /run/containerd/containerd.sock</span><br></pre></td></tr></table></figure>
+
+<p>如果存在，尝试运行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crictl --runtime-endpoint=unix:///run/containerd/containerd.sock ps -a</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507161204426.png" alt="image-20250716120400279"></p>
+<h1 id="部署Kubernetes-Master节点"><a href="#部署Kubernetes-Master节点" class="headerlink" title="部署Kubernetes Master节点"></a>部署Kubernetes Master节点</h1><h2 id="初始化master节点"><a href="#初始化master节点" class="headerlink" title="初始化master节点"></a>初始化master节点</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">kubeadm init \</span><br><span class="line">  --kubernetes-version=1.28.2 \</span><br><span class="line">  --apiserver-advertise-address=192.168.222.155 \</span><br><span class="line">  --service-cidr=10.96.0.0/16 \</span><br><span class="line">  --pod-network-cidr=10.244.0.0/16 \</span><br><span class="line">  --image-repository=registry.aliyuncs.com/google_containers \</span><br><span class="line">  --ignore-preflight-errors=Mem</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>kubeadm init</code></td>
+<td>初始化 Kubernetes 主节点（control-plane），启动控制平面组件和 etcd</td>
+</tr>
+<tr>
+<td><code>--kubernetes-version=1.28.2</code></td>
+<td>指定安装的 Kubernetes 版本为 v1.28.2</td>
+</tr>
+<tr>
+<td><code>--apiserver-advertise-address=192.168.222.155</code></td>
+<td>指定 kube-apiserver 对外通告的 IP 地址，通常为主节点的内网 IP</td>
+</tr>
+<tr>
+<td><code>--service-cidr=10.96.0.0/16</code></td>
+<td>指定 Service 虚拟 IP 地址的网段，集群内部用于服务发现</td>
+</tr>
+<tr>
+<td><code>--pod-network-cidr=10.244.0.0/16</code></td>
+<td>指定 Pod 网络地址范围，需与所选网络插件（如 Flannel）兼容</td>
+</tr>
+<tr>
+<td><code>--image-repository=registry.aliyuncs.com/google_containers</code></td>
+<td>替换默认镜像仓库地址，使用阿里云镜像源加速国内拉取</td>
+</tr>
+<tr>
+<td><code>--ignore-preflight-errors=Mem</code></td>
+<td>忽略内存预检错误（比如内存小于推荐值），常用于低配测试环境</td>
+</tr>
+</tbody></table>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507161452287.png" alt="image-20250716145253213"></p>
+<h2 id="配置kubectl"><a href="#配置kubectl" class="headerlink" title="配置kubectl"></a>配置kubectl</h2><p>执行初始化成功之后给出的三条命令</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507161454914.png" alt="image-20250716145458839"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p <span class="variable">$HOME</span>/.kube</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">cp</span> -i /etc/kubernetes/admin.conf <span class="variable">$HOME</span>/.kube/config</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">chown</span> $(<span class="built_in">id</span> -u):$(<span class="built_in">id</span> -g) <span class="variable">$HOME</span>/.kube/config</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507161459043.png" alt="image-20250716145723436"></p>
+<h2 id="查看节点信息"><a href="#查看节点信息" class="headerlink" title="查看节点信息"></a>查看节点信息</h2><p>只能看到master节点信息等其他节点加入进来之后就能看到其他节点的信息了</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507161500309.png" alt="image-20250716150029230"></p>
+<h2 id="安装flannel"><a href="#安装flannel" class="headerlink" title="安装flannel"></a>安装flannel</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml</span><br></pre></td></tr></table></figure>
+
+<p>为 Kubernetes 集群安装 Flannel 网络插件。Flannel 是一种常用的 Kubernetes 容器网络插件（CNI），用于实现 Pod 之间的网络通信。</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507161544620.png" alt="image-20250716150806190"></p>
+<h1 id="Node节点加入集群"><a href="#Node节点加入集群" class="headerlink" title="Node节点加入集群"></a>Node节点加入集群</h1><p>在node1、node2上面都执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kubeadm <span class="built_in">join</span> 192.168.222.155:6443 --token 18d5th.zv9sunrhfwz4ftip \</span><br><span class="line">        --discovery-token-ca-cert-hash sha256:dfd6ba9b6071485d05f97637bfd719de7ed68964569887d4a9d7c7aab27d3bff</span><br></pre></td></tr></table></figure>
+
+<p>然后再次在master节点上使用<code>kubectl get nodes</code>命令就能看到node节点的信息</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507161511022.png" alt="image-20250716151128856"></p>
+<p>然后也可以给node1与node2打上角色标签</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kubectl label node node1 node-role.kubernetes.io/worker=worker</span><br><span class="line">kubectl label node node2 node-role.kubernetes.io/worker=worker</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507161513032.png" alt="image-20250716151357912"></p>
+<h1 id="简单部署一个应用"><a href="#简单部署一个应用" class="headerlink" title="简单部署一个应用"></a>简单部署一个应用</h1><p>部署一个nginx应用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#这个命令会创建一个名为 `nginx-test` 的 Deployment，里面运行官方的 Nginx 镜像。</span></span><br><span class="line">kubectl create deployment nginx-test --image=nginx</span><br><span class="line"></span><br><span class="line"><span class="comment">#这会创建一个 Service，通过集群节点的某个端口暴露 Nginx。</span></span><br><span class="line">kubectl expose deployment nginx-test --port=80 --<span class="built_in">type</span>=NodePort</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507161524775.png" alt="image-20250716152455674"></p>
+<p>查看服务详细</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get svc nginx-test</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507161525631.png" alt="image-20250716152549539"></p>
+<p>在集群外部</p>
+<p>使用浏览器访问 <code>&lt;节点ip&gt;:30381</code>就能访问到nginx</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507161544351.png" alt="image-20250716154356890"></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507161544384.png" alt="image-20250716154407716"></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202507161546350.png" alt="image-20250716154417729"></p>
+<p>三个节点的ip全能够访问</p>
+
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+  <section class="related" aria-label="相关阅读">
+    <h2 class="related__title">相关阅读</h2>
+    <ul class="related__list">
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2025-09-26">2025·09·26</time>
+          <a class="related__link" href="/2025/09/26/%E4%BA%91/%E4%BA%91%E5%8E%9F%E7%94%9F/pwnedlabs-k8s/">【Pwnedlabs】Exploit Kubernetes Overly Permissive RBAC</a>
+        </li>
+      
+    </ul>
+  </section>
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2025/07/28/CVE/cve-2024-39930/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">CVE-2024-39930复现</span>
+      </a>
+    
+    
+      <a class="post-nav__link post-nav__link--next" href="/2025/07/15/%E9%9D%B6%E6%9C%BA/mazesec/mazesec-5ud0/">
+        <span class="post-nav__dir">下一篇 →</span>
+        <span class="post-nav__title">mazesec-5ud0</span>
+      </a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

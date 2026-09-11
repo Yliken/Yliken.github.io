@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>SQL手法 - 异或注入 · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2024-04-27">2024年4月27日</time>
+        
+        
+          <span class="post__readtime">2 分钟</span>
+        
+        
+          <span class="post__tags" aria-label="标签">
+            <a class="tag" href="/tags/SQL%E6%89%8B%E6%B3%95/">#SQL手法</a>
+          </span>
+        
+      </p>
+    
+    <h1 class="post__title">SQL手法 - 异或注入</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <h1 id="异或注入"><a href="#异或注入" class="headerlink" title="异或注入"></a>异或注入</h1><p>mySQL在做String类型与数字类型的比较时, 如果字符串前面是数字,转换时就是转换成前面的数字,然后再进行比较.  <code>比如: &#39;1aaa&#39; ==&gt; 1</code>如果字符串前面不是数字, 转换时就将其变成0进行比较.<code>比如: &#39;aaa&#39; ==&gt;0</code></p>
+<p><img src="/../img/Typora/image-20240427194840634.png" alt="结果是1, 表示true"></p>
+<p><code>结果是1, 表示true</code></p>
+<p><img src="/../img/Typora/image-20240427195109704.png" alt="image-20240427195109704"></p>
+<p><code>结果是0, 表示false</code></p>
+<h2 id="如何进行异或"><a href="#如何进行异或" class="headerlink" title="如何进行异或?"></a>如何进行异或?</h2><p>异或操作（^）是一种逻辑运算符，用于比较两个二进制位。在异或操作中，如果两个二进制位相同，则结果为0；如果两个二进制位不同，则结果为1。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">计算1 ^ 2</span><br><span class="line">1 的二进制表示是 0001，</span><br><span class="line">2 的二进制表示是 0010。</span><br><span class="line"></span><br><span class="line">  0001  (1)</span><br><span class="line">  0010  (2)</span><br><span class="line">  -------</span><br><span class="line">  0011  (3)</span><br><span class="line">所以 1 ^ 2 = 3</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="什么是异或注入"><a href="#什么是异或注入" class="headerlink" title="什么是异或注入?"></a>什么是异或注入?</h2><p>异或注入说简单一点就是在构造where后面的判断条件时使用 <strong>^</strong>（异或符号）来达到sql注入攻击的目的</p>
+<p><strong>一、 正常的查询语句及效果</strong></p>
+<p><img src="/../img/Typora/image-20240427200022077.png" alt="image-20240427200022077"></p>
+<p><strong>二、拼接异或条件的查询语句</strong></p>
+<p>1. </p>
+<p><img src="/../img/Typora/image-20240427201841964.png" alt="image-20240427201841964"></p>
+<p>2. </p>
+<p><img src="/../img/Typora/image-20240427201944458.png" alt="image-20240427201944458"></p>
+<p><strong>为什么会有这个结果呢?</strong></p>
+<p>对于图1</p>
+<p>首先: <code>&#39;Keli&#39;</code>会与<code>0</code>做异或运算,结果为<code>0</code>. 然后查询语句相当于变成了<code>select * from yuanshen where mengde=0</code>, 而 不以数字开头的字符型数据 与 数值数据 进行比较时会转换成<code>0</code>再进行比较。故会将mengde字段中数据为Keli的这一行显示出来。</p>
+<p>再向表中添加几条内容再次进行查询</p>
+<p><img src="/../img/Typora/image-20240427203648971.png" alt="image-20240427203648971"></p>
+<p>会查询出<code>mengde</code>字段中数据为0的列,以及开头字母为0的字符串数据的列.</p>
+<p>图二原理与图一一样</p>
+<p><strong>三、如何使用异或来进行注入</strong>?</p>
+<p><img src="/../img/Typora/image-20240427204236952.png" alt="image-20240427204236952"></p>
+<p>查询后面拼接<code>(length(database()) != [表示数据库长度的数] )</code>查询, 若结果为<code>true</code>,则返回<code>1</code>此时会查出<code>mengde</code>字段中数据为1的数据(显示的数据与前面查询的不一样, 页面报错或显示其他内容), 若结果为<code>false</code>,则返回<code>0</code>,此时会查出<code>mengde</code>字段中数据为0的数据(显示的数据与前面查询的一样或者更多, 页面与前面查询的一样或显示更多内容)</p>
+<p><strong>四、后续测试</strong></p>
+<p>后续测试可以结合<code>ascii</code>函数进行</p>
+
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2024/07/01/Golang/Golang%E5%9F%BA%E7%A1%80/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">Golang基础</span>
+      </a>
+    
+    
+      <a class="post-nav__link post-nav__link--next" href="/2024/03/31/src/%E4%B8%A4%E4%B8%AAsrc%E6%A1%88%E4%BE%8B/">
+        <span class="post-nav__dir">下一篇 →</span>
+        <span class="post-nav__title">两个src案例</span>
+      </a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

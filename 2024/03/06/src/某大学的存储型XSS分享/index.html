@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>某大学的存储型XSS · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2024-03-06">2024年3月6日</time>
+        
+        
+          <span class="post__readtime">1 分钟</span>
+        
+        
+          <span class="post__tags" aria-label="标签">
+            <a class="tag" href="/tags/edusrc/">#edusrc</a>
+          </span>
+        
+      </p>
+    
+    <h1 class="post__title">某大学的存储型XSS</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <h1 id="一、信息收集"><a href="#一、信息收集" class="headerlink" title="一、信息收集"></a>一、信息收集</h1><p>从来就没有弱口令成功登陆过网站,就想着找找看有没有暴露初始密码的学校网站<br>谷歌语法搜索<code>site:*.sdu.edu.cn intext:默认密码</code>找到一个暴露默认密码的学校网站</p>
+<p><img src="/../img/Typora/image-20240316091854593.png" alt="image-20240316091854593"></p>
+<p>进入该学校的教材征订系统,需要用学号登录</p>
+<p><img src="/../img/Typora/image-20240316091906556.png" alt="image-20240316091906556"></p>
+<p>然后在百度贴吧等社交平台收集学生学号信息,这里找到了一个15年的帖子暴露了许多学号的帖子</p>
+<p><img src="/../img/Typora/image-20240316091936037.png" alt="image-20240316091936037"></p>
+<p><img src="/../img/Typora/image-20240316091943308.png" alt="image-20240316091943308"></p>
+<h1 id="二、测试"><a href="#二、测试" class="headerlink" title="二、测试"></a>二、测试</h1><p>随机找一个幸运儿的学号进行登录</p>
+<p><img src="/../img/Typora/image-20240316092004996.png" alt="image-20240316092004996"></p>
+<p>登录成功之后,对头像上传功能进行测试</p>
+<p>​	<img src="/../img/Typora/image-20240316092023830.png" alt="image-20240316092023830"></p>
+<p>上传图片马bp改成php文件,竟然显示上传成功了,当我以为能getshell时,发现被后台删了</p>
+<p><img src="/../img/Typora/image-20240316092038045.png" alt="image-20240316092038045"></p>
+<p><img src="/../img/Typora/image-20240316092043756.png" alt="image-20240316092043756"></p>
+<p>用bp抓包时看到一个包里有文件保存路径,就突然间想到了zbs师傅打到的黑龙江某学校的XSS漏洞<br>就对bp里面的路径改了一下</p>
+<p><img src="/../img/Typora/image-20240316233502533.png" alt="image-20240316233502533"></p>
+<p><img src="/../img/Typora/image-20240316233508519.png" alt="image-20240316233508519"></p>
+<p>刷新页面有弹窗</p>
+<p><img src="/../img/Typora/image-20240316233519372.png" alt="image-20240316233519372"></p>
+<p>再看前端代码</p>
+<p><img src="/../img/Typora/image-20240316233528211.png" alt="image-20240316233528211"></p>
+<p>就这样人生中的第一个漏洞到手</p>
+<h1 id="三、修复建议"><a href="#三、修复建议" class="headerlink" title="三、修复建议"></a>三、修复建议</h1><ul>
+<li>对图片路径得传参进行实体化编码</li>
+<li>多设置一些逻辑判定</li>
+</ul>
+
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2024/03/31/src/%E4%B8%A4%E4%B8%AAsrc%E6%A1%88%E4%BE%8B/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">两个src案例</span>
+      </a>
+    
+    
+      <a class="post-nav__link post-nav__link--next" href="/2024/03/06/%E5%9F%BA%E7%A1%80/XXE/">
+        <span class="post-nav__dir">下一篇 →</span>
+        <span class="post-nav__title">浅学XXE</span>
+      </a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

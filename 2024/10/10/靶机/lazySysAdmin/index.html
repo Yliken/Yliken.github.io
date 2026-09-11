@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>lazySysAdmin · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2024-10-10">2024年10月10日</time>
+        
+        
+          <span class="post__readtime">2 分钟</span>
+        
+        
+          <span class="post__tags" aria-label="标签">
+            <a class="tag" href="/tags/vulnhub%E9%9D%B6%E6%9C%BA/">#vulnhub靶机</a>
+          </span>
+        
+      </p>
+    
+    <h1 class="post__title">lazySysAdmin</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <h1 id="一、信息收集"><a href="#一、信息收集" class="headerlink" title="一、信息收集"></a>一、信息收集</h1><h2 id="1、主机发现"><a href="#1、主机发现" class="headerlink" title="1、主机发现"></a>1、主机发现</h2><p>使用arp-scan来寻找存活的主机</p>
+<p><img src="/../img/Typora/image-20241010132828403.png" alt="image-20241010132828403"></p>
+<p>192.168.22.135是目标地址</p>
+<h2 id="2、端口扫描"><a href="#2、端口扫描" class="headerlink" title="2、端口扫描"></a>2、端口扫描</h2><p>使用nmap对目标端口进行扫描<code>nmap -p 0-65535 -sV -T4 192.168.22.135</code></p>
+<p><img src="/../img/Typora/image-20241010134117870.png" alt="image-20241010134117870"></p>
+<p>进入web页面，发现web根目录下只是一个静态页面</p>
+<p><img src="/../img/Typora/image-20241010134243480.png" alt="image-20241010134243480"></p>
+<h2 id="3-目录扫描"><a href="#3-目录扫描" class="headerlink" title="3.目录扫描"></a>3.目录扫描</h2><p><img src="/../img/Typora/image-20241010134729705.png" alt="image-20241010134729705"></p>
+<p>发现存在wordpress站点</p>
+<p>提示myname is togie</p>
+<p><img src="/../img/Typora/image-20241010135012828.png" alt="image-20241010135012828"></p>
+<p>收集WordPress上面的用户名</p>
+<p><img src="/../img/Typora/image-20241010135337780.png" alt="image-20241010135337780"></p>
+<h1 id="二、打靶"><a href="#二、打靶" class="headerlink" title="二、打靶"></a>二、打靶</h1><p>利用收集到的用户名进行密码进行暴力破解，但是进行了很长时间也没爆破出来。</p>
+<p>靶机开启了samba服务</p>
+<p>就直接连接samba</p>
+<p>没有得到任何信息</p>
+<p><img src="/../img/Typora/image-20241010164204021.png" alt="image-20241010164204021"></p>
+<p>使用<code>enum4linux</code>来枚举到samba服务器上面的信息</p>
+<p><img src="/../img/Typora/image-20241010164018882.png" alt="image-20241010164018882"></p>
+<p>开启了匿名共享</p>
+<p><img src="/../img/Typora/image-20241010164123787.png" alt="image-20241010164123787"></p>
+<p>share$列出共享的内容</p>
+<p><img src="/../img/Typora/image-20241010164247583.png" alt="image-20241010164247583"></p>
+<p>deets.txt文件泄露服务器密码</p>
+<p><img src="/../img/Typora/image-20241010164506452.png" alt="image-20241010164506452"></p>
+<p>登录上</p>
+<p><img src="/../img/Typora/image-20241010164609082.png" alt="image-20241010164609082"></p>
+<p>togie可以sudo提权</p>
+<p><img src="/../img/Typora/image-20241010164659482.png" alt="image-20241010164659482"></p>
+<h3 id="做法2"><a href="#做法2" class="headerlink" title="做法2"></a>做法2</h3><p>目录扫描时候扫到了一个phpmyadmin</p>
+<p>任何samba也泄露了wp的配置文件。里面记录着数据库用户Admin的账号和密码</p>
+<p>登录进去phpmyadmin</p>
+<p><img src="/../img/Typora/image-20241010171957711.png" alt="image-20241010171957711"></p>
+<p>发现一个表也查看不了</p>
+<p><img src="/../img/Typora/image-20241010172016073.png" alt="image-20241010172016073"></p>
+<p>可以用<code>show columns from wp_users</code>来查询wp_users表中的字段名</p>
+<p><img src="/../img/Typora/image-20241010172152192.png" alt="image-20241010172152192"></p>
+<p>wordpress数据库中存放的密码是经过加密之后的</p>
+<p>生成一个加密后的密码</p>
+<p><img src="/../img/Typora/image-20241010172326446.png" alt="image-20241010172326446"></p>
+<p>然后用update命令更新原来的密码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">update wp_users</span><br><span class="line">set user_pass = &#x27;$P$BPOqAGfF5BGFkoEidIlP1E.agrBUpF1&#x27;</span><br><span class="line">where id=1;</span><br></pre></td></tr></table></figure>
+
+<p>发现有权限使用update，命令成功执行</p>
+<p><img src="/../img/Typora/image-20241010172540522.png" alt="image-20241010172540522"></p>
+<p>再配合上面wpscan收集到的用户名登录后台</p>
+<p><img src="/../img/Typora/image-20241010172629840.png" alt="image-20241010172629840"></p>
+<p>wordpress用编辑插件源码的功能，写上一句话木马</p>
+<p><img src="/../img/Typora/image-20241010172928335.png" alt="image-20241010172928335"></p>
+<p>蚁剑连接</p>
+<p><img src="/../img/Typora/image-20241010173015461.png" alt="image-20241010173015461"></p>
+<p>向靶机上下载<code>linpeas.sh</code>并赋予权限</p>
+<p><img src="/../img/Typora/image-20241010174638535.png" alt="image-20241010174638535"></p>
+<p>将shell反弹到kali上面</p>
+<p>运行linpeas.sh</p>
+<p>发现了很多漏洞</p>
+<p><img src="/../img/Typora/image-20241010175214131.png" alt="image-20241010175214131"></p>
+<p>靶机有脏牛漏洞。没有gcc</p>
+<p>在本地搭建一个相同的环境，用gcc编译好上传上去</p>
+<p>但是攻击脚本已运行靶机就崩溃。。。。。</p>
+
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+  <section class="related" aria-label="相关阅读">
+    <h2 class="related__title">相关阅读</h2>
+    <ul class="related__list">
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-10-27">2024·10·27</time>
+          <a class="related__link" href="/2024/10/27/%E9%9D%B6%E6%9C%BA/hackmyvm/Hacker_Kid-v1.0.1/">Hacker_Kid-v1.0.1</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-09-27">2024·09·27</time>
+          <a class="related__link" href="/2024/09/27/%E9%9D%B6%E6%9C%BA/driftingblues2/">driftingblues2</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-08-05">2024·08·05</time>
+          <a class="related__link" href="/2024/08/05/%E9%9D%B6%E6%9C%BA/DC-4/">DC-4</a>
+        </li>
+      
+    </ul>
+  </section>
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2024/10/25/CTF/DownUnderCTF/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">DownUnderCTF赛题复现</span>
+      </a>
+    
+    
+      <a class="post-nav__link post-nav__link--next" href="/2024/09/27/%E9%9D%B6%E6%9C%BA/driftingblues2/">
+        <span class="post-nav__dir">下一篇 →</span>
+        <span class="post-nav__title">driftingblues2</span>
+      </a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

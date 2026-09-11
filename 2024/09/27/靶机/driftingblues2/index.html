@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>driftingblues2 · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2024-09-27">2024年9月27日</time>
+        
+        
+          <span class="post__readtime">2 分钟</span>
+        
+        
+          <span class="post__tags" aria-label="标签">
+            <a class="tag" href="/tags/vulnhub%E9%9D%B6%E6%9C%BA/">#vulnhub靶机</a>
+          </span>
+        
+      </p>
+    
+    <h1 class="post__title">driftingblues2</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <h1 id="一、靶机安装"><a href="#一、靶机安装" class="headerlink" title="一、靶机安装"></a>一、靶机安装</h1><p>VMware打开靶机</p>
+<p><img src="/../img/Typora/image-20240927183601590.png" alt="image-20240927183601590"></p>
+<p>定义好虚拟机的路径，进行安装</p>
+<p><img src="/../img/Typora/image-20240927183627817.png" alt="image-20240927183627817"></p>
+<p>安装后网卡改为nat</p>
+<p>然后还需要按照<a target="_blank" rel="noopener" href="https://blog.csdn.net/Aluxian_/article/details/125095660?spm=1001.2014.3001.5501">看完这篇 教你玩转渗透测试靶机Vulnhub——DriftingBlues-2</a>进行网卡配置</p>
+<h1 id="二、信息收集"><a href="#二、信息收集" class="headerlink" title="二、信息收集"></a>二、信息收集</h1><h2 id="1-主机发现"><a href="#1-主机发现" class="headerlink" title="1.主机发现"></a>1.主机发现</h2><p><img src="/../img/Typora/image-20240927184048720.png" alt="image-20240927184048720"></p>
+<p>其他的ip地址都是我其他虚拟机的ip除了<code>192.168.22.132</code></p>
+<h2 id="2-端口扫描"><a href="#2-端口扫描" class="headerlink" title="2.端口扫描"></a>2.端口扫描</h2><p><img src="/../img/Typora/image-20240927184455215.png" alt="image-20240927184455215"></p>
+<p>80端口开启了web服务</p>
+<p>访问</p>
+<p><img src="/../img/Typora/image-20240927184517617.png" alt="image-20240927184517617"></p>
+<p>就一个图片背景的网页。没什么东西</p>
+<h3 id="3-目录扫描"><a href="#3-目录扫描" class="headerlink" title="3.目录扫描"></a>3.目录扫描</h3><p><img src="/../img/Typora/image-20240927184733501.png" alt="image-20240927184733501"></p>
+<h1 id="三、打靶流程"><a href="#三、打靶流程" class="headerlink" title="三、打靶流程"></a>三、打靶流程</h1><p>根据目录扫描结果推测是用wordpress搭建的博客，博客根目录在<code>/blog</code></p>
+<p><img src="/../img/Typora/image-20240927184850688.png" alt="image-20240927184850688"></p>
+<p>点击网页中的链接会调转到<code>driftingblues.box</code>域名下</p>
+<p><img src="/../img/Typora/image-20240927184911333.png" alt="image-20240927184911333"></p>
+<p>配置一下本地hosts文件</p>
+<p><img src="/../img/Typora/image-20240927185003963.png" alt="image-20240927185003963"></p>
+<p><img src="/../img/Typora/image-20240927185022286.png" alt="image-20240927185022286"></p>
+<p>都是些文章，没找到什么重要信息</p>
+<p>使用<code>wpscan</code>来收集wordpress用户名</p>
+<p><code>wpscan --url &quot;http://driftingblues.box/blog&quot; --enumerate u</code></p>
+<p>此时也要配置一下kali中的<code>/etc/hosts</code>文件</p>
+<p>找到用户名<code>albert</code></p>
+<p><img src="/../img/Typora/image-20240927185335475.png" alt="image-20240927185335475"></p>
+<p>进行弱口令爆破<code>wpscan --url http://driftingblues.box/blog/ -P /usr/share/wordlists/rockyou.txt --usernames a</code></p>
+<p>弱口令爆破成功</p>
+<p><img src="/../img/Typora/image-20240927185906997.png" alt="image-20240927185906997"></p>
+<p>成功登录进后台</p>
+<p><img src="/../img/Typora/image-20240927185956233.png" alt="image-20240927185956233"></p>
+<p>现在<code>Add New Plugin</code>板块下载一个模块</p>
+<p><img src="/../img/Typora/image-20240927190101245.png" alt="image-20240927190101245"></p>
+<p>然后再来编辑模块本页面<code>Plugin File Editor</code></p>
+<p>可以修改模块源代码，直接加上一个一句话木马</p>
+<p>上方也告诉了我们模块存储路径</p>
+<p><img src="/../img/Typora/image-20240927190244497.png" alt="image-20240927190244497"></p>
+<p>马写入成功</p>
+<p><img src="/../img/Typora/image-20240927190329725.png" alt="image-20240927190329725"></p>
+<p>用蚁剑连接</p>
+<p>连接上去之后</p>
+<p>在<code>/home/freddie/.ssh/</code>目录中发现ssh登录的密钥</p>
+<p><img src="/../img/Typora/image-20240927190457737.png" alt="image-20240927190457737"></p>
+<p>将密钥保存下来保存到本地</p>
+<p>然后用tabby选择密钥登录</p>
+<p><img src="/../img/Typora/image-20240927190606110.png" alt="image-20240927190606110"></p>
+<p>登录成功</p>
+<p><img src="/../img/Typora/image-20240927190623820.png" alt="image-20240927190623820"></p>
+<h1 id="四、提权"><a href="#四、提权" class="headerlink" title="四、提权"></a>四、提权</h1><p>执行<code>sudo -l</code></p>
+<p><img src="/../img/Typora/image-20240927190727183.png" alt="image-20240927190727183"></p>
+<p>发现nmap不用passwd就可以 以root权限运行</p>
+<p>nmap提权方式<a target="_blank" rel="noopener" href="https://blog.csdn.net/zijiaijd/article/details/117165224">nmap提权几种方式-CSDN博客</a></p>
+<p><img src="/../img/Typora/image-20240927190943343.png" alt="image-20240927190943343"></p>
+<p>成功提权到root</p>
+<p>不过可能因为<code>tabby</code>的问题。提权之后就不会显示你输入的命令。但是会有回显</p>
+<p>我另外创建一个用户shell并赋予它sudo权限</p>
+<p><img src="/../img/Typora/image-20240927191248988.png" alt="image-20240927191248988"></p>
+<p>然后用mobaXterm连接</p>
+<p><img src="/../img/Typora/image-20240927191445827.png" alt="image-20240927191445827"></p>
+
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+  <section class="related" aria-label="相关阅读">
+    <h2 class="related__title">相关阅读</h2>
+    <ul class="related__list">
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-10-27">2024·10·27</time>
+          <a class="related__link" href="/2024/10/27/%E9%9D%B6%E6%9C%BA/hackmyvm/Hacker_Kid-v1.0.1/">Hacker_Kid-v1.0.1</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-10-10">2024·10·10</time>
+          <a class="related__link" href="/2024/10/10/%E9%9D%B6%E6%9C%BA/lazySysAdmin/">lazySysAdmin</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-08-05">2024·08·05</time>
+          <a class="related__link" href="/2024/08/05/%E9%9D%B6%E6%9C%BA/DC-4/">DC-4</a>
+        </li>
+      
+    </ul>
+  </section>
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2024/10/10/%E9%9D%B6%E6%9C%BA/lazySysAdmin/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">lazySysAdmin</span>
+      </a>
+    
+    
+      <a class="post-nav__link post-nav__link--next" href="/2024/08/05/%E9%9D%B6%E6%9C%BA/DC-4/">
+        <span class="post-nav__dir">下一篇 →</span>
+        <span class="post-nav__title">DC-4</span>
+      </a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>SOCKS5协议 · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2024-11-06">2024年11月6日</time>
+        
+        
+          <span class="post__readtime">4 分钟</span>
+        
+        
+          <span class="post__tags" aria-label="标签">
+            <a class="tag" href="/tags/%E5%8D%8F%E8%AE%AE/">#协议</a>
+          </span>
+        
+      </p>
+    
+    <h1 class="post__title">SOCKS5协议</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <h1 id="SOCKS5协议连接过程"><a href="#SOCKS5协议连接过程" class="headerlink" title="SOCKS5协议连接过程"></a>SOCKS5协议连接过程</h1><p>SOCKS5服务器默认监听的端口是1080端口</p>
+<ol>
+<li><strong>连接到服务器</strong>:SOCKS5客户端会通过TCP三次握手与SOCKS5服务器建立连接</li>
+<li><strong>协商过程</strong>:首先SOCKS5客户端会发送一个请求到服务器。告诉服务器自己支持什么方法。并带有一个方法列表(例如：<code>A</code>,<code>B</code>,<code>C</code>)。然后SOCKS5服务端会返回一个请求，告诉客户端要使用的方法(例如:<code>B</code>) 然后客户端就会用过服务器选定的方法来验证。验证通过之后就会开始请求代理访问了</li>
+<li><strong>请求访问</strong>:客户端首先会向SOCKS5服务器发送一个请求。 告诉SOCKS5服务器自己想要发送的请求(例如: 想要通过TCP连接<code>baidu.com</code>的 <code>443</code>端口)。然后SOCKS5服务器会向<code>baidu.com</code>的<code>443</code>端口发送一个请求连接。将SOCKS5请求的内容原封不动的发送给目标。 然后再将目标的返回包原封不动的发送给SOCKS客户端</li>
+<li><strong>断开连接</strong>: 当客户端不再需要通过SOCKS5代理访问目标服务器时，会向SOCKS5服务器发送一个断开连接的请求。此请求通常是一个简单的命令，告知服务器关闭当前的连接会话。SOCKS5服务器收到断开请求后，会终止与目标服务器之间的连接，并且返回一个确认的响应给客户端，表示连接已经成功断开。</li>
+</ol>
+<p><strong>图示</strong></p>
+<p><img src="/../img/Typora/image-20241107004050614.png" alt="image-20241107004050614"></p>
+<p><strong>协商过程</strong>中客户端首次给服务器发送的请求包含<code>1个byte的版本号 1个byte的支持的方法数 可变长的byte的具体的方法列表</code></p>
+<table>
+<thead>
+<tr>
+<th>VERSION</th>
+<th>METHODS</th>
+<th>METHODS</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>1</td>
+<td>1 to 255</td>
+</tr>
+</tbody></table>
+<p>支持的身份验证方法列表</p>
+<ul>
+<li>X‘00’ :无认证</li>
+<li>X’01’:GASSAPI身份验证</li>
+<li>X’02’:用户&#x2F;密码身份验证</li>
+<li>X’03’: 帐号令牌身份验证</li>
+</ul>
+<p>SOCKS5服务器返回给SOCKS5客户端的包中包含了<code>1个byte的版本号 1个byte的要采用的方法</code></p>
+<table>
+<thead>
+<tr>
+<th>VER</th>
+<th>METHOD</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody></table>
+<p><strong>请求过程</strong>中客户端向服务端中发送的请求中包含<code>1个byte的版本号  1个版本的命令  1个byte的RSV  1个byte的ATYP  可变byte的目的地址  2个byte的端口</code></p>
+<table>
+<thead>
+<tr>
+<th>VER</th>
+<th>CMD</th>
+<th>RSV</th>
+<th>ATYP</th>
+<th>DST.ADDR</th>
+<th>DST.PORT</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>1</td>
+<td>X’00’</td>
+<td>1</td>
+<td>Variable</td>
+<td>2</td>
+</tr>
+</tbody></table>
+<p><strong>VER</strong>:协议版本号，固定值 X’05’，表示 SOCKS5 协议</p>
+<p><strong>CMD</strong>常见的命令类型</p>
+<ul>
+<li>X’01’:连接 (CONNECT)</li>
+<li>X’02’:绑定 (BIND)</li>
+<li>X’03’:代理 (UDP ASSOCIATE)</li>
+</ul>
+<p><strong>RSV</strong>:保留字段，固定值 X’00’</p>
+<p><strong>ATYP</strong>:地址类型，表示目标地址的类型：</p>
+<ul>
+<li>X’01’: IPv4 地址</li>
+<li>X’03’: 域名地址</li>
+<li>X’04’: IPv6 地址</li>
+</ul>
+<p><strong>DST.ADDR</strong>:目标地址，根据 ATYP 类型而变化：</p>
+<ul>
+<li>如果 ATYP 为 X’01’，DST.ADDR 为 4 字节的 IPv4 地址</li>
+<li>如果 ATYP 为 X’03’，DST.ADDR 为 域名字符串</li>
+<li>如果 ATYP 为 X’04’，DST.ADDR 为 16 字节的 IPv6 地址</li>
+</ul>
+<p><strong>DST.PORT</strong>:目标端口，使用网络字节序表示</p>
+<p>SOCKS5服务端给客户端返回的包中会包含<code>1个byte的版本号 1个byte的REP 1个byte的RSV 1个byte的ATYP 可变BYTE的绑定地址 2byte的绑定端口</code></p>
+<table>
+<thead>
+<tr>
+<th>VER</th>
+<th>REP</th>
+<th>RSV</th>
+<th>ATYP</th>
+<th>BND.ADDR</th>
+<th>BND.PORT</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>1</td>
+<td>X’00’</td>
+<td>1</td>
+<td>Variable</td>
+<td>2</td>
+</tr>
+</tbody></table>
+<p><strong>REP</strong>:响应结果，表示连接是否成功：</p>
+<ul>
+<li>X’00’: 成功</li>
+<li>X’01’: 连接到目标地址失败</li>
+<li>X’02’:拒绝连接</li>
+<li>X’03’:目标网络不可达</li>
+<li>X’04’:目标主机不可达</li>
+<li>X’05’:连接被拒绝</li>
+<li>X’06’:目的主机不可达</li>
+</ul>
+<p>其他的值与请求中的一一对应</p>
+
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2024/11/17/Golang/golangSSH/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">Go小记 使用Go实现SSH客户端</span>
+      </a>
+    
+    
+      <a class="post-nav__link post-nav__link--next" href="/2024/11/01/CTF/ImaginaryCTF%202024/">
+        <span class="post-nav__dir">下一篇 →</span>
+        <span class="post-nav__title">ImaginaryCTF 2024</span>
+      </a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

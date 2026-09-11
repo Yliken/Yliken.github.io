@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>zkaq · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<section class="archive taxonomy">
+  <header class="archive__header taxonomy__header">
+    <p class="taxonomy__eyebrow"># 标签</p>
+    <h1 class="archive__title taxonomy__title">zkaq</h1>
+    <p class="archive__lead">9 篇</p>
+  </header>
+
+  
+    <nav class="tag-cloud" aria-label="全部标签">
+      <h2 class="tag-cloud__title">全部标签</h2>
+      <p class="tag-cloud__list">
+        
+          <a class="tag-cloud__item is-current" style="font-size: 1.60rem" href="/tags/zkaq/">#zkaq<span class="tag-cloud__count">9</span></a>
+        
+          <a class="tag-cloud__item" style="font-size: 1.51rem" href="/tags/vulnhub%E9%9D%B6%E6%9C%BA/">#vulnhub靶机<span class="tag-cloud__count">8</span></a>
+        
+          <a class="tag-cloud__item" style="font-size: 1.41rem" href="/tags/hackmyvm/">#hackmyvm<span class="tag-cloud__count">7</span></a>
+        
+          <a class="tag-cloud__item" style="font-size: 1.32rem" href="/tags/CTF/">#CTF<span class="tag-cloud__count">6</span></a>
+        
+          <a class="tag-cloud__item" style="font-size: 1.13rem" href="/tags/Maze/">#Maze<span class="tag-cloud__count">4</span></a>
+        
+          <a class="tag-cloud__item" style="font-size: 1.04rem" href="/tags/Golang/">#Golang<span class="tag-cloud__count">3</span></a>
+        
+          <a class="tag-cloud__item" style="font-size: 0.94rem" href="/tags/aws/">#aws<span class="tag-cloud__count">2</span></a>
+        
+          <a class="tag-cloud__item" style="font-size: 0.94rem" href="/tags/pwnedlabs/">#pwnedlabs<span class="tag-cloud__count">2</span></a>
+        
+          <a class="tag-cloud__item" style="font-size: 0.94rem" href="/tags/xxe/">#xxe<span class="tag-cloud__count">2</span></a>
+        
+          <a class="tag-cloud__item" style="font-size: 0.94rem" href="/tags/k8s/">#k8s<span class="tag-cloud__count">2</span></a>
+        
+          <a class="tag-cloud__item" style="font-size: 0.94rem" href="/tags/MazeSec/">#MazeSec<span class="tag-cloud__count">2</span></a>
+        
+          <a class="tag-cloud__item" style="font-size: 0.85rem" href="/tags/%E5%8D%8F%E8%AE%AE/">#协议<span class="tag-cloud__count">1</span></a>
+        
+          <a class="tag-cloud__item" style="font-size: 0.85rem" href="/tags/%E5%B0%8F%E7%9F%A5%E8%AF%86/">#小知识<span class="tag-cloud__count">1</span></a>
+        
+          <a class="tag-cloud__item" style="font-size: 0.85rem" href="/tags/%E7%8E%84%E6%9C%BA/">#玄机<span class="tag-cloud__count">1</span></a>
+        
+          <a class="tag-cloud__item" style="font-size: 0.85rem" href="/tags/%E5%85%B6%E4%BB%96/">#其他<span class="tag-cloud__count">1</span></a>
+        
+          <a class="tag-cloud__item" style="font-size: 0.85rem" href="/tags/DASCTF/">#DASCTF<span class="tag-cloud__count">1</span></a>
+        
+          <a class="tag-cloud__item" style="font-size: 0.85rem" href="/tags/%E6%83%A0/">#惠<span class="tag-cloud__count">1</span></a>
+        
+          <a class="tag-cloud__item" style="font-size: 0.85rem" href="/tags/gogs/">#gogs<span class="tag-cloud__count">1</span></a>
+        
+          <a class="tag-cloud__item" style="font-size: 0.85rem" href="/tags/helm/">#helm<span class="tag-cloud__count">1</span></a>
+        
+          <a class="tag-cloud__item" style="font-size: 0.85rem" href="/tags/net-http/">#net/http<span class="tag-cloud__count">1</span></a>
+        
+          <a class="tag-cloud__item" style="font-size: 0.85rem" href="/tags/C2/">#C2<span class="tag-cloud__count">1</span></a>
+        
+          <a class="tag-cloud__item" style="font-size: 0.85rem" href="/tags/src/">#src<span class="tag-cloud__count">1</span></a>
+        
+          <a class="tag-cloud__item" style="font-size: 0.85rem" href="/tags/edusrc/">#edusrc<span class="tag-cloud__count">1</span></a>
+        
+          <a class="tag-cloud__item" style="font-size: 0.85rem" href="/tags/wiz/">#wiz<span class="tag-cloud__count">1</span></a>
+        
+          <a class="tag-cloud__item" style="font-size: 0.85rem" href="/tags/CTF-show/">#CTF-show<span class="tag-cloud__count">1</span></a>
+        
+          <a class="tag-cloud__item" style="font-size: 0.85rem" href="/tags/Aliyun/">#Aliyun<span class="tag-cloud__count">1</span></a>
+        
+          <a class="tag-cloud__item" style="font-size: 0.85rem" href="/tags/BUUCTF/">#BUUCTF<span class="tag-cloud__count">1</span></a>
+        
+          <a class="tag-cloud__item" style="font-size: 0.85rem" href="/tags/C%E8%AF%AD%E8%A8%80/">#C语言<span class="tag-cloud__count">1</span></a>
+        
+          <a class="tag-cloud__item" style="font-size: 0.85rem" href="/tags/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">#php反序列化<span class="tag-cloud__count">1</span></a>
+        
+          <a class="tag-cloud__item" style="font-size: 0.85rem" href="/tags/Java/">#Java<span class="tag-cloud__count">1</span></a>
+        
+          <a class="tag-cloud__item" style="font-size: 0.85rem" href="/tags/SQL%E6%89%8B%E6%B3%95/">#SQL手法<span class="tag-cloud__count">1</span></a>
+        
+          <a class="tag-cloud__item" style="font-size: 0.85rem" href="/tags/CICD/">#CICD<span class="tag-cloud__count">1</span></a>
+        
+          <a class="tag-cloud__item" style="font-size: 0.85rem" href="/tags/%E4%BA%91%E5%8E%9F%E7%94%9F/">#云原生<span class="tag-cloud__count">1</span></a>
+        
+      </p>
+    </nav>
+  
+
+  
+    <div class="archive-year">
+      <h2 class="archive-year__title">
+        <span class="archive-year__num">2024</span>
+        <span class="archive-year__count">5 篇</span>
+      </h2>
+      <ul class="archive-year__list">
+        
+          <li class="archive-item">
+            
+              <time class="archive-item__date" datetime="2024-03-06">03-06</time>
+            
+            <a class="archive-item__link" href="/2024/03/06/%E5%9F%BA%E7%A1%80/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式</a>
+          </li>
+        
+          <li class="archive-item">
+            
+              <time class="archive-item__date" datetime="2024-03-05">03-05</time>
+            
+            <a class="archive-item__link" href="/2024/03/05/%E5%9F%BA%E7%A1%80/SSIT%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/">SSTI模板注入</a>
+          </li>
+        
+          <li class="archive-item">
+            
+              <time class="archive-item__date" datetime="2024-03-04">03-04</time>
+            
+            <a class="archive-item__link" href="/2024/03/04/%E5%9F%BA%E7%A1%80/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/">zkaq-代码执行</a>
+          </li>
+        
+          <li class="archive-item">
+            
+              <time class="archive-item__date" datetime="2024-01-23">01-23</time>
+            
+            <a class="archive-item__link" href="/2024/01/23/%E5%9F%BA%E7%A1%80/%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86%E5%88%B0%E5%88%A9%E7%94%A8/">SSRF、</a>
+          </li>
+        
+          <li class="archive-item">
+            
+              <time class="archive-item__date" datetime="2024-01-21">01-21</time>
+            
+            <a class="archive-item__link" href="/2024/01/21/%E5%9F%BA%E7%A1%80/zkaqXSS/">zkaq—xss</a>
+          </li>
+        
+      </ul>
+    </div>
+  
+    <div class="archive-year">
+      <h2 class="archive-year__title">
+        <span class="archive-year__num">2023</span>
+        <span class="archive-year__count">4 篇</span>
+      </h2>
+      <ul class="archive-year__list">
+        
+          <li class="archive-item">
+            
+              <time class="archive-item__date" datetime="2023-12-31">12-31</time>
+            
+            <a class="archive-item__link" href="/2023/12/31/%E5%9F%BA%E7%A1%80/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/">zkaq-include</a>
+          </li>
+        
+          <li class="archive-item">
+            
+              <time class="archive-item__date" datetime="2023-12-23">12-23</time>
+            
+            <a class="archive-item__link" href="/2023/12/23/%E5%9F%BA%E7%A1%80/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B3%A8%E5%85%A5/">zkaq-数据库注入</a>
+          </li>
+        
+          <li class="archive-item">
+            
+              <time class="archive-item__date" datetime="2023-12-22">12-22</time>
+            
+            <a class="archive-item__link" href="/2023/12/22/%E5%9F%BA%E7%A1%80/upload/">zkaq-upload-labs</a>
+          </li>
+        
+          <li class="archive-item">
+            
+              <time class="archive-item__date" datetime="2023-12-04">12-04</time>
+            
+            <a class="archive-item__link" href="/2023/12/04/%E5%9F%BA%E7%A1%80/zkaq-sql/">zkaq-SQL</a>
+          </li>
+        
+      </ul>
+    </div>
+  
+</section>
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

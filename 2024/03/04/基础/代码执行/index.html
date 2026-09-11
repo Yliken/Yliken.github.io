@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>zkaq-代码执行 · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2024-03-04">2024年3月4日</time>
+        
+        
+          <span class="post__readtime">4 分钟</span>
+        
+        
+          <span class="post__tags" aria-label="标签">
+            <a class="tag" href="/tags/zkaq/">#zkaq</a>
+          </span>
+        
+      </p>
+    
+    <h1 class="post__title">zkaq-代码执行</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <h1 id="命令执行漏洞"><a href="#命令执行漏洞" class="headerlink" title="命令执行漏洞"></a>命令执行漏洞</h1><p>用户传入的参数，会被当成系统指令来执行，指令内容用户可控</p>
+<h2 id="命令执行的危险函数"><a href="#命令执行的危险函数" class="headerlink" title="命令执行的危险函数"></a>命令执行的危险函数</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">system()   =&gt; 直接执行系统指令，并且会打印出我们的结果</span><br><span class="line">exec()	   =&gt; 会执行指令，但是显示结果不会直接输出，结果只保留最后一行</span><br><span class="line">shell_exec()	=&gt; 会执行指令，但是显示结果不会直接输出，保留多行结果</span><br><span class="line">``	 =&gt; shell_exec() </span><br><span class="line">passthru()	=&gt; 等价system()</span><br><span class="line">popen()</span><br></pre></td></tr></table></figure>
+
+<p>浏览器特殊协议(查看网页源码)   view-source: </p>
+<p><strong>exec()、shell_exec()等无回显代码,查看命令有无成功执行的技巧</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">通过 &gt; 符号，将结果输出到某个文件里面，结果覆盖保存</span><br><span class="line"> &gt;&gt;  将结果输出到某个文件里面，结果末尾追加</span><br><span class="line"> |  管道符，将前面的指令运行结果，当成后面指令的输入内容</span><br></pre></td></tr></table></figure>
+
+<p>没有回显时，怎么判断我们的指令有没有执行</p>
+<ul>
+<li>dnslog.cn   通过dnslog将数据外带</li>
+<li>将指令的结果输出到一个文本文件中，然后去访问这个文件</li>
+</ul>
+<h1 id="IBOS代码执行"><a href="#IBOS代码执行" class="headerlink" title="IBOS代码执行"></a>IBOS代码执行</h1><p>全局搜危险函数<code>system()</code>无果</p>
+<p><img src="/../img/Typora/image-20240304193623713.png" alt="image-20240304193623713"></p>
+<p>看看<code>exec()</code>函数</p>
+<p><img src="/../img/Typora/image-20240304194354619.png" alt="image-20240304194354619"></p>
+<ul>
+<li><code>&#123;$mysqlBin&#125;</code> 是一个变量，它包含了 MySQL 安装目录中 <code>mysqldump</code> 可执行文件的路径。</li>
+<li><code>mysqldump</code> 是 MySQL 提供的一个命令行工具，用于备份或导出 MySQL 数据库中的数据。</li>
+<li><code>--force</code> 和 <code>--quick</code> 是 <code>mysqldump</code> 命令的选项，分别用于强制导出和快速导出数据。</li>
+<li><code>$command1</code>、<code>$command2</code>、<code>$command3</code> 等都是一些变量，它们可能包含其他的 <code>mysqldump</code> 命令选项或者参数。</li>
+<li><code>--add-drop-table</code> 是 <code>mysqldump</code> 的一个选项，表示在导出数据之前先删除已存在的表。</li>
+<li><code>--host</code>、<code>--user</code>、<code>--password</code> 等选项用于指定数据库连接的主机、用户名和密码。</li>
+<li><code>&#123;$db[&quot;host&quot;]&#125;</code>、<code>&#123;$db[&quot;username&quot;]&#125;</code>、<code>&#123;$db[&quot;password&quot;]&#125;</code> 等是一些变量，它们分别存储了数据库连接信息中的主机、用户名和密码。</li>
+<li><code>&#123;$db[&quot;dbname&quot;]&#125;</code> 是一个变量，它存储了要导出数据的数据库名称。</li>
+<li><code>$tablesstr</code> 可能是一个变量，它存储了要导出数据的特定表格或者是一些表格的列表。</li>
+<li><code>&gt;</code> 用于将命令的输出重定向到指定的文件中，<code>$dumpFile</code> 是一个变量，它存储了导出的数据将要保存的文件路径。</li>
+</ul>
+<p>从此处开始向上寻找,看dumpFile都经过了怎样的处理</p>
+<p><img src="/../img/Typora/image-20240304200330517.png" alt="image-20240304200330517"></p>
+<p>353行对已存在的名为dumpFile文件进行删除</p>
+<p>352行</p>
+<p><img src="/../img/Typora/image-20240304201039190.png" alt="image-20240304201039190"></p>
+<p><code>$dumpFile</code> 的赋值过程将 <code>core\utils\PATH_ROOT</code> 返回的项目根目录路径与 <code>$backupFileName</code> 变量存储的文件名拼接起来，并在最后添加 <code>.sql</code> 扩展名，得到一个完整的备份文件路径。</p>
+<p>继续向上查找$backupFileName的来源</p>
+<p><img src="/../img/Typora/image-20240304201330413.png" alt="image-20240304201330413"></p>
+<p><code>$backupFileName</code> 的赋值过程首先将备份文件的目录路径与经过特定字符替换的文件名拼接起来，得到了备份文件的完整路径。</p>
+<p>再次跟进拼接的变量$fileName</p>
+<p><img src="/../img/Typora/image-20240304201515345.png" alt="image-20240304201515345"></p>
+<p>fileName使用getRequest方法得到，</p>
+<p>根据定义的类core\utils\Env，找到core\utils\Env文件，在文件内搜索getRequest方法</p>
+<p><img src="/../img/Typora/image-20240304201741730.png" alt="image-20240304201741730"></p>
+<p>$fileName只传了一个参数，所以只有变量key是可控的，同时变量type的值默认是“GP”，所以case选项只有G和P两个选择<br>当type&#x3D;G的时候，变量var&#x3D;request使用$request-&gt;getQuery($key, $defaultValue)方法获取特定键的值</p>
+<p><img src="/../img/Typora/image-20240304202121468.png" alt="image-20240304202121468"></p>
+<p>判断是否存在get方式得到的name，如果存在则返回，不存在返回默认值（空）<br>此时猜想getPost函数是判断是否存在post方式得到的name</p>
+<p>另外</p>
+<p>若要执行shell_exec函数,还需要满足method不等于multivol</p>
+<p><img src="/../img/Typora/image-20240304203939417.png" alt="image-20240304203939417"></p>
+<h2 id="去网站查看数据备份功能"><a href="#去网站查看数据备份功能" class="headerlink" title="去网站查看数据备份功能"></a>去网站查看数据备份功能</h2><p>bp抓包将method的值,改了</p>
+<p>filename改一下,打开计算机</p>
+<p><img src="/../img/Typora/image-20240304204752882.png" alt="image-20240304204752882"></p>
+<p>成功给打开</p>
+<p><img src="/../img/Typora/image-20240304204801794.png" alt="image-20240304204801794"></p>
+<p><img src="/../img/Typora/image-20240304210006506.png" alt="image-20240304210006506"></p>
+<p>写入一句话木马</p>
+<p><img src="/../img/Typora/image-20240304205958373.png" alt="image-20240304205958373"></p>
+<h1 id="靶场梭哈"><a href="#靶场梭哈" class="headerlink" title="靶场梭哈"></a>靶场梭哈</h1>
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+  <section class="related" aria-label="相关阅读">
+    <h2 class="related__title">相关阅读</h2>
+    <ul class="related__list">
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-03-06">2024·03·06</time>
+          <a class="related__link" href="/2024/03/06/%E5%9F%BA%E7%A1%80/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-03-05">2024·03·05</time>
+          <a class="related__link" href="/2024/03/05/%E5%9F%BA%E7%A1%80/SSIT%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/">SSTI模板注入</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-01-23">2024·01·23</time>
+          <a class="related__link" href="/2024/01/23/%E5%9F%BA%E7%A1%80/%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86%E5%88%B0%E5%88%A9%E7%94%A8/">SSRF、</a>
+        </li>
+      
+    </ul>
+  </section>
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2024/03/05/%E5%9F%BA%E7%A1%80/unserialize%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">php反序列化</span>
+      </a>
+    
+    
+      <a class="post-nav__link post-nav__link--next" href="/2024/01/25/%E5%9F%BA%E7%A1%80/java%E7%9A%84%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/">
+        <span class="post-nav__dir">下一篇 →</span>
+        <span class="post-nav__title">java的学习日记</span>
+      </a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

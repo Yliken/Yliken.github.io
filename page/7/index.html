@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<section class="hero">
+  
+    <p class="hero__kicker">极简、古风、纸底的个人博客主题 · 技术 + 生活</p>
+  
+  <div class="hero__heading">
+    
+    <h1 class="hero__title">红豆藏于南枝深处</h1>
+  </div>
+  
+    <p class="hero__lead">在技术里较真，也在生活里留白。</p>
+  
+  
+    <p class="hero__colophon" aria-hidden="true">记于 2026年9月</p>
+  
+  
+    <p class="hero__motto">把日子过成注脚。</p>
+  
+  
+</section>
+
+
+  <section class="site-stats" aria-label="站点统计">
+    <div class="site-stats__item">
+      <span class="site-stats__num">66</span>
+      <span class="site-stats__label">文章</span>
+    </div>
+    <div class="site-stats__item">
+      <span class="site-stats__num">8</span>
+      <span class="site-stats__label">分类</span>
+    </div>
+    <div class="site-stats__item">
+      <span class="site-stats__num">33</span>
+      <span class="site-stats__label">标签</span>
+    </div>
+  </section>
+
+
+
+
+<section class="post-list post-list--grid" aria-label="最新文章">
+  
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.006</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2023-12-31">2023·12·31</time>
+        
+        <h2 class="book__title">
+          <a href="/2023/12/31/%E5%9F%BA%E7%A1%80/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/">zkaq-include</a>
+        </h2>
+        <p class="book__excerpt">说实话现在的状态真的是难受的一批，想睡又睡不着，闹钟浑浑噩噩的，索性从床上爬起来写一下刚学的题吧
+题目文件包含
+
+代码审计全局搜include
+
+代码审计优先级，直接传参大于间接传参
+所以跟进 index.php文件下的include $_REQUEST[‘target’];
+
+进行分析
+12...</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/zkaq/">#zkaq</a>
+              </span>
+            
+            
+              <span class="book__readtime">4 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2023/12/31/%E5%9F%BA%E7%A1%80/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.005</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2023-12-26">2023·12·26</time>
+        
+        <h2 class="book__title">
+          <a href="/2023/12/26/%E5%9F%BA%E7%A1%80/C%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/">C语言笔记</a>
+        </h2>
+        <p class="book__excerpt">标识符用来标识数据类型，变量，函数，语句的符号
+
+
+
+类别
+关键字
+
+
+
+数据类型关键字
+char，double，enum，ﬂoat，int，long，short，signed，struct，union，unsigned，void
+
+
+控制语句关键字
+break，continue，case，d...</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/C%E8%AF%AD%E8%A8%80/">#C语言</a>
+              </span>
+            
+            
+              <span class="book__readtime">59 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2023/12/26/%E5%9F%BA%E7%A1%80/C%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.004</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2023-12-24">2023·12·24</time>
+        
+        <h2 class="book__title">
+          <a href="/2023/12/24/%E5%9F%BA%E7%A1%80/CTF-show/">CTF-show</a>
+        </h2>
+        <p class="book__excerpt">WEB板块web签到题查看源码
+
+base64解码
+
+1ctfshow&#123;6d8d8144-c200-4f8e-801c-23b7a1cd2403&#125;
+
+web2用户名输入
+1&#x27; or 1=1 -- a //成功登录
+
+
+判断字段数
+1234&#x27; or 1=1...</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/CTF-show/">#CTF-show</a>
+              </span>
+            
+            
+              <span class="book__readtime">2 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2023/12/24/%E5%9F%BA%E7%A1%80/CTF-show/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.003</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2023-12-23">2023·12·23</time>
+        
+        <h2 class="book__title">
+          <a href="/2023/12/23/%E5%9F%BA%E7%A1%80/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B3%A8%E5%85%A5/">zkaq-数据库注入</a>
+        </h2>
+        <p class="book__excerpt">
+
+MYSQL 注入 - Dns注入前置知识1.dnslog
+1用来记录dns被解析的信息
+
+2.dns注入思路
+进行注入攻击时，页面无正常回显，使用第三方dnslog平台，通过记录dns解析的信息外带注入数据，将盲注转化成显错注入。
+靶场实践判断是否存在注入攻击时遇到waf
+
+使用参数污染进...</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/zkaq/">#zkaq</a>
+              </span>
+            
+            
+              <span class="book__readtime">13 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2023/12/23/%E5%9F%BA%E7%A1%80/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B3%A8%E5%85%A5/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.002</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2023-12-22">2023·12·22</time>
+        
+        <h2 class="book__title">
+          <a href="/2023/12/22/%E5%9F%BA%E7%A1%80/upload/">zkaq-upload-labs</a>
+        </h2>
+        <p class="book__excerpt">Pass-01
+前端检测文件格式，不允许上传PHP文件
+bp抓包，改名
+
+冰蝎连接
+
+Pass-02上传文件，抓包，修改
+Content-Type
+
+冰蝎连接
+
+Pass-03不允许上传”.asp”、”.aspx”、”.php”、”.jsp”文件
+
+上传文件抓包
+
+冰蝎，连接
+
+Pass-04...</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/zkaq/">#zkaq</a>
+              </span>
+            
+            
+              <span class="book__readtime">5 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2023/12/22/%E5%9F%BA%E7%A1%80/upload/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.001</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2023-12-04">2023·12·04</time>
+        
+        <h2 class="book__title">
+          <a href="/2023/12/04/%E5%9F%BA%E7%A1%80/zkaq-sql/">zkaq-SQL</a>
+        </h2>
+        <p class="book__excerpt">
+
+post注入post传参类型的注入，与get注入很像。post注入经常出现在登录框且通常是字符型。
+靶场演练Pass-051构造&#x27; or 1=1 -- a
+
+
+成功登录，判断的我们的输入的数据有被当做SQL语句执行。
+构造
+12&#x27; or 1=1 order by 3 -...</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/zkaq/">#zkaq</a>
+              </span>
+            
+            
+              <span class="book__readtime">17 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2023/12/04/%E5%9F%BA%E7%A1%80/zkaq-sql/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+  
+</section>
+
+
+  <nav class="pagination" aria-label="分页导航">
+    
+      <a class="pagination__link pagination__link--prev" href="/page/6/"><span aria-hidden="true">←</span> 上页</a>
+    
+    <span class="pagination__info">7 / 7</span>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

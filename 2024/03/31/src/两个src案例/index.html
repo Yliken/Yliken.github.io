@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>两个src案例 · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2024-03-31">2024年3月31日</time>
+        
+        
+          <span class="post__readtime">1 分钟</span>
+        
+        
+          <span class="post__tags" aria-label="标签">
+            <a class="tag" href="/tags/src/">#src</a>
+          </span>
+        
+      </p>
+    
+    <h1 class="post__title">两个src案例</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <h1 id="案例一"><a href="#案例一" class="headerlink" title="案例一"></a>案例一</h1><p>**文前废话:**某天正在刷着**社区的帖子,欣赏着漂亮的小姐姐,突然间评论区的一条评论引起了我的注意,类似于下面这样</p>
+<p><img src="/../img/Typora/e9306eccf5a14f062d3a68ae8d538128_79773.png"></p>
+<p>这种评论在html标签中代码格式是<code>&lt;a&gt;这是文字&lt;/a&gt;</code>这样的<br>同时评论区XSS漏洞的高发区,想着可能会有操作点</p>
+<h2 id="一、发布一个标题有js语句的贴子"><a href="#一、发布一个标题有js语句的贴子" class="headerlink" title="一、发布一个标题有js语句的贴子"></a>一、发布一个标题有js语句的贴子</h2><p><img src="/../img/Typora/15fcd7ff8b408573cc51ceee3f5bc105_85506.png"></p>
+<h2 id="二、复制这个帖子的分享连接到另一个帖子的评论区评论"><a href="#二、复制这个帖子的分享连接到另一个帖子的评论区评论" class="headerlink" title="二、复制这个帖子的分享连接到另一个帖子的评论区评论"></a>二、复制这个帖子的分享连接到另一个帖子的评论区评论</h2><p><img src="/../img/Typora/1a6f51faf415eecbb96cc7e166b0fe0e_46005.png"><br>然后刷新,发现有弹窗</p>
+<h2 id="三、查看网页源码-js语句已经写入"><a href="#三、查看网页源码-js语句已经写入" class="headerlink" title="三、查看网页源码,js语句已经写入"></a>三、查看网页源码,js语句已经写入</h2><p><img src="/../img/Typora/167d5b606c697372c756fc5c2cbc502a_91760.png"></p>
+<h2 id="修复建议"><a href="#修复建议" class="headerlink" title="修复建议"></a>修复建议</h2><ol>
+<li>对帖子的主题进行严格的验证或过滤</li>
+<li>将引用的数据进行编码处理</li>
+</ol>
+<h1 id="案例二"><a href="#案例二" class="headerlink" title="案例二"></a>案例二</h1><p><strong>废话</strong>:早就看那共享电车不爽了,10分钟收我1块!</p>
+<h2 id="一、配置好环境-对小程序进行抓包"><a href="#一、配置好环境-对小程序进行抓包" class="headerlink" title="一、配置好环境,对小程序进行抓包"></a>一、配置好环境,对小程序进行抓包</h2><p>本来想测测支付漏洞的，测了半天没有任何结果。突然间发现旁边有一个上传头像的功能</p>
+<p>这不就来了吗</p>
+<h2 id="二、抓包上传一个我也不认识的文件"><a href="#二、抓包上传一个我也不认识的文件" class="headerlink" title="二、抓包上传一个我也不认识的文件"></a>二、抓包上传一个我也不认识的文件</h2><p><img src="/../img/Typora/image-20240331222229628.png" alt="image-20240331222229628"></p>
+<p>嗯！？！上传成功了！文件名也没改   </p>
+<p>问: 为什么我这有做?</p>
+<ul>
+<li>因为这样可以排查出是不是用的白名单</li>
+</ul>
+<h2 id="三、上传一个php文件"><a href="#三、上传一个php文件" class="headerlink" title="三、上传一个php文件"></a>三、上传一个php文件</h2><p><img src="/../img/Typora/image-20240331223147141.png" alt="image-20240331223147141"></p>
+<p>又上传成功了！</p>
+<p>访问页面</p>
+<p><img src="/../img/Typora/image-20240331222547812.png" alt="image-20240331222547812"></p>
+<p>啥也没有？</p>
+<p>不对劲，10分得有15分不对劲！</p>
+<h2 id="四、上传一个图片马，后缀改成php"><a href="#四、上传一个图片马，后缀改成php" class="headerlink" title="四、上传一个图片马，后缀改成php"></a>四、上传一个图片马，后缀改成php</h2><p>​	</p>
+<p><img src="/../img/Typora/image-20240331222817915.png" alt="image-20240331222817915"></p>
+<p>好好好！解析了，但是不知道为什么不显示php代码输出的内容！</p>
+<p>于是…</p>
+<p>放弃！</p>
+<p>上课的时候发呆，突然间想到 既然我什么文件都可以上传，为什么不上传一个html文件呢？！</p>
+<p>下课之后我飞一般的跑回了宿舍。</p>
+<h2 id="五、上传html文件"><a href="#五、上传html文件" class="headerlink" title="五、上传html文件"></a>五、上传html文件</h2><p><img src="/../img/Typora/image-20240331223428362.png" alt="image-20240331223428362"></p>
+<p>上传成功</p>
+<p><img src="/../img/Typora/image-20240331223620128.png" alt="image-20240331223620128"></p>
+<p>访问页面</p>
+<p><img src="/../img/Typora/image-20240331223728626.png" alt="image-20240331223728626"></p>
+<h2 id="修复建议-1"><a href="#修复建议-1" class="headerlink" title="修复建议"></a>修复建议</h2><ol>
+<li><p>对文件上传类型进行严格过滤</p>
+</li>
+<li><p>上台删除用户头像目录下的.php .html后缀文件</p>
+</li>
+</ol>
+
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2024/04/27/%E5%9F%BA%E7%A1%80/SQLpass/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">SQL手法 - 异或注入</span>
+      </a>
+    
+    
+      <a class="post-nav__link post-nav__link--next" href="/2024/03/06/src/%E6%9F%90%E5%A4%A7%E5%AD%A6%E7%9A%84%E5%AD%98%E5%82%A8%E5%9E%8BXSS%E5%88%86%E4%BA%AB/">
+        <span class="post-nav__dir">下一篇 →</span>
+        <span class="post-nav__title">某大学的存储型XSS</span>
+      </a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

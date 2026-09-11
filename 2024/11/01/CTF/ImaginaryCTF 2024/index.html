@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>ImaginaryCTF 2024 · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2024-11-01">2024年11月1日</time>
+        
+        
+          <span class="post__readtime">9 分钟</span>
+        
+        
+          <span class="post__tags" aria-label="标签">
+            <a class="tag" href="/tags/CTF/">#CTF</a>
+          </span>
+        
+      </p>
+    
+    <h1 class="post__title">ImaginaryCTF 2024</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <h1 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h1><h2 id="journal"><a href="#journal" class="headerlink" title="journal"></a>journal</h2><p>题目给出了<code>index.php</code>的源码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">echo &quot;&lt;p&gt;Welcome to my journal app!&lt;/p&gt;&quot;;</span><br><span class="line">echo &quot;&lt;p&gt;&lt;a href=/?file=file1.txt&gt;file1.txt&lt;/a&gt;&lt;/p&gt;&quot;;</span><br><span class="line">echo &quot;&lt;p&gt;&lt;a href=/?file=file2.txt&gt;file2.txt&lt;/a&gt;&lt;/p&gt;&quot;;</span><br><span class="line">echo &quot;&lt;p&gt;&lt;a href=/?file=file3.txt&gt;file3.txt&lt;/a&gt;&lt;/p&gt;&quot;;</span><br><span class="line">echo &quot;&lt;p&gt;&lt;a href=/?file=file4.txt&gt;file4.txt&lt;/a&gt;&lt;/p&gt;&quot;;</span><br><span class="line">echo &quot;&lt;p&gt;&lt;a href=/?file=file5.txt&gt;file5.txt&lt;/a&gt;&lt;/p&gt;&quot;;</span><br><span class="line">echo &quot;&lt;p&gt;&quot;;</span><br><span class="line"></span><br><span class="line">if (isset($_GET[&#x27;file&#x27;])) &#123;</span><br><span class="line">  $file = $_GET[&#x27;file&#x27;];</span><br><span class="line">  $filepath = &#x27;./files/&#x27; . $file;</span><br><span class="line"></span><br><span class="line">  assert(&quot;strpos(&#x27;$file&#x27;, &#x27;..&#x27;) === false&quot;) or die(&quot;Invalid file!&quot;);</span><br><span class="line"></span><br><span class="line">  if (file_exists($filepath)) &#123;</span><br><span class="line">    include($filepath);</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    echo &#x27;File not found!&#x27;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">echo &quot;&lt;/p&gt;&quot;;</span><br></pre></td></tr></table></figure>
+
+<p><code>assert</code>可以执行代码。原本想着是吧<code>strpos</code>的括号闭合。然后进行代码执行。。。。</p>
+<p>到后来才发现<code>assert</code>不能执行多条语句。</p>
+<p>可以用or连接两个语句让<code>assert</code>执行</p>
+<p><img src="/../img/Typora/image-20241101153730600.png" alt="image-20241101153730600"></p>
+<p>同时我也发现<code>strpos</code>的参数可以是一个函数</p>
+<p><img src="/../img/Typora/image-20241101153926371.png" alt="image-20241101153926371"></p>
+<h2 id="The-Amazing-Race"><a href="#The-Amazing-Race" class="headerlink" title="The Amazing Race"></a>The Amazing Race</h2><p>进入环境后会自动给我们分配一个<code>uid</code>来唯一的记录我们的游戏进度。游戏中<code>@</code>代表玩家所在的位置。<code>.</code>代表玩家可以走的位置。。。<code>#</code>表示<code>墙</code>玩家不能通过该位置。<code>F</code>表示游戏终点</p>
+<p>在游戏右下角的<code>F</code>四周都被<code>#</code>包围。无法通过正常的方法到达</p>
+<p><img src="/../img/Typora/image-20241104130738986.png" alt="image-20241104130738986"></p>
+<p><code>/source</code>接口中有题目的源码</p>
+<p><img src="/../img/Typora/image-20241104131020564.png" alt="image-20241104131020564"></p>
+<p>当我们首次访问<code>/</code>路由的时候会将我们重定向到<code>/&lt;mazeId&gt;</code>路由。然后我们没有<code>&lt;mazeId&gt;</code>会调用<code>createMaze()</code>函数创建一个<code>maze</code>同时生成一个<code>mazeId</code>并将该<code>mazeId</code>与生成的<code>maze</code>绑定</p>
+<p>用<code>solved</code>变量来表示题目是否解出。当<code>getLoc(mazeId) == (MAZE_SIZE-1, MAZE_SIZE-1)</code>为<code>true</code></p>
+<p>即游戏角色到达<code>maze</code>右下角的时候</p>
+<p><img src="/../img/Typora/image-20241104132544042.png" alt="image-20241104132544042"></p>
+<p><img src="/../img/Typora/image-20241104132434137.png" alt="image-20241104132434137"></p>
+<p>再来看看源码中给的其他函数方法</p>
+<p>源码中<code>initDb()</code>创建了一个表。包含<code>id</code>,<code>maze</code>,<code>row</code>,<code>col</code>,<code>up</code>,<code>down</code>,<code>left</code>,<code>right</code>字段<code>up</code>,<code>down</code>,<code>left</code>,<code>right</code>字段的类型为<code>bool</code>类型</p>
+<p><img src="/../img/Typora/image-20241104131323490.png" alt="image-20241104131323490"></p>
+<p><code>getLoc()</code>函数充数据库中查询出我们当前的位置</p>
+<p><img src="/../img/Typora/image-20241104131640902.png" alt="image-20241104131640902"></p>
+<p><code>getMaze()</code>函数根据<code>mazeId</code>来查询出<code>Maze</code></p>
+<p><img src="/../img/Typora/image-20241104133626582.png" alt="image-20241104133626582"></p>
+<p><code>getCanMove()</code>通过提供的<code>mazeId</code>来查询当前可以移动的方向</p>
+<p><img src="/../img/Typora/image-20241104133703656.png" alt="image-20241104133703656"></p>
+<p><code>writeLoc</code>将移动过后的位置写入数据库</p>
+<p><img src="/../img/Typora/image-20241104134000151.png" alt="image-20241104134000151"></p>
+<p><code>writeCanMove</code>将移动过位置后可以移动的方向写入数据库</p>
+<p><img src="/../img/Typora/image-20241104134043255.png" alt="image-20241104134043255"></p>
+<p>在<code>/move</code>前半部分代码接收了<code>GET</code>传入的<code>id</code>与<code>move</code>并分别将他们的值赋给<code>mazeId</code>与<code>moveStr</code></p>
+<p>随后用<code>getCanMove()</code>函数取出当前位置可以移动的方向 </p>
+<p>然后定义一个移动列表<code>validMoves</code>并判断move的方向是否合法</p>
+<p><img src="/../img/Typora/image-20241104134131542.png" alt="image-20241104134131542"></p>
+<p>之后会用<code>getLoc()</code>函数获取到玩家的位置。然后对玩家的位置进行更新。然后更新迷宫将玩家的老位置设置为</p>
+<p><code>.</code>新位置设置为<code>@</code> 然后使用<code>wirteCanMove</code>更新玩家可以移动的方向</p>
+<p><img src="/../img/Typora/image-20241104134723727.png" alt="image-20241104134723727"></p>
+<p>读到这里我仍不知道漏洞点在哪里。我读了<a target="_blank" rel="noopener" href="https://siunam321.github.io/ctf/ImaginaryCTF-2024/Web/The-Amazing-Race/">siunam</a>的博客之后才知道。可以利用条件竞争来进行欺骗数据库</p>
+<p>举个例子</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">想象一下一个银行应用程序，其中两个联名账户的所有者拥有 100 元的余额，他们同时尝试提取 90 元。如果不妥善处理竞争条件，最好的情况是，一个请求更快并首先完成，然后第二个请求由于资金不足而失败，最坏的情况是，他们同时到达数据库，并且都成功地从余额为 100 元的账户中提取了 90 元（总共 180 元），这对银行来说是一种损失，也是应用程序中非常危险的漏洞。</span><br></pre></td></tr></table></figure>
+
+<p>考虑以下迷宫，其中我们只能移动<code>left</code>或<code>right</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#######</span><br><span class="line">#@.#..#</span><br><span class="line">#######</span><br></pre></td></tr></table></figure>
+
+<p>尽管有墙，是否可以强制玩家向一侧移动<code>right</code></p>
+<p>为此，我们可以：</p>
+<p>玩家移动到<code>left</code>，因此限制方向将<code>right</code>改为<code>left</code></p>
+<blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#######</span><br><span class="line">#@.#..#</span><br><span class="line">#######</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>现在尝试同时发送 2 个<code>right</code>移动请求</p>
+<p>玩家的位置将在中心墙上</p>
+<blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#######</span><br><span class="line">#..@..#</span><br><span class="line">#######</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>为了尝试这一想法我用<code>Golang</code>编写了一个简易的并发程序来验证这一观点</p>
+<p>现在我们将<code>@</code>移动到距离<code>#</code>只有一个<code>.</code>的位置上面</p>
+<p><img src="/../img/Typora/image-20241104140244060.png" alt="image-20241104140244060"></p>
+<p>然后并发三个数据包成功的将<code>@</code>移动到原本无法到达的<code>#</code>上面(经历了好几次失败)</p>
+<p><img src="/../img/Typora/image-20241104140348313.png" alt="image-20241104140348313"></p>
+<p>通过这个思路，我们可以通过并发来突破<code>#</code>的限制</p>
+<p>下面是我写的一个脚本，一次只能发送像一个方向移动的包(是的，这个脚本非常垃圾，归根结底还是我太菜了(-̩̩̩-̩̩̩-̩̩̩-̩̩̩-̩̩̩___-̩̩̩-̩̩̩-̩̩̩-̩̩̩-̩̩̩))</p>
+<p>大伙可以多发几次来做题</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">	&quot;net/http&quot;</span><br><span class="line">	&quot;net/url&quot;</span><br><span class="line">	&quot;sync&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">var wg sync.WaitGroup</span><br><span class="line"></span><br><span class="line">func move(target, id, direction string) &#123;</span><br><span class="line">	defer wg.Done() // 确保在函数结束时调用 Done</span><br><span class="line"></span><br><span class="line">	param := make(url.Values)</span><br><span class="line">	param.Add(&quot;id&quot;, id)</span><br><span class="line">	param.Add(&quot;move&quot;, direction)</span><br><span class="line">	data := param.Encode()</span><br><span class="line"></span><br><span class="line">	req, err := http.NewRequest(&quot;POST&quot;, target, nil)</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		fmt.Println(err)</span><br><span class="line">		return // 处理错误后返回</span><br><span class="line">	&#125;</span><br><span class="line">	req.URL.RawQuery = data</span><br><span class="line"></span><br><span class="line">	// 发送请求</span><br><span class="line">	resp, err := http.DefaultClient.Do(req)</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		fmt.Println(err)</span><br><span class="line">		return // 处理错误后返回</span><br><span class="line">	&#125;</span><br><span class="line">	defer resp.Body.Close() // 正确关闭响应体</span><br><span class="line"></span><br><span class="line">	fmt.Printf(&quot;Response status: %s\n&quot;, resp.Status)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	target := &quot;http://xxx.xxx.xxx.xxx:xxxx/move&quot;  //你的url</span><br><span class="line">	id := &quot;xxxxxxxxxx&quot;</span><br><span class="line"></span><br><span class="line">	for i := 0; i &lt; 3; i++ &#123;</span><br><span class="line">		wg.Add(1) // 在启动 goroutine 前添加计数</span><br><span class="line">		go func() &#123;</span><br><span class="line">			move(target, id, &quot;right&quot;)</span><br><span class="line">		&#125;()</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	wg.Wait() // 等待所有 goroutine 完成</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>不知道为什么在使用我这个脚本的时候会出现<code>@</code>分身的问题</p>
+<p><img src="/../img/Typora/image-20241104140909500.png" alt="image-20241104140909500"></p>
+<p>官网给的这个题目的难度分级为3 (满分10)</p>
+<p><img src="/../img/Typora/image-20241104141607765.png" alt="image-20241104141607765"></p>
+<h2 id="Pwning-en-Logique"><a href="#Pwning-en-Logique" class="headerlink" title="Pwning en Logique"></a>Pwning en Logique</h2><p>我见到的第一个<code>prolog</code>语言出的题目</p>
+<p>附件给的源码看了不难理解(我没接触过这门语言仍能看懂)   只是大概理解 ， 大概率有很大的偏差</p>
+<p><img src="/upload/image-20241201224102851.png" alt="image-20241201224102851"></p>
+<p><img src="/upload/image-20241201224209427.png" alt="image-20241201224209427"></p>
+<p><img src="/upload/image-20241201224248995.png" alt="image-20241201224248995"></p>
+<p><img src="/upload/image-20241201224327748.png" alt="image-20241201224327748"></p>
+<p><img src="/upload/image-20241201224454252.png" alt="image-20241201224454252"></p>
+<p><img src="/upload/image-20241201224549202.png" alt="image-20241201224549202"></p>
+
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+  <section class="related" aria-label="相关阅读">
+    <h2 class="related__title">相关阅读</h2>
+    <ul class="related__list">
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2026-03-26">2026·03·26</time>
+          <a class="related__link" href="/2026/03/26/CTF/%E7%AC%AC%E5%8D%81%E4%B9%9D%E5%B1%8A%E5%85%A8%E5%9B%BD%E5%A4%A7%E5%AD%A6%E7%94%9F%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E7%AB%9E%E8%B5%9B%E6%9A%A8%E7%AC%AC%E4%B8%89%E5%B1%8A%E2%80%9C%E9%95%BF%E5%9F%8E%E6%9D%AF%E2%80%9D%E9%93%81%E4%BA%BA%E4%B8%89%E9%A1%B9%E8%B5%9B%E5%8D%8A%E5%86%B3%E8%B5%9B_easy_time/">第十九届全国大学生信息安全竞赛暨第三届“长城杯”铁人三项赛半决赛_easy_time</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-12-15">2024·12·15</time>
+          <a class="related__link" href="/2024/12/15/CTF/2024.12.15CISCN&%E9%95%BF%E5%9F%8E%E6%9D%AF%E9%93%81%E4%BA%BA%E4%B8%89%E9%A1%B9%E8%B5%9B/">	</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-10-25">2024·10·25</time>
+          <a class="related__link" href="/2024/10/25/CTF/DownUnderCTF/">DownUnderCTF赛题复现</a>
+        </li>
+      
+    </ul>
+  </section>
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2024/11/06/SOCKS5/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">SOCKS5协议</span>
+      </a>
+    
+    
+      <a class="post-nav__link post-nav__link--next" href="/2024/10/28/Golang/GolangHTTP/">
+        <span class="post-nav__dir">下一篇 →</span>
+        <span class="post-nav__title">Golang net/http包客户端的使用</span>
+      </a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

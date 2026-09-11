@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>正则表达式 · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2024-03-06">2024年3月6日</time>
+        
+        
+          <span class="post__readtime">3 分钟</span>
+        
+        
+          <span class="post__tags" aria-label="标签">
+            <a class="tag" href="/tags/zkaq/">#zkaq</a>
+          </span>
+        
+      </p>
+    
+    <h1 class="post__title">正则表达式</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <h1 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h1><h2 id="什么正则表达式"><a href="#什么正则表达式" class="headerlink" title="什么正则表达式?"></a>什么正则表达式?</h2><p>正则表达式又称规则表达式，在代码中常简写为regex、regexp或RE，正则表达式通常被用来检索、替换那些符合某个模式的文本。</p>
+<h2 id="正则表达式的用途"><a href="#正则表达式的用途" class="headerlink" title="正则表达式的用途"></a>正则表达式的用途</h2><ol>
+<li>判断字符串是否符合某一规则（比如判断是否符合手机号、邮箱规则等等）</li>
+<li>从一个字符串中找出符合规则的所有子字符串（比如取HTML标签名等等）</li>
+</ol>
+<h2 id="php中正则表达式常用相关函数是什么？"><a href="#php中正则表达式常用相关函数是什么？" class="headerlink" title="php中正则表达式常用相关函数是什么？"></a>php中正则表达式常用相关函数是什么？</h2><ul>
+<li>Preg_match_all(正则表达式、匹配字符串、匹配到的东西放入数组)该函数会返回匹配到的次数（可能是0），或者如果发生错误返回FALSE</li>
+<li>preg_replace(正则表达式、替换成什么、匹配字符串)说该函数会返回替换后的结果</li>
+</ul>
+<h2 id="正则表达式的语法——字符（一）"><a href="#正则表达式的语法——字符（一）" class="headerlink" title="正则表达式的语法——字符（一）"></a>正则表达式的语法——字符（一）</h2><ul>
+<li>数字：\d</li>
+<li>非数字：\D</li>
+<li>空白字符（空格、制表符、换页符等）：\s</li>
+<li>非空白字符：\S</li>
+<li>单词字符（26个英文字母+数字+下划线）：\w</li>
+<li>非单词字符：\W</li>
+</ul>
+<h2 id="正则表达式的语法——字符（二）"><a href="#正则表达式的语法——字符（二）" class="headerlink" title="正则表达式的语法——字符（二）"></a>正则表达式的语法——字符（二）</h2><p><strong>字符集合：[单个字符或字符区间]，用于匹配集合内字符</strong></p>
+<p>比如</p>
+<ul>
+<li>[a-z]表示a-z这26个小写字母</li>
+<li>[0-9a-z]表示0-9这10个数字和a-z这26个小写字母</li>
+<li>[123a-h]表示包含数字1，2，3和a-h这8个字母</li>
+</ul>
+<p><strong>注意：两个不同的字符段间一定不要用逗号隔开</strong></p>
+<p><code>非集合字符：[^单个字符或字符区间]，用于匹配非集合内字符</code></p>
+<ul>
+<li>[^0-9]表示匹配所有非数字字符</li>
+<li>[^a-zA-Z]表示匹配所有非字母字符</li>
+</ul>
+<h2 id="正则表达式的语法——关键字"><a href="#正则表达式的语法——关键字" class="headerlink" title="正则表达式的语法——关键字"></a>正则表达式的语法——关键字</h2><ul>
+<li>() 表示一个整体</li>
+<li>^ 匹配输入字符串的开始位置</li>
+<li>$ 匹配输入字符串的结尾位置</li>
+<li>.  通配符，代表任意字符但不匹配换行</li>
+<li>* 匹配0次或者多次</li>
+<li>+ 匹配1次或者多次</li>
+<li>\ 转义字符</li>
+<li>| 两项之间的一个选择</li>
+</ul>
+<h2 id="非集合字符的“-”和关键字“-”的区别？"><a href="#非集合字符的“-”和关键字“-”的区别？" class="headerlink" title="非集合字符的“^”和关键字“^”的区别？"></a>非集合字符的“^”和关键字“^”的区别？</h2><p>非集合字符的“^”可理解为排除字符，排除操作，一般放在［］中，如［^1-5］, 表示该字符不是1-5之间的数字；而关键字的“^”表示行开始，如”^ab”表示以ab开头的字符串。</p>
+<h2 id="正则表达式的语法——限定符"><a href="#正则表达式的语法——限定符" class="headerlink" title="正则表达式的语法——限定符"></a>正则表达式的语法——限定符</h2><ul>
+<li>{n} 例如0{8} 表示只有连起来8个0才会被匹配</li>
+<li>{n,} 例如0{2,} 表示只要2个0及其以上的就会被匹配</li>
+<li>{n,m} 例如0{2,4} 表示最少匹配2个0，最多匹配4个0</li>
+</ul>
+<p><strong>注：被匹配时，默认匹配最多的次数</strong></p>
+<h2 id="正则表达式的语法——修饰符"><a href="#正则表达式的语法——修饰符" class="headerlink" title="正则表达式的语法——修饰符"></a>正则表达式的语法——修饰符</h2><ul>
+<li>i 表示不区分大小写</li>
+<li>A 匹配规则必须从头开始匹配</li>
+<li>s 表示.将匹配一切字符</li>
+<li>x 表示正则表达式中的空白字符会被忽略</li>
+<li>e 代码执行仅限preg_replace()</li>
+</ul>
+<h1 id="靶场"><a href="#靶场" class="headerlink" title="靶场"></a>靶场</h1><p><img src="/../img/Typora/image-20240306132214550.png" alt="image-20240306132214550"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/zkaq.*key.&#123;2,9&#125;:\/.*\/(key*key)/i</span><br></pre></td></tr></table></figure>
+
+<p>参数要求：</p>
+<ul>
+<li>zkaq开头</li>
+<li>. *匹配任意字符，可以不写，可以随便写</li>
+<li>{2，9}指key后要有2~9个字符</li>
+<li>要有一个：</li>
+<li>“\ &#x2F;“表示要有“&#x2F;”</li>
+<li>最后以keykey结尾</li>
+</ul>
+<p>所以可以传<code>zkaqkey12://keykey</code></p>
+<p><img src="/../img/Typora/image-20240306132558218.png" alt="image-20240306132558218"></p>
+
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+  <section class="related" aria-label="相关阅读">
+    <h2 class="related__title">相关阅读</h2>
+    <ul class="related__list">
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-03-05">2024·03·05</time>
+          <a class="related__link" href="/2024/03/05/%E5%9F%BA%E7%A1%80/SSIT%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/">SSTI模板注入</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-03-04">2024·03·04</time>
+          <a class="related__link" href="/2024/03/04/%E5%9F%BA%E7%A1%80/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/">zkaq-代码执行</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-01-23">2024·01·23</time>
+          <a class="related__link" href="/2024/01/23/%E5%9F%BA%E7%A1%80/%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86%E5%88%B0%E5%88%A9%E7%94%A8/">SSRF、</a>
+        </li>
+      
+    </ul>
+  </section>
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2024/03/06/%E5%9F%BA%E7%A1%80/XXE/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">浅学XXE</span>
+      </a>
+    
+    
+      <a class="post-nav__link post-nav__link--next" href="/2024/03/05/%E5%9F%BA%E7%A1%80/SSIT%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/">
+        <span class="post-nav__dir">下一篇 →</span>
+        <span class="post-nav__title">SSTI模板注入</span>
+      </a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

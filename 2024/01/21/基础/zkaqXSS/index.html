@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>zkaq—xss · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2024-01-21">2024年1月21日</time>
+        
+        
+          <span class="post__readtime">4 分钟</span>
+        
+        
+          <span class="post__tags" aria-label="标签">
+            <a class="tag" href="/tags/zkaq/">#zkaq</a>
+          </span>
+        
+      </p>
+    
+    <h1 class="post__title">zkaq—xss</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <h1 id="一、什么是XSS"><a href="#一、什么是XSS" class="headerlink" title="一、什么是XSS"></a>一、什么是XSS</h1><p>xss漏洞允许攻击者将恶意脚本注入到网页中，当其他用户访问包含这些脚本的页面时，这些脚本将在用户的浏览器中执行</p>
+<h1 id="二、XSS注入本质"><a href="#二、XSS注入本质" class="headerlink" title="二、XSS注入本质"></a>二、XSS注入本质</h1><p>XSS注入攻击的本质，是把用户输入的数据当做js代码执行。</p>
+<h1 id="三、XSS注入的关键条件"><a href="#三、XSS注入的关键条件" class="headerlink" title="三、XSS注入的关键条件"></a>三、XSS注入的关键条件</h1><ul>
+<li>用户能控制输入</li>
+<li>原本的程序要执行的代码，拼接了用户输入的数据</li>
+<li>XSS是通过拼接合适的HTML代码去执行恶意的js语句</li>
+</ul>
+<h1 id="四、XSS类型"><a href="#四、XSS类型" class="headerlink" title="四、XSS类型"></a>四、XSS类型</h1><ul>
+<li>反射型XSS(一次性的)</li>
+<li>存储型XSS(没有被删除就一直存在)</li>
+<li>DOM型XSS:DOM型XSS漏洞是一种特殊类型的XSS,是基于文档对象模型 Document Object Model (DOM)的一种漏洞。</li>
+</ul>
+<h2 id="反射型-靶场练习"><a href="#反射型-靶场练习" class="headerlink" title="反射型:靶场练习"></a>反射型:靶场练习</h2><p>输入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt; alert(1) &lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20240121211819148.png" alt="image-20240121211819148"></p>
+<p>尖括号被编码</p>
+<p>改用事件法</p>
+<p>输入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x27; onfocus=alert(1) //</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/../img/Typora/image-20240121211906970.png" alt="image-20240121211906970"></p>
+<h2 id="存储性：靶场练习"><a href="#存储性：靶场练习" class="headerlink" title="存储性：靶场练习"></a>存储性：靶场练习</h2><p>在所有可以进行输入的地方都插入弹窗语句，均未弹窗成功</p>
+<p>观察到页面使用的是</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FineCMS公益软件 v5.3.0 框架</span><br></pre></td></tr></table></figure>
+
+<p>网上发现相关漏洞信息</p>
+<p><img src="/../img/Typora/image-20240121220520183.png" alt="image-20240121220520183"></p>
+<p>当访问的模块不存在时，会将这个路径直接打印出来</p>
+<p><img src="/../img/Typora/image-20240121220641184.png" alt="image-20240121220641184"></p>
+<p>成功弹窗</p>
+<p><img src="/../img/Typora/image-20240121220723221.png" alt="image-20240121220723221"></p>
+<p>XSS平台<a target="_blank" rel="noopener" href="http://xss.fqgg.net/">http://xss.fqgg.net/</a></p>
+<p>生成恶意XSS代码进行插入</p>
+<p><img src="/../img/Typora/image-20240121221552838.png" alt="image-20240121221552838"></p>
+<p>打到cookie</p>
+<p><img src="/../img/Typora/image-20240121221612523.png" alt="image-20240121221612523"></p>
+<p>zKaQ-01sdfDCo0</p>
+<h2 id="DOM型：靶场练习"><a href="#DOM型：靶场练习" class="headerlink" title="DOM型：靶场练习"></a>DOM型：靶场练习</h2><h1 id="一、什么是DOM？"><a href="#一、什么是DOM？" class="headerlink" title="一、什么是DOM？"></a>一、什么是DOM？</h1><p>DOM，全称Document Object Model，是一个平台和语言都中立的接口，可以使程序和脚本能够动态访问和更新文档的内容、结构以及样式。</p>
+<h1 id="二、什么是DOM型XSS"><a href="#二、什么是DOM型XSS" class="headerlink" title="二、什么是DOM型XSS"></a>二、什么是DOM型XSS</h1><p>DOM型XSS其实是一种特殊类型的XSS，它是基于DOM文档对象模型的一种漏洞。</p>
+<h1 id="三、可能触发DOM型XSS的属性"><a href="#三、可能触发DOM型XSS的属性" class="headerlink" title="三、可能触发DOM型XSS的属性"></a>三、可能触发DOM型XSS的属性</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">document.referer属性</span><br><span class="line">window.name属性</span><br><span class="line">location属性</span><br><span class="line">innerHTML属性</span><br><span class="line">documen.write属性</span><br></pre></td></tr></table></figure>
+
+<h1 id="四、document对象属性"><a href="#四、document对象属性" class="headerlink" title="四、document对象属性"></a>四、document对象属性</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Body 获取文档信息</span><br><span class="line">Title 通过 title 属性可以访问当前文档的标题，也可以修改当前文档的标题。</span><br><span class="line">URL 该属性返回当前页面完整的 URL，也就是浏览器地址栏中的全部地址信息。</span><br><span class="line">Domain 该属性返回当前文档的服务器域名.</span><br><span class="line">Referrer 该属性包含着链接到当前文档的源页面的 URL。</span><br><span class="line">Cookie 这个属性可以访问和设置与当前文档相关的所有 cookie。</span><br></pre></td></tr></table></figure>
+
+<p><strong>document.write 他可以支持特殊编码Native</strong></p>
+<p>练习</p>
+<p>尝试对聊天框进行弹窗，弹窗失败</p>
+<p><img src="/../img/Typora/image-20240122201641636.png" alt="image-20240122201641636"></p>
+<p>聊天框上方会显示当前所在位置，观察源码中存在document.write方法</p>
+<p><img src="/../img/Typora/image-20240122201828635.png" alt="image-20240122201828635"></p>
+<p>随意构造的参数也会显示出来</p>
+<p><img src="/../img/Typora/image-20240122201913136.png" alt="image-20240122201913136"></p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">asd=&lt;script&gt;alert(1)&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>被拦截</p>
+<p><img src="/../img/Typora/image-20240122202004372.png" alt="image-20240122202004372"></p>
+<p>Native编码绕过</p>
+<p><img src="/../img/Typora/image-20240122202225228.png" alt="image-20240122202225228"></p>
+<p>成功弹窗</p>
+<p>到XSS复制恶意代码，编码后写入</p>
+<p><img src="/../img/Typora/image-20240122202509812.png" alt="image-20240122202509812"></p>
+<p>打到的只有自己的cookie</p>
+<p><img src="/../img/Typora/image-20240122203049158.png" alt="image-20240122203049158"></p>
+<p>有留言工具复制网址发过去</p>
+<p><img src="/../img/Typora/image-20240122203213425.png" alt="image-20240122203213425"></p>
+<p>打到flag&#x3D;</p>
+<h1 id="CSRF"><a href="#CSRF" class="headerlink" title="CSRF"></a>CSRF</h1><h2 id="一、什么是CSRF？"><a href="#一、什么是CSRF？" class="headerlink" title="一、什么是CSRF？"></a>一、什么是CSRF？</h2><p>CSRF 是指跨站的请求伪造，这种攻击方法会强迫使用者在他们已经验证身份的网站中，执行某些恶意的伪造操作。</p>
+<p>其实说白了</p>
+<p>csrf漏洞的成因就是网站的cookie在浏览器中不会过期，只要不关闭浏览器或者退出登录，那以后只要是访问这个都网站，会默认你已经登录的状态。而在这个期间，攻击者发送了构造好的csrf脚本或包含csrf脚本的链接，可能会执行一些用户不想做的功能（比如是添加账号等）  js(可以发送数据包) ajax</p>
+<p><img src="/../img/Typora/image-20240122224130978.png" alt="image-20240122224130978"></p>
+<h2 id="靶场练习"><a href="#靶场练习" class="headerlink" title="靶场练习"></a>靶场练习</h2><p>靶场题目是用织梦CMS搭建的网站</p>
+<p><img src="/../img/Typora/image-20240122225615020.png" alt="image-20240122225615020"></p>
+<p>网上下载相同版本的织梦CMS框架源码，在本地搭建进行测试</p>
+<p>登录网站后台，有新建文件功能。新建一个文件，并用bp抓包</p>
+<p><img src="/../img/Typora/image-20240122230016203.png" alt="image-20240122230016203"></p>
+<p>将数据包发送到repeater模块进行重复放包，发现存在一个数据包可以多次使用的情况，极有可能存在CSRF漏洞。</p>
+<p><img src="/../img/Typora/image-20240122230125154.png" alt="image-20240122230125154"></p>
+<p>重新抓一个写入一句话木马文件的操作，用bp抓包制作CSRF脚本。</p>
+<p><img src="/../img/Typora/image-20240122232136400.png" alt="image-20240122232136400"></p>
+<p>加上自动提交的js脚本</p>
+<p><img src="/../img/Typora/image-20240122232606352.png" alt="image-20240122232606352"></p>
+<p>成功保存</p>
+<p><img src="/../img/Typora/image-20240122232630238.png" alt="image-20240122232630238"></p>
+<p>对脚本进行些许修改，上传文件</p>
+<p><img src="/../img/Typora/image-20240122233045993.png" alt="image-20240122233045993"></p>
+<p>提交细心诱骗客服点连接</p>
+<p><img src="/../img/Typora/image-20240122233222523.png" alt="image-20240122233222523"></p>
+<p>成功写入一句话木马</p>
+<p><img src="/../img/Typora/image-20240122233924312.png" alt="image-20240122233924312"></p>
+<p>蚁剑连接</p>
+<p><img src="/../img/Typora/image-20240122234050692.png" alt="image-20240122234050692"></p>
+
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+  <section class="related" aria-label="相关阅读">
+    <h2 class="related__title">相关阅读</h2>
+    <ul class="related__list">
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-03-06">2024·03·06</time>
+          <a class="related__link" href="/2024/03/06/%E5%9F%BA%E7%A1%80/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-03-05">2024·03·05</time>
+          <a class="related__link" href="/2024/03/05/%E5%9F%BA%E7%A1%80/SSIT%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/">SSTI模板注入</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-03-04">2024·03·04</time>
+          <a class="related__link" href="/2024/03/04/%E5%9F%BA%E7%A1%80/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/">zkaq-代码执行</a>
+        </li>
+      
+    </ul>
+  </section>
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2024/01/23/%E5%9F%BA%E7%A1%80/%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86%E5%88%B0%E5%88%A9%E7%94%A8/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">SSRF、</span>
+      </a>
+    
+    
+      <a class="post-nav__link post-nav__link--next" href="/2023/12/31/%E5%9F%BA%E7%A1%80/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/">
+        <span class="post-nav__dir">下一篇 →</span>
+        <span class="post-nav__title">zkaq-include</span>
+      </a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

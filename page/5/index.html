@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<section class="hero">
+  
+    <p class="hero__kicker">极简、古风、纸底的个人博客主题 · 技术 + 生活</p>
+  
+  <div class="hero__heading">
+    
+    <h1 class="hero__title">红豆藏于南枝深处</h1>
+  </div>
+  
+    <p class="hero__lead">在技术里较真，也在生活里留白。</p>
+  
+  
+    <p class="hero__colophon" aria-hidden="true">记于 2026年9月</p>
+  
+  
+    <p class="hero__motto">把日子过成注脚。</p>
+  
+  
+</section>
+
+
+  <section class="site-stats" aria-label="站点统计">
+    <div class="site-stats__item">
+      <span class="site-stats__num">66</span>
+      <span class="site-stats__label">文章</span>
+    </div>
+    <div class="site-stats__item">
+      <span class="site-stats__num">8</span>
+      <span class="site-stats__label">分类</span>
+    </div>
+    <div class="site-stats__item">
+      <span class="site-stats__num">33</span>
+      <span class="site-stats__label">标签</span>
+    </div>
+  </section>
+
+
+
+
+<section class="post-list post-list--grid" aria-label="最新文章">
+  
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.025</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2024-07-30">2024·07·30</time>
+        
+        <h2 class="book__title">
+          <a href="/2024/07/30/%E9%9D%B6%E6%9C%BA/AI%20Web%201.0/">AI Web 1.0</a>
+        </h2>
+        <p class="book__excerpt">一、靶机下载靶机下载地址AI Web 1.0
+下载以后得到一个压缩文件
+
+解压之后，放到一个文件夹中。用VMware扫描虚拟机
+
+
+
+二、主机发现1.使用arp-scan
+2.使用msf使用msf的auxiliary/scanner/discovery/arp_sweep模块
+
+三、端口扫描1...</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/vulnhub%E9%9D%B6%E6%9C%BA/">#vulnhub靶机</a>
+              </span>
+            
+            
+              <span class="book__readtime">3 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2024/07/30/%E9%9D%B6%E6%9C%BA/AI%20Web%201.0/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.026</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2024-07-30">2024·07·30</time>
+        
+        <h2 class="book__title">
+          <a href="/2024/07/30/%E9%9D%B6%E6%9C%BA/zico2/">zico2</a>
+        </h2>
+        <p class="book__excerpt">一、靶机安装靶机下载地址zico2: 1
+下载后得到ova文件，用VMware打开
+
+导入虚拟机填一下虚拟机的名称和存储位置
+
+
+这里不知道为什么会失败，点击重试就行
+
+二、主机发现1.使用arp-scan进行主机发现这里其他地址都是我其他虚拟机的ip地址
+
+2.使用msf进行主机发现前天刚看...</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/vulnhub%E9%9D%B6%E6%9C%BA/">#vulnhub靶机</a>
+              </span>
+            
+            
+              <span class="book__readtime">14 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2024/07/30/%E9%9D%B6%E6%9C%BA/zico2/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.024</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2024-07-22">2024·07·22</time>
+        
+        <h2 class="book__title">
+          <a href="/2024/07/22/2024ciscn/">2024ciscn“sanic”复现</a>
+        </h2>
+        <p class="book__excerpt">
+
+
+
+参考原文
+CISCN2024-WEB-Sanic gxngxngxn - gxngxngxn - 博客园 (cnblogs.com)
+sanic右键查看源码，&#x2F;src路由找到源码
+123456789101112131415161718192021222324252627282...</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/CTF/">#CTF</a>
+              </span>
+            
+            
+              <span class="book__readtime">10 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2024/07/22/2024ciscn/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.023</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2024-07-17">2024·07·17</time>
+        
+        <h2 class="book__title">
+          <a href="/2024/07/17/CTF/buuCTF/">刷BuuCTF</a>
+        </h2>
+        <p class="book__excerpt">
+
+WEB[网鼎杯 2020 朱雀组]phpweb
+查看html源码发现有用post传的func和p
+
+bp随便传些数据，发现有call_user_func()函数报错
+
+猜测后面有用call_user_func()函数
+测试发现system() popen() exec() shell_ex...</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/DASCTF/">#DASCTF</a>
+              </span>
+            
+            
+              <span class="book__readtime">5 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2024/07/17/CTF/buuCTF/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.021</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2024-07-11">2024·07·11</time>
+        
+        <h2 class="book__title">
+          <a href="/2024/07/11/CTF/DASCTF/">刷DASCTF</a>
+        </h2>
+        <p class="book__excerpt">
+
+
+
+Web[2022DASCTF X SU 三月春季挑战赛]ezpop源码
+12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758...</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/CTF/">#CTF</a>
+              </span>
+            
+            
+              <span class="book__readtime">26 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2024/07/11/CTF/DASCTF/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.022</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2024-07-11">2024·07·11</time>
+        
+        <h2 class="book__title">
+          <a href="/2024/07/11/%E5%9F%BA%E7%A1%80/RCE%E9%A2%98%E7%9B%AE/">RCE</a>
+        </h2>
+        <p class="book__excerpt">
+
+RCE题目绕过1空格绕过：  $&#123;IFS&#125;   %09
+
+
+
+[Dest0g3 520迎新赛]SimpleRCE题目源码
+1234567&lt;?phphighlight_file(__FILE__);$aaa=$_POST[&#x27;aaa&#x27;];$blac...</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/BUUCTF/">#BUUCTF</a>
+              </span>
+            
+            
+              <span class="book__readtime">5 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2024/07/11/%E5%9F%BA%E7%A1%80/RCE%E9%A2%98%E7%9B%AE/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.020</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2024-07-10">2024·07·10</time>
+        
+        <h2 class="book__title">
+          <a href="/2024/07/10/%E5%9F%BA%E7%A1%80/XXE7.10/">XXE 2024-7-10</a>
+        </h2>
+        <p class="book__excerpt">什么是XXE？XXE 全称XML外部实体注入(XML External Entity Injection)攻击。是由于程序在解析XML时加载了攻击者伪造的外部实体引发的安全问题。
+什么是XML？XML指的是可扩展标记语言(eXtensible Markup Language)类似于html。不...</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/xxe/">#xxe</a>
+              </span>
+            
+            
+              <span class="book__readtime">7 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2024/07/10/%E5%9F%BA%E7%A1%80/XXE7.10/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.019</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2024-07-01">2024·07·01</time>
+        
+        <h2 class="book__title">
+          <a href="/2024/07/01/Golang/Golang%E5%9F%BA%E7%A1%80/">Golang基础</a>
+        </h2>
+        <p class="book__excerpt">Golang数据类型整型Go语言同时提供有符号和无符号的整数类型
+
+有符号整型：int、int8、int64、int32、
+无符号整型：uint、uint8、uint64、uint32、uint64、uintptr
+
+ int8、int16、int32 和 int64 四种大小截然不同的有符号...</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/Golang/">#Golang</a>
+              </span>
+            
+            
+              <span class="book__readtime">41 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2024/07/01/Golang/Golang%E5%9F%BA%E7%A1%80/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.018</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2024-04-27">2024·04·27</time>
+        
+        <h2 class="book__title">
+          <a href="/2024/04/27/%E5%9F%BA%E7%A1%80/SQLpass/">SQL手法 - 异或注入</a>
+        </h2>
+        <p class="book__excerpt">异或注入mySQL在做String类型与数字类型的比较时, 如果字符串前面是数字,转换时就是转换成前面的数字,然后再进行比较.  比如: &#39;1aaa&#39; ==&gt; 1如果字符串前面不是数字, 转换时就将其变成0进行比较.比如: &#39;aaa&#39; ==&gt;0
+
+结...</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/SQL%E6%89%8B%E6%B3%95/">#SQL手法</a>
+              </span>
+            
+            
+              <span class="book__readtime">2 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2024/04/27/%E5%9F%BA%E7%A1%80/SQLpass/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+      <article class="book">
+        <div class="book__meta">
+          
+            <span class="book__number">No.017</span>
+          
+          
+        </div>
+        
+          <time class="book__date" datetime="2024-03-31">2024·03·31</time>
+        
+        <h2 class="book__title">
+          <a href="/2024/03/31/src/%E4%B8%A4%E4%B8%AAsrc%E6%A1%88%E4%BE%8B/">两个src案例</a>
+        </h2>
+        <p class="book__excerpt">案例一**文前废话:**某天正在刷着**社区的帖子,欣赏着漂亮的小姐姐,突然间评论区的一条评论引起了我的注意,类似于下面这样
+
+这种评论在html标签中代码格式是&lt;a&gt;这是文字&lt;/a&gt;这样的同时评论区XSS漏洞的高发区,想着可能会有操作点
+一、发布一个标题有js语句的贴...</p>
+        <div class="book__foot">
+          <span class="book__foot-left">
+            
+              <span class="book__tags">
+                <a class="tag" href="/tags/src/">#src</a>
+              </span>
+            
+            
+              <span class="book__readtime">1 分钟</span>
+            
+          </span>
+          <a class="read-more" href="/2024/03/31/src/%E4%B8%A4%E4%B8%AAsrc%E6%A1%88%E4%BE%8B/">阅读全文<span class="read-more__arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    
+  
+</section>
+
+
+  <nav class="pagination" aria-label="分页导航">
+    
+      <a class="pagination__link pagination__link--prev" href="/page/4/"><span aria-hidden="true">←</span> 上页</a>
+    
+    <span class="pagination__info">5 / 7</span>
+    
+      <a class="pagination__link pagination__link--next" href="/page/6/">下页 <span aria-hidden="true">→</span></a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

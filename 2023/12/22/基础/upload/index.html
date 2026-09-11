@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>zkaq-upload-labs · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2023-12-22">2023年12月22日</time>
+        
+        
+          <span class="post__readtime">5 分钟</span>
+        
+        
+          <span class="post__tags" aria-label="标签">
+            <a class="tag" href="/tags/zkaq/">#zkaq</a>
+          </span>
+        
+      </p>
+    
+    <h1 class="post__title">zkaq-upload-labs</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <h1 id="Pass-01"><a href="#Pass-01" class="headerlink" title="Pass-01"></a>Pass-01</h1><p><img src="/../../img/Typora/image-20231226193710030.png" alt="image-20231226193710030"></p>
+<p>前端检测文件格式，不允许上传PHP文件</p>
+<p>bp抓包，改名</p>
+<p><img src="/../../img/Typora/image-20240113233635515.png" alt="image-20240113233635515"></p>
+<p>冰蝎连接</p>
+<p><img src="/../../img/Typora/image-20240113234434345.png" alt="image-20240113234434345"></p>
+<h1 id="Pass-02"><a href="#Pass-02" class="headerlink" title="Pass-02"></a>Pass-02</h1><p>上传文件，抓包，修改</p>
+<p><strong>Content-Type</strong></p>
+<p><img src="/../../img/Typora/image-20240113234634150.png" alt="image-20240113234634150"></p>
+<p>冰蝎连接</p>
+<p><img src="/../../img/Typora/image-20240113234845321.png" alt="image-20240113234845321"></p>
+<h1 id="Pass-03"><a href="#Pass-03" class="headerlink" title="Pass-03"></a>Pass-03</h1><p>不允许上传”.asp”、”.aspx”、”.php”、”.jsp”文件</p>
+<p><img src="/../../img/Typora/image-20240114001151060.png" alt="image-20240114001151060"></p>
+<p>上传文件抓包</p>
+<p><img src="/../../img/Typora/image-20240114001354783.png" alt="image-20240114001354783"></p>
+<p>冰蝎，连接</p>
+<p><img src="/../../img/Typora/image-20240114001121400.png" alt="image-20240114001121400"></p>
+<h1 id="Pass-04"><a href="#Pass-04" class="headerlink" title="Pass-04"></a>Pass-04</h1><p>线上传一个.htaccess文件</p>
+<p>该文件“告诉”后端服务器，将jpg文件当做php文件执行</p>
+<p>上传将php一句话木马文件后缀改为jpg</p>
+<p>上传</p>
+<p><img src="/../../img/Typora/image-20240114113758807.png" alt="image-20240114113758807"></p>
+<h1 id="Pass-05"><a href="#Pass-05" class="headerlink" title="Pass-05"></a>Pass-05</h1><p>大小写绕过</p>
+<p><img src="/../../img/Typora/image-20240114002258742.png" alt="image-20240114002258742"></p>
+<p>文件改名，后缀用大写。</p>
+<p>冰蝎连接</p>
+<p><img src="/../../img/Typora/image-20240114002403064.png" alt="image-20240114002403064"></p>
+<h1 id="Pass-06"><a href="#Pass-06" class="headerlink" title="Pass-06"></a>Pass-06</h1><p>文件后缀空格绕过</p>
+<p><img src="/../../img/Typora/image-20240114002627851.png" alt="image-20240114002627851"></p>
+<p>冰蝎连接</p>
+<p><img src="/../../img/Typora/image-20240114002704856.png" alt="image-20240114002704856"></p>
+<h1 id="Pass-07"><a href="#Pass-07" class="headerlink" title="Pass-07"></a>Pass-07</h1><p>文件尾加.绕过</p>
+<p><img src="/../../img/Typora/image-20240114002820914.png" alt="image-20240114002820914"></p>
+<p>冰蝎连接</p>
+<p><img src="/../../img/Typora/image-20240114003336425.png" alt="image-20240114003336425"></p>
+<h1 id="Pass-08"><a href="#Pass-08" class="headerlink" title="Pass-08"></a>Pass-08</h1><p><img src="/../../img/Typora/image-20240114003735488.png" alt="image-20240114003735488"></p>
+<p>冰蝎连接，连接时将 ::$DATA 删去</p>
+<p><img src="/../../img/Typora/image-20240114003903007.png" alt="image-20240114003903007"></p>
+<h1 id="Pass-09"><a href="#Pass-09" class="headerlink" title="Pass-09"></a>Pass-09</h1><p><img src="/../../img/Typora/image-20240114004241968.png" alt="image-20240114004241968"></p>
+<p>题中只做了一次收尾去点和去空</p>
+<p>可以在抓包将后缀改为.php.空格.</p>
+<p><img src="/../../img/Typora/image-20240114004615784.png" alt="image-20240114004615784"></p>
+<p>冰蝎连接</p>
+<p><img src="/../../img/Typora/image-20240114004719839.png" alt="image-20240114004719839"></p>
+<h1 id="Pass-10"><a href="#Pass-10" class="headerlink" title="Pass-10"></a>Pass-10</h1><p>双写文件后缀</p>
+<p><img src="/../../img/Typora/image-20240114004805582.png" alt="image-20240114004805582"></p>
+<p>冰蝎连接</p>
+<p><img src="/../../img/Typora/image-20240114004838944.png" alt="image-20240114004838944"></p>
+<h1 id="Pass-11"><a href="#Pass-11" class="headerlink" title="Pass-11"></a>Pass-11</h1><p>抓包，修改文件名和上传路径</p>
+<p><img src="/../../img/Typora/image-20240114010719017.png" alt="image-20240114010719017"></p>
+<p><a target="_blank" rel="noopener" href="http://xtra5wsj.ia.aqlab.cn/upload/1.php%EF%BF%BD/1220240114010440.jpg%E5%B0%86%221.php%22%E5%90%8E%E9%9D%A2%E7%9A%84%E5%88%A0%E5%8E%BB%E4%B9%8B%E5%90%8E%EF%BC%8C%E5%86%B0%E8%9D%8E%E8%BF%9E%E6%8E%A5">http://xtra5wsj.ia.aqlab.cn/upload/1.php%EF%BF%BD/1220240114010440.jpg将&quot;1.php&quot;后面的删去之后，冰蝎连接</a></p>
+<p><img src="/../../img/Typora/image-20240114010536223.png" alt="image-20240114010536223"></p>
+<h1 id="Pass-12"><a href="#Pass-12" class="headerlink" title="Pass-12"></a>Pass-12</h1><p>和Pass-11一样，不同的是Pass-12是POST传参，POST不会进行解码</p>
+<p>burp抓包，在hex中修改</p>
+<p><img src="/../../img/Typora/image-20240114011416839.png" alt="image-20240114011416839"></p>
+<p>冰蝎连接</p>
+<p><img src="/../../img/Typora/image-20240114012209941.png" alt="image-20240114012209941"></p>
+<h1 id="Pass-13"><a href="#Pass-13" class="headerlink" title="Pass-13"></a>Pass-13</h1><p>jpg图片马上传</p>
+<p><img src="/../../img/Typora/image-20240114012603791.png" alt="image-20240114012603791"></p>
+<p>访问图片，并下载</p>
+<p><img src="/../../img/Typora/image-20240114012703286.png" alt="image-20240114012703286"></p>
+<p>有毒！！！jpg图片马上传成功</p>
+<p>png图片马上传</p>
+<p><img src="/../../img/Typora/image-20240114013251142.png" alt="image-20240114013251142"></p>
+<p>下载访问图片</p>
+<p><img src="/../../img/Typora/image-20240114013353912.png" alt="image-20240114013353912"></p>
+<p>有毒！！！png图片马上传成功</p>
+<p>git图片马上传</p>
+<p><img src="/../../img/Typora/image-20240114013802249.png" alt="image-20240114013802249"></p>
+<p>下载访问</p>
+<p><img src="/../../img/Typora/image-20240114014604814.png" alt="image-20240114014604814"></p>
+<p>这次火绒不行了呀，没检测粗来</p>
+<p>还得我用010看一看</p>
+<h1 id="Pass-14"><a href="#Pass-14" class="headerlink" title="Pass-14"></a>Pass-14</h1><p>上传gif，下载查看一句话木马有没有损坏</p>
+<p><img src="/../../img/Typora/image-20240114123324470.png" alt="image-20240114123324470"></p>
+<p>还在</p>
+<p><img src="/../../img/Typora/image-20240114123457127.png" alt="image-20240114123457127"></p>
+<h1 id="Pass-15"><a href="#Pass-15" class="headerlink" title="Pass-15"></a>Pass-15</h1><p>上传图片马</p>
+<p><img src="/../../img/Typora/image-20240114123531511.png" alt="image-20240114123531511"></p>
+<p><img src="/../../img/Typora/image-20240114123554543.png" alt="image-20240114123554543"></p>
+<p>有木马</p>
+<h1 id="Pass-16"><a href="#Pass-16" class="headerlink" title="Pass-16"></a>Pass-16</h1><p>上传gif马</p>
+<p>马还在</p>
+<p><img src="/../../img/Typora/image-20240114124929451.png" alt="image-20240114124929451"></p>
+<h1 id="Pass-17-18"><a href="#Pass-17-18" class="headerlink" title="Pass-17~18"></a>Pass-17~18</h1><p>条件竞争</p>
+<p><img src="/../../img/Typora/image-20240114125324062.png" alt="image-20240114125324062"></p>
+<p> 这里是先进行上传在去检测</p>
+<p>上传一句话木马，并利用一句话木马再另外创建一个一句话木马。</p>
+<p>然后连接</p>
+<p>先上传一个”大大滴良民”看看图片保存路径</p>
+<p><img src="/../../img/Typora/image-20240114144157312.png" alt="image-20240114144157312"></p>
+<p>路径</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.72.138/upload-labs/upload//8120240114080115.jpg</span><br></pre></td></tr></table></figure>
+
+<p>上传一个jpg格式的一句话木马</p>
+<p>bp抓包改后缀</p>
+<p><img src="/../../img/Typora/image-20240114162219542.png" alt="image-20240114162219542"></p>
+<p>在抓一个访问这个一句话木马的包</p>
+<p><img src="/../../img/Typora/image-20240114162244777.png" alt="image-20240114162244777"></p>
+<p>同时进行爆破</p>
+<p><img src="/../../img/Typora/image-20240114162359029.png" alt="image-20240114162359029"></p>
+<p>成功写入1.php文件</p>
+<h1 id="Pass-19"><a href="#Pass-19" class="headerlink" title="Pass-19"></a>Pass-19</h1><p>源码分析</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">$is_upload = false;</span><br><span class="line">$msg = null;</span><br><span class="line">if (isset($_POST[&#x27;submit&#x27;])) &#123;</span><br><span class="line">    if (file_exists($UPLOAD_ADDR)) &#123;</span><br><span class="line">        $deny_ext = array(&quot;php&quot;,&quot;php5&quot;,&quot;php4&quot;,&quot;php3&quot;,&quot;php2&quot;,&quot;html&quot;,&quot;htm&quot;,&quot;phtml&quot;,&quot;pht&quot;,&quot;jsp&quot;,&quot;jspa&quot;,&quot;jspx&quot;,&quot;jsw&quot;,&quot;jsv&quot;,&quot;jspf&quot;,&quot;jtml&quot;,&quot;asp&quot;,&quot;aspx&quot;,&quot;asa&quot;,&quot;asax&quot;,&quot;ascx&quot;,&quot;ashx&quot;,&quot;asmx&quot;,&quot;cer&quot;,&quot;swf&quot;,&quot;htaccess&quot;);</span><br><span class="line"></span><br><span class="line">        $file_name = $_POST[&#x27;save_name&#x27;];</span><br><span class="line">        $file_ext = pathinfo($file_name,PATHINFO_EXTENSION);</span><br><span class="line"></span><br><span class="line">        if(!in_array($file_ext,$deny_ext)) &#123;</span><br><span class="line">            $img_path = $UPLOAD_ADDR . &#x27;/&#x27; .$file_name;</span><br><span class="line">            if (move_uploaded_file($_FILES[&#x27;upload_file&#x27;][&#x27;tmp_name&#x27;], $img_path)) &#123; </span><br><span class="line">                $is_upload = true;</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                $msg = &#x27;上传失败！&#x27;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            $msg = &#x27;禁止保存为该类型文件！&#x27;;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        $msg = $UPLOAD_ADDR . &#x27;文件夹不存在,请手工创建！&#x27;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="/../../img/Typora/image-20240115005505696.png" alt="image-20240115005505696"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">move_uploaded_file()`还有这么一个特性，会忽略掉文件末尾的`/.</span><br></pre></td></tr></table></figure>
+
+<p>上传图片马，保存名为upload-19.php&#x2F;.</p>
+<p><img src="/../../img/Typora/image-20240115010944916.png" alt="image-20240115010944916"></p>
+<p>连接</p>
+<p><img src="/../../img/Typora/image-20240115010915719.png" alt="image-20240115010915719"></p>
+<h1 id="Pass-20"><a href="#Pass-20" class="headerlink" title="Pass-20"></a>Pass-20</h1><p>上传asa文件</p>
+<p>bp抓包修改文件类型</p>
+<p><img src="/../../img/Typora/image-20240115012032653.png" alt="image-20240115012032653"></p>
+<p>连接</p>
+<p><img src="/../../img/Typora/image-20240115012022567.png" alt="image-20240115012022567"></p>
+<h1 id="Pass-21"><a href="#Pass-21" class="headerlink" title="Pass-21"></a>Pass-21</h1><p>分号截断</p>
+<p>在原本的asp文件后面加上‘ ;.jpg  ’</p>
+<p><img src="/../../img/Typora/image-20240115013455692.png" alt="image-20240115013455692"></p>
+<h1 id="Pass-22"><a href="#Pass-22" class="headerlink" title="Pass-22"></a>Pass-22</h1><p>文件夹a.asp下的文件都会以asp格式解析</p>
+<p>上传一句话木马</p>
+<p><img src="/../../img/Typora/image-20240115014755753.png" alt="image-20240115014755753"></p>
+<p>连接</p>
+<p><img src="/../../img/Typora/image-20240115014901525.png" alt="image-20240115014901525"></p>
+<h1 id="Pass-23"><a href="#Pass-23" class="headerlink" title="Pass-23"></a>Pass-23</h1><p>上传图片马</p>
+<p><img src="/../../img/Typora/image-20240115015053216.png" alt="image-20240115015053216"></p>
+<p>连</p>
+<p><img src="/../../img/Typora/image-20240115015244213.png" alt="image-20240115015244213"></p>
+<p><img src="/../../img/Typora/image-20240115015829007.png" alt="image-20240115015829007"></p>
+<p>zKaQ-1Q2IO0SA</p>
+
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+  <section class="related" aria-label="相关阅读">
+    <h2 class="related__title">相关阅读</h2>
+    <ul class="related__list">
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-03-06">2024·03·06</time>
+          <a class="related__link" href="/2024/03/06/%E5%9F%BA%E7%A1%80/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-03-05">2024·03·05</time>
+          <a class="related__link" href="/2024/03/05/%E5%9F%BA%E7%A1%80/SSIT%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/">SSTI模板注入</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-03-04">2024·03·04</time>
+          <a class="related__link" href="/2024/03/04/%E5%9F%BA%E7%A1%80/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/">zkaq-代码执行</a>
+        </li>
+      
+    </ul>
+  </section>
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2023/12/23/%E5%9F%BA%E7%A1%80/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B3%A8%E5%85%A5/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">zkaq-数据库注入</span>
+      </a>
+    
+    
+      <a class="post-nav__link post-nav__link--next" href="/2023/12/04/%E5%9F%BA%E7%A1%80/zkaq-sql/">
+        <span class="post-nav__dir">下一篇 →</span>
+        <span class="post-nav__title">zkaq-SQL</span>
+      </a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

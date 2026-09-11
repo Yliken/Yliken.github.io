@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>浅学XXE · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2024-03-06">2024年3月6日</time>
+        
+        
+          <span class="post__readtime">5 分钟</span>
+        
+        
+          <span class="post__tags" aria-label="标签">
+            <a class="tag" href="/tags/xxe/">#xxe</a>
+          </span>
+        
+      </p>
+    
+    <h1 class="post__title">浅学XXE</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <h1 id="什么是XXE"><a href="#什么是XXE" class="headerlink" title="什么是XXE?"></a>什么是XXE?</h1><p>XXE就是XML外部实体注入。当允许引用外部实体时，通过构造恶意内容，就可能导致任意文件读取、系统命令执行、内网端口探测、攻击内网网站等危害。</p>
+<h1 id="什么是XML"><a href="#什么是XML" class="headerlink" title="什么是XML?"></a>什么是XML?</h1><p>XML用于标记电子文件使其具有结构性的标记语言，可以用来标记数据、定义数据类型，是一种允许用户对自己的标记语言进行定义的源语言。XML文档结构包括XML声明、DTD文档类型定义（可选）、文档元素。</p>
+<h1 id="XML有什么特点"><a href="#XML有什么特点" class="headerlink" title="XML有什么特点"></a>XML有什么特点</h1><ul>
+<li>XML仅仅是纯文本，他不会做任何事情。</li>
+<li>XML可以自己发明标签（允许定义自己的标签和文档结构）</li>
+<li>XML 无所不在。XML 是各种应用程序之间进行数据传输的最常用的工具，并且在信息存储和描述领域变得越来越流行。</li>
+</ul>
+<h1 id="既然XML是纯文本为什么还会产生注入呢"><a href="#既然XML是纯文本为什么还会产生注入呢" class="headerlink" title="既然XML是纯文本为什么还会产生注入呢"></a>既然XML是纯文本为什么还会产生注入呢</h1><p>原本xml本身是没有任何作用，但是在PHP里有一个函数叫做<code>simplexml_load_string</code>,他的作用是把xml转化为对象。</p>
+<p>PHP 中的<code>simplexml_load_file()</code>函数 ，用于加载 XML 文件并返回一个 SimpleXMLElement 对象，这样你就可以轻松地操作 XML 数据了。</p>
+<h1 id="XML与HTML的区别"><a href="#XML与HTML的区别" class="headerlink" title="XML与HTML的区别"></a>XML与HTML的区别</h1><ul>
+<li>XML被设计用来传输和存储数据。</li>
+<li>HTML被设计用来显示数据。</li>
+</ul>
+<h1 id="为什么使用-DTD？"><a href="#为什么使用-DTD？" class="headerlink" title="为什么使用 DTD？"></a>为什么使用 DTD？</h1><ul>
+<li><p>通过 DTD，您的每一个 XML 文件均可携带一个有关其自身格式的描述。</p>
+</li>
+<li><p>通过 DTD，独立的团体可一致地使用某个标准的 DTD 来交换数据。</p>
+</li>
+<li><p>而您的应用程序也可使用某个标准的 DTD 来验证从外部接收到的数据。</p>
+</li>
+<li><p>您还可以使用 DTD 来验证您自身的数据。</p>
+</li>
+</ul>
+<h1 id="DTD实体"><a href="#DTD实体" class="headerlink" title="DTD实体"></a>DTD实体</h1><ol>
+<li>内部实体声明:<code>&lt;!ENTITY 实体名称 &quot;实体的值&quot;&gt; ex:&lt;!ENTITY eviltest &quot;eviltest&quot;&gt;</code></li>
+<li>外部实体声明:<code>&lt;!ENTITY 实体名称 SYSTEM &quot;UR&quot;&gt;</code></li>
+</ol>
+<h1 id="怎么构造外部实体注入？"><a href="#怎么构造外部实体注入？" class="headerlink" title="怎么构造外部实体注入？"></a>怎么构造外部实体注入？</h1><ol>
+<li><p>直接通过DTD外部实体声明</p>
+</li>
+<li><p>通过DTD文档引入外部DTD文档，再引入外部实体声明</p>
+</li>
+<li><p>通过DTD外部实体声明引入外部实体声明</p>
+</li>
+</ol>
+<h1 id="XML外部实体攻击又是什么"><a href="#XML外部实体攻击又是什么" class="headerlink" title="XML外部实体攻击又是什么"></a>XML外部实体攻击又是什么</h1><p>XML 外部实体注入简称XXE，有了XML实体，关键字SYSTEM会令XML解析器从URI中读取内容，并允许它在XML文档中被替换。因此，攻击者可以通过实体将他自定义的值发送给应用程序，然后让应用程序去呈现。 简单来说，攻击者强制XML解析器去访问攻击者指定的资源内容(可能是系统上本地文件亦或是远程系统上的文件)。</p>
+<h1 id="XXE支持那些协议呢"><a href="#XXE支持那些协议呢" class="headerlink" title="XXE支持那些协议呢"></a>XXE支持那些协议呢</h1><ul>
+<li>file：可用 file:&#x2F;&#x2F;文件地址，来读取文件</li>
+<li>http：可以访问 HTTP(S) 网址</li>
+<li>FTP：访问 FTP</li>
+<li>PHP：访问各个 输入&#x2F;输出 流</li>
+<li>zlib：压缩流</li>
+<li>data：数据</li>
+<li>glob：查找匹配的文件格式路径</li>
+<li>expect：处理交互式的流，可用来执行命令，但需要先安装相应插件</li>
+</ul>
+<h1 id="为什么要进行base64编码"><a href="#为什么要进行base64编码" class="headerlink" title="为什么要进行base64编码"></a>为什么要进行base64编码</h1><p>为了防止一些特殊字符对我们产生影响</p>
+<h1 id="靶场"><a href="#靶场" class="headerlink" title="靶场"></a>靶场</h1><p>全剧搜<code>simplexml_load_string</code></p>
+<p><img src="/../img/Typora/image-20240306221940058.png" alt="image-20240306221940058"></p>
+<p><code>$postArr = $GLOBALS[&#39;HTTP_RAW_POST_DATA&#39;];</code>接收HTTP中原始的POST数据,并将其存入<code>$postArr</code>变量中</p>
+<p>然后，使用<code>simplexml_load_string</code>函数将<code>$postArr</code>中的数据转换为<code>SimpleXMLElement</code>对象，并将其存储在<code>$postObj</code>变量中。</p>
+<p><img src="/../img/Typora/image-20240306222321057.png" alt="image-20240306222321057">  </p>
+<p>修改源文件,看看能否访问到这个页面</p>
+<p><img src="/../img/Typora/image-20240306222422239.png" alt="image-20240306222422239"></p>
+<p><strong>靶场中</strong></p>
+<p>使用bp抓包，将构造的xml语句上传，同时将传参方式改为post<br>同时，根据<code>/api/notify.php</code>得到<code>conn/conn.php</code>的相对路径<br>使用靶场给的xml文件</p>
+<p><img src="/../img/Typora/image-20240306225358152.png" alt="image-20240306225358152"></p>
+<p><img src="/../img/Typora/image-20240306225407753.png" alt="image-20240306225407753"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">error_reporting(E_ALL ^ E_NOTICE); </span><br><span class="line">header(&quot;content-type:text/html;charset=utf-8&quot;);</span><br><span class="line">session_start();</span><br><span class="line">$conn = mysqli_connect(&quot;192.168.0.10&quot;,&quot;xxe&quot;, &quot;teiwo!8#7ERe1DPC&quot;, &quot;scms&quot;);</span><br><span class="line">mysqli_query($conn,&#x27;set names utf8&#x27;);</span><br><span class="line">date_default_timezone_set(&quot;PRC&quot;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>登录数据库</p>
+<p><img src="/../img/Typora/image-20240306225542538.png" alt="image-20240306225542538"></p>
+<p><img src="/../img/Typora/image-20240306225842038.png" alt="image-20240306225842038"></p>
+<p>admin密码由md5加密</p>
+<p><img src="/../img/Typora/image-20240306230332775.png" alt="image-20240306230332775"></p>
+<p><img src="/../img/Typora/image-20240306230313542.png" alt="image-20240306230313542"></p>
+
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+  <section class="related" aria-label="相关阅读">
+    <h2 class="related__title">相关阅读</h2>
+    <ul class="related__list">
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-07-10">2024·07·10</time>
+          <a class="related__link" href="/2024/07/10/%E5%9F%BA%E7%A1%80/XXE7.10/">XXE 2024-7-10</a>
+        </li>
+      
+    </ul>
+  </section>
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2024/03/06/src/%E6%9F%90%E5%A4%A7%E5%AD%A6%E7%9A%84%E5%AD%98%E5%82%A8%E5%9E%8BXSS%E5%88%86%E4%BA%AB/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">某大学的存储型XSS</span>
+      </a>
+    
+    
+      <a class="post-nav__link post-nav__link--next" href="/2024/03/06/%E5%9F%BA%E7%A1%80/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">
+        <span class="post-nav__dir">下一篇 →</span>
+        <span class="post-nav__title">正则表达式</span>
+      </a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

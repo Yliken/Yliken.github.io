@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>DC-1 · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2024-07-31">2024年7月31日</time>
+        
+        
+          <span class="post__readtime">2 分钟</span>
+        
+        
+          <span class="post__tags" aria-label="标签">
+            <a class="tag" href="/tags/vulnhub%E9%9D%B6%E6%9C%BA/">#vulnhub靶机</a>
+          </span>
+        
+      </p>
+    
+    <h1 class="post__title">DC-1</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <h1 id="一、靶机下载"><a href="#一、靶机下载" class="headerlink" title="一、靶机下载"></a>一、靶机下载</h1><p>靶机下载地址<a target="_blank" rel="noopener" href="https://www.vulnhub.com/entry/dc-1,292/">DC: 1</a></p>
+<p>下载后将压缩包中的ova文件解压出来，然后用VMware打开</p>
+<p><img src="/../img/Typora/image-20240731164146939.png"></p>
+<p>填上虚拟机名称和报错路径</p>
+<p><img src="/../img/Typora/image-20240731164304227.png"></p>
+<p>这边点重试即可</p>
+<p><img src="/../img/Typora/image-20240731164337256.png"></p>
+<h1 id="二、主机发现"><a href="#二、主机发现" class="headerlink" title="二、主机发现"></a>二、主机发现</h1><h2 id="1-使用arp-scan"><a href="#1-使用arp-scan" class="headerlink" title="1.使用arp-scan"></a>1.使用arp-scan</h2><p><img src="/../img/Typora/image-20240731171912653.png" alt="image-20240731171912653"></p>
+<h2 id="2-使用msf进行主机发现"><a href="#2-使用msf进行主机发现" class="headerlink" title="2.使用msf进行主机发现"></a>2.使用msf进行主机发现</h2><p>使用<code>auxiliary/scanner/discovery/arp_sweep   </code>模块进行主机发现</p>
+<p><img src="/../img/Typora/image-20240731171948398.png" alt="image-20240731171948398"></p>
+<p>如果无法扫到主机，把虚拟机的网络配置换成nat模式</p>
+<p><img src="/../img/Typora/image-20240731171349443.png"></p>
+<h1 id="三、端口扫描"><a href="#三、端口扫描" class="headerlink" title="三、端口扫描"></a>三、端口扫描</h1><h2 id="1-使用nmap进行端口扫描"><a href="#1-使用nmap进行端口扫描" class="headerlink" title="1.使用nmap进行端口扫描"></a>1.使用nmap进行端口扫描</h2><p><img src="/../img/Typora/image-20240731173331154.png"></p>
+<h2 id="2-使用msf进行端口扫描"><a href="#2-使用msf进行端口扫描" class="headerlink" title="2.使用msf进行端口扫描"></a>2.使用msf进行端口扫描</h2><p>使用msf的<code>auxiliary/scanner/portscan/tcp </code>模块进行扫描</p>
+<p><img src="/../img/Typora/image-20240731173401987.png"></p>
+<h1 id="四、访问web页面"><a href="#四、访问web页面" class="headerlink" title="四、访问web页面"></a>四、访问web页面</h1><p>80端口开放了http服务，我们访问web页面看看</p>
+<p><img src="/../img/Typora/image-20240801111506372.png" alt="image-20240801111506372"></p>
+<p>进入web页面，进行注册账号，发现账号注册后需要管理员审核。</p>
+<p>找回密码功能也是会对用户绑定的邮箱发送邮件</p>
+<p>在登录功能中、尝试了sql 没有发现什么问题</p>
+<p>弱口令爆破也没用什么结果（还因为爆破的次数太多导致ip被封了）</p>
+<p><img src="/../img/Typora/image-20240801113055864.png" alt="image-20240801113055864"></p>
+<p>web页面用的Drupal cms</p>
+<p><img src="/../img/Typora/image-20240801113138111.png" alt="image-20240801113138111"></p>
+<p>搜他的历史漏洞</p>
+<p><img src="/../img/Typora/image-20240801113241608.png"></p>
+<p>这里看msf上面刚好有些exp</p>
+<p><img src="/../img/Typora/image-20240801113328505.png"></p>
+<p>配置好之后，这里就拿到一个shell</p>
+<p><img src="/../img/Typora/image-20240801113513725.png"></p>
+<h1 id="五、提权"><a href="#五、提权" class="headerlink" title="五、提权"></a>五、提权</h1><p>先尝试SUID提权，通过find查找有s权限的文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">find / -perm -u=s -type f 2&gt;/dev/null</span><br><span class="line">参数：</span><br><span class="line">	/表示从文件系统的顶部（根）开始，查找每个目录</span><br><span class="line">	-perm表示搜索后面的权限</span><br><span class="line">	-u=s表示查找 root 用户拥有的文件</span><br><span class="line">	-type表示我们正在寻找的文件类型</span><br><span class="line">	f 表示普通文件，而不是目录或特殊文件</span><br><span class="line">	2表示到进程的第二个文件描述符，即 stderr（标准错误）</span><br><span class="line">	&gt;表示重定向</span><br><span class="line">	/dev/null是一个特殊的文件系统对象，它会丢弃写入其中的所有内容。</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20240801113727329.png"></p>
+<p><code>find</code>具有s权限，用find进行提权</p>
+<p><img src="/../img/Typora/image-20240801114001519.png" alt="image-20240801114001519"></p>
+
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+  <section class="related" aria-label="相关阅读">
+    <h2 class="related__title">相关阅读</h2>
+    <ul class="related__list">
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-10-27">2024·10·27</time>
+          <a class="related__link" href="/2024/10/27/%E9%9D%B6%E6%9C%BA/hackmyvm/Hacker_Kid-v1.0.1/">Hacker_Kid-v1.0.1</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-10-10">2024·10·10</time>
+          <a class="related__link" href="/2024/10/10/%E9%9D%B6%E6%9C%BA/lazySysAdmin/">lazySysAdmin</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-09-27">2024·09·27</time>
+          <a class="related__link" href="/2024/09/27/%E9%9D%B6%E6%9C%BA/driftingblues2/">driftingblues2</a>
+        </li>
+      
+    </ul>
+  </section>
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2024/08/02/%E9%9D%B6%E6%9C%BA/DC-3/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">DC-3</span>
+      </a>
+    
+    
+      <a class="post-nav__link post-nav__link--next" href="/2024/07/30/%E9%9D%B6%E6%9C%BA/AI%20Web%201.0/">
+        <span class="post-nav__dir">下一篇 →</span>
+        <span class="post-nav__title">AI Web 1.0</span>
+      </a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

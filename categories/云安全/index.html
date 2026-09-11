@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>云安全 · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<section class="archive taxonomy">
+  <header class="archive__header taxonomy__header">
+    <p class="taxonomy__eyebrow">分 类</p>
+    <h1 class="archive__title taxonomy__title">云安全</h1>
+    <p class="archive__lead">3 篇</p>
+  </header>
+
+  
+    <nav class="tag-cloud" aria-label="全部分类">
+      <h2 class="tag-cloud__title">全部分类</h2>
+      <p class="tag-cloud__list">
+        
+          <a class="tag-cloud__item" style="font-size: 1.60rem" href="/categories/Linux%E9%9D%B6%E6%9C%BA/">Linux靶机<span class="tag-cloud__count">13</span></a>
+        
+          <a class="tag-cloud__item is-current" style="font-size: 0.97rem" href="/categories/%E4%BA%91%E5%AE%89%E5%85%A8/">云安全<span class="tag-cloud__count">3</span></a>
+        
+          <a class="tag-cloud__item" style="font-size: 0.97rem" href="/categories/%E4%BA%91%E5%8E%9F%E7%94%9F/">云原生<span class="tag-cloud__count">3</span></a>
+        
+          <a class="tag-cloud__item" style="font-size: 0.91rem" href="/categories/CVE%E5%A4%8D%E7%8E%B0/">CVE复现<span class="tag-cloud__count">2</span></a>
+        
+          <a class="tag-cloud__item" style="font-size: 0.91rem" href="/categories/Golang/">Golang<span class="tag-cloud__count">2</span></a>
+        
+          <a class="tag-cloud__item" style="font-size: 0.85rem" href="/categories/%E7%8E%84%E6%9C%BA/">玄机<span class="tag-cloud__count">1</span></a>
+        
+          <a class="tag-cloud__item" style="font-size: 0.85rem" href="/categories/AI/">AI<span class="tag-cloud__count">1</span></a>
+        
+          <a class="tag-cloud__item" style="font-size: 0.85rem" href="/categories/pwn/">pwn<span class="tag-cloud__count">1</span></a>
+        
+      </p>
+    </nav>
+  
+
+  
+    <div class="archive-year">
+      <h2 class="archive-year__title">
+        <span class="archive-year__num">2025</span>
+        <span class="archive-year__count">3 篇</span>
+      </h2>
+      <ul class="archive-year__list">
+        
+          <li class="archive-item">
+            
+              <time class="archive-item__date" datetime="2025-10-08">10-08</time>
+            
+            <a class="archive-item__link" href="/2025/10/08/%E4%BA%91/Exploit%20Jenkins%20in%20the%20Cloud/">【Pwnedlabs】Exploit Jenkins in the Cloud</a>
+          </li>
+        
+          <li class="archive-item">
+            
+              <time class="archive-item__date" datetime="2025-09-23">09-23</time>
+            
+            <a class="archive-item__link" href="/2025/09/23/%E4%BA%91/Abuse%20OpenID%20Connect%20and%20GitLab%20for%20AWS%20Access%20&%20Perimeter%20Leak/">【Pwnedlabs&amp;WIZ】Abuse OpenID Connect and GitLab for AWS Access &amp; Perimeter Leak</a>
+          </li>
+        
+          <li class="archive-item">
+            
+              <time class="archive-item__date" datetime="2025-03-06">03-06</time>
+            
+            <a class="archive-item__link" href="/2025/03/06/%E4%BA%91/%E4%BA%91%E5%AE%89%E5%85%A8AKSK%E9%9A%8F%E7%AC%94/">云安全AKSK随笔</a>
+          </li>
+        
+      </ul>
+    </div>
+  
+</section>
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>

